@@ -23,6 +23,8 @@ public:
 	 */
 	Proceso(const string path);
 	~Proceso();
+	int getPid() const;
+	void setPid(int pid);
 };
 
 #endif /* PROCESO_H_ */

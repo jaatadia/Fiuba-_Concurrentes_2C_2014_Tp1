@@ -9,11 +9,16 @@
 #include <iostream>
 #include "src/proceso/Proceso.h"
 #include "src/constantes.h"
+#include <stdio.h>
+   #include <sys/wait.h>
+
 using namespace std;
 
 int main() {
-Proceso br;
-br.crearHijo(EJECUTABLE_CAJERO);
+	try {
+		Proceso br(EJECUTABLE_CAJERO);
+	} catch (string e) {
 
+	}
 
 }
