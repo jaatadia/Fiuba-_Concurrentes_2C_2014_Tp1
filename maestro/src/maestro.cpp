@@ -7,9 +7,13 @@
 //============================================================================
 
 #include <iostream>
+#include "src/proceso/Proceso.h"
+#include "src/constantes.h"
 using namespace std;
 
 int main() {
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	return 0;
+Proceso br;
+br.crearHijo(EJECUTABLE_CAJERO);
+
+
 }

@@ -5,21 +5,24 @@
  *      Author: jonathan
  */
 
-#ifndef BIFURCADOR_H_
-#define BIFURCADOR_H_
+#ifndef PROCESO_H_
+#define PROCESO_H_
 
-#include <string.h>
+#include <string>
+#include "../constantes.h"
 using namespace std;
 
-class Bifurcador {
+class Proceso {
+private:
+	int pid;
 public:
-	Bifurcador();
+
 	/**
 	 * Crea un proceso con el ejecutable indicado.
 	 * lanza excepcion si no pudo crear el proceso.
 	 */
-	void crearHijo(const string path) const;
-	~Bifurcador();
+	Proceso(const string path);
+	~Proceso();
 };
 
-#endif /* BIFURCADOR_H_ */
+#endif /* PROCESO_H_ */
