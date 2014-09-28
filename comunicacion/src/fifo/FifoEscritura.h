@@ -2,15 +2,19 @@
 #define FIFOESCRITURA_H_
 
 #include "Fifo.h"
+#include "../transferencia/Mensaje.h"
 class FifoEscritura : public Fifo {
 
 public:
-	FifoEscritura(const std::string nombre, Lock * lock);
-	FifoEscritura(const std::string nombre);
+	FifoEscritura(const std::string nombre, Serializador &);
+	FifoEscritura(const std::string nombre, Serializador &, Lock * lock);
 	~FifoEscritura();
 
 	void abrir();
-	void escribir(const void* buffer,const ssize_t buffsize) ;
+	/**
+	 * Escribe el mensaje y lo consume.
+	 */
+	void escribir(Mensaje * mje) ;
 };
 
 #endif /* FIFOESCRITURA_H_ */

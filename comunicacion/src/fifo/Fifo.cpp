@@ -1,6 +1,6 @@
 #include "Fifo.h"
 #include "../lock/OpenLock.h"
-Fifo::Fifo(const std::string nombre) : nombre(nombre), fd(-1), lock(new OpenLock()) {
+Fifo::Fifo(const std::string nombre, Serializador & s ) : nombre(nombre), serializador(s), fd(-1), lock(new OpenLock()) {
 	mknod ( static_cast<const char*>(nombre.c_str()),S_IFIFO|0666,0 );
 }
 
@@ -17,7 +17,7 @@ void Fifo::eliminar() const {
 	unlink ( nombre.c_str() );
 }
 
-Fifo::Fifo(const std::string nombre, Lock* lock): nombre(nombre), fd(-1), lock(lock) {
+Fifo::Fifo(const std::string nombre,Serializador & s, Lock* lock): nombre(nombre), serializador(s), fd(-1), lock(lock) {
 	mknod ( static_cast<const char*>(nombre.c_str()),S_IFIFO|0666,0 );
 }
 

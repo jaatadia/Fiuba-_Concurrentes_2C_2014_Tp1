@@ -7,10 +7,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "../lock/Lock.h"
+#include "../transferencia/Serializador.h"
 class Fifo {
 public:
-	Fifo(const std::string nombre);
-	Fifo(const std::string nombre, Lock * lock);
+	Fifo(const std::string nombre, Serializador & s );
+	Fifo(const std::string nombre, Serializador & s , Lock * lock);
 	virtual ~Fifo();
 	virtual void abrir() = 0;
 	void getLock();
@@ -20,6 +21,7 @@ public:
 
 protected:
 	std::string nombre;
+	Serializador & serializador;
 	int fd;
 	Lock * lock;
 };

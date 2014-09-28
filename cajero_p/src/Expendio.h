@@ -17,6 +17,7 @@ public:
 	Expendio();
 	~Expendio();
 	void esperarCliente();
+	void darBoleto();
 
 };
 

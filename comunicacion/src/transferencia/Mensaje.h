@@ -17,17 +17,20 @@ private:
 
 public:
 	Mensaje(char tipo);
+	Mensaje();
+	Mensaje(const Mensaje &);
+	void  operator= (const Mensaje & v);
 	virtual ~Mensaje();
 	char getTipo() const;
 	void setTipo(char tipo);
 	/**
-	 * Carga los atributos de la clase en base al contenido.
+	 * Crea un mensaje del mismo tipo pero con los datos del string.
 	 */
-	virtual void deserializar(string contenido) = 0;
+	Mensaje * deserializar(string contenido);
 	/**
 	 * crea el una representacion en string.
 	 */
-	virtual string serializar() = 0;
+	string serializar();
 };
 
 #endif /* MENSAJE_H_ */

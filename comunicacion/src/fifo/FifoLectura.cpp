@@ -1,8 +1,8 @@
 #include "FifoLectura.h"
 
-FifoLectura::FifoLectura(const std::string nombre) : Fifo(nombre) {
+FifoLectura::FifoLectura(const std::string nombre, Serializador & s) : Fifo(nombre,s) {
 }
-FifoLectura::FifoLectura(const std::string nombre, Lock* lock) : Fifo(nombre,lock) {
+FifoLectura::FifoLectura(const std::string nombre, Serializador & s, Lock* lock) : Fifo(nombre,s,lock) {
 }
 
 FifoLectura::~FifoLectura() {
@@ -13,9 +13,9 @@ void FifoLectura::abrir() {
 }
 
 
-ssize_t FifoLectura::leer(void* buffer,const ssize_t buffsize) {
+Mensaje * FifoLectura::leer() {
 	this->getLock();
-	ssize_t i  = read ( fd,buffer,buffsize );
+	Mensaje* mje = this->serializador.recibir(this->fd);
 	this->unlock();
-	return i;
+	return mje;
 }

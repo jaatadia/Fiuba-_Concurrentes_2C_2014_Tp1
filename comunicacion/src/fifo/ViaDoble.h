@@ -11,6 +11,7 @@
 #include "FifoLectura.h"
 #include <string>
 #include "../transferencia/Mensaje.h"
+#include "../transferencia/Serializador.h"
 using namespace std;
 
 static const string IN_POSTFIX = "in";
@@ -18,16 +19,25 @@ static const string OUT_POSTFIX = "out";
 
 /**
  * Permite tener una comunicacion sincronica doble via entre dos procesos.
+ * Para que pueda funcionar, inPrimero deberia ir invertido en cada proceso.
  */
 class ViaDoble {
 
 private:
 	FifoEscritura * out;
 	FifoLectura * in;
+	Serializador * ser;
 public:
-	ViaDoble(const string nombre, const bool inlock, const bool outlock);
+	/**
+	 *
+	 * nombre: el nombre de la cola
+	 * inlock: si requiere lock la entrada
+	 * outlock: si requiere lock la salida
+	 * inPrimero: si debe abrir primero la entrada.
+	 */
+	ViaDoble(const string nombre, const bool inlock, const bool outlock, bool inPrimero);
 	~ViaDoble();
-	void enviar(Mensaje & mje);
+	void enviar(Mensaje * mje);
 	Mensaje * recibir();
 };
 

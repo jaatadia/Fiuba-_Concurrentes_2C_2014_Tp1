@@ -9,14 +9,14 @@ void FifoEscritura::abrir() {
 	fd = open ( nombre.c_str(),O_WRONLY );
 }
 
-FifoEscritura::FifoEscritura(const std::string nombre, Lock* lock) : Fifo(nombre,lock) {
+FifoEscritura::FifoEscritura(const std::string nombre, Serializador & s, Lock* lock) : Fifo(nombre,s,lock) {
 }
 
-FifoEscritura::FifoEscritura(const std::string nombre): Fifo(nombre) {
+FifoEscritura::FifoEscritura(const std::string nombre, Serializador & s): Fifo(nombre,s) {
 }
 
-void FifoEscritura::escribir(const void* buffer,const ssize_t buffsize) {
+void FifoEscritura::escribir(Mensaje * mje) {
 	this->getLock();
-	write ( fd,buffer,buffsize );
+	this->serializador.enviar(this->fd , mje);
 	this->unlock();
 }
