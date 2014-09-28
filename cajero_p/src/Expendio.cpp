@@ -32,4 +32,5 @@ void Expendio::esperarCliente() {
 void Expendio::darBoleto() {
 	new Mensaje();
 
+
 }
