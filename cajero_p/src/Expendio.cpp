@@ -16,7 +16,7 @@ using namespace std;
 Expendio::Expendio() {
 
 	this->com =new ViaDoble(PATH_FIFOVENTA,false,false, true);
-
+	this->com->setDuenio(true);
 }
 
 Expendio::~Expendio() {
@@ -30,7 +30,5 @@ void Expendio::esperarCliente() {
 }
 
 void Expendio::darBoleto() {
-	new Mensaje();
-
-
+	com->enviar(new Mensaje());
 }

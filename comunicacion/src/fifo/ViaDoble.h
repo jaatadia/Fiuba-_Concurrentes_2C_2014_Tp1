@@ -27,6 +27,7 @@ private:
 	FifoEscritura * out;
 	FifoLectura * in;
 	Serializador * ser;
+	bool duenio;
 public:
 	/**
 	 *
@@ -39,6 +40,8 @@ public:
 	~ViaDoble();
 	void enviar(Mensaje * mje);
 	Mensaje * recibir();
+	bool isDuenio() const;
+	void setDuenio(bool duenio);
 };
 
 #endif /* VIADOBLE_H_ */

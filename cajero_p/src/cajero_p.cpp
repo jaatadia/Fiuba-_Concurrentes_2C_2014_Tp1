@@ -7,9 +7,14 @@
 //============================================================================
 
 #include <iostream>
+#include "Expendio.h"
 using namespace std;
 
 int main() {
 	cout << "Soy el cajero" << endl;
+	cout << "esperando cliente" << endl;
+	Expendio e;
+	e.esperarCliente();
+	e.darBoleto();
 	return 0;
 }
