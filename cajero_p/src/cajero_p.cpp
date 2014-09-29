@@ -12,9 +12,15 @@ using namespace std;
 
 int main() {
 	cout << "Soy el cajero" << endl;
-	cout << "esperando cliente" << endl;
 	Expendio e;
-	e.esperarCliente();
-	e.darBoleto();
+	int i = 0;
+	while(true){
+		cout << "esperando cliente" << endl;
+		e.esperarCliente();
+		cout << "llega cliente nro: "<< i << endl;
+		e.darBoleto();
+		cout << "venta concretada" << endl;
+		i++;
+	}
 	return 0;
 }

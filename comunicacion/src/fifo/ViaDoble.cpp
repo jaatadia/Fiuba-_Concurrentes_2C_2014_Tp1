@@ -9,10 +9,11 @@
 #include "../lock/FileLock.h"
 
 ViaDoble::ViaDoble(const string nombre, const bool inlock, const bool outlock,
-		bool inPrimero) :
-		duenio(false) {
-	string nombreIn = nombre + "-" + IN_POSTFIX;
-	string nombreOut = nombre + "-" + OUT_POSTFIX;
+		bool inversa) :
+		duenio(false), abierta(false), inversa(inversa) {
+
+	string nombreIn = nombre + "-" + (inversa ? OUT_POSTFIX: IN_POSTFIX);
+	string nombreOut = nombre + "-" + (inversa ? IN_POSTFIX: OUT_POSTFIX);
 	this->ser = new Serializador();
 	this->in =
 			inlock ?
@@ -23,13 +24,8 @@ ViaDoble::ViaDoble(const string nombre, const bool inlock, const bool outlock,
 					new FifoEscritura(nombreOut, *ser,
 							new FileLock(nombreOut)) :
 					new FifoEscritura(nombreOut, *ser);
-	if (inPrimero) {
-		this->in->abrir();
-		this->out->abrir();
-	} else {
-		this->out->abrir();
-		this->in->abrir();
-	}
+	this->abrir();
+
 }
 
 ViaDoble::~ViaDoble() {
@@ -60,4 +56,26 @@ bool ViaDoble::isDuenio() const {
 
 void ViaDoble::setDuenio(bool duenio) {
 	this->duenio = duenio;
+}
+
+void ViaDoble::cerrar() {
+	abierta = false;
+	if (this->inversa) {
+		this->out->cerrar();
+		this->in->cerrar();
+	} else {
+		this->in->cerrar();
+		this->out->cerrar();
+	}
+}
+
+void ViaDoble::abrir() {
+	abierta = true;
+	if (this->inversa) {
+		this->out->abrir();
+		this->in->abrir();
+	} else {
+		this->in->abrir();
+		this->out->abrir();
+	}
 }

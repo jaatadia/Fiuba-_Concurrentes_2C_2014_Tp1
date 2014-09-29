@@ -28,6 +28,8 @@ private:
 	FifoLectura * in;
 	Serializador * ser;
 	bool duenio;
+	bool abierta;
+	bool inversa;
 public:
 	/**
 	 *
@@ -36,12 +38,14 @@ public:
 	 * outlock: si requiere lock la salida
 	 * inPrimero: si debe abrir primero la entrada.
 	 */
-	ViaDoble(const string nombre, const bool inlock, const bool outlock, bool inPrimero);
+	ViaDoble(const string nombre, const bool inlock, const bool outlock, bool inversa);
 	~ViaDoble();
 	void enviar(Mensaje * mje);
 	Mensaje * recibir();
 	bool isDuenio() const;
 	void setDuenio(bool duenio);
+	void cerrar();
+	void abrir();
 };
 
 #endif /* VIADOBLE_H_ */
