@@ -16,9 +16,11 @@ static const string MAIN_FOLDER = "/home/jonathan/git/Fiuba-_Concurrentes_2C_201
 static const string DEBUG="/Debug";
 static const string EJECUTABLE_CAJERO = MAIN_FOLDER + "/cajero_p" + DEBUG+"/cajero_p";
 static const string PATH_FIFOVENTA= "/tmp/venta-fifo";
+static const string PATH_FIFOLOG = "/tmp/log-fifo";
 
 
 //MENSAJES
 static const char MENSAJE_VACIO= 1;
+static const char MENSAJE_LOG= 2;
 
 #endif /* CONSTANTES_H_ */

@@ -26,7 +26,7 @@ void Mensaje::setTipo(char tipo) {
 	this->tipo = tipo;
 }
 
-Mensaje * Mensaje::deserializar(string contenido) {
+Mensaje * Mensaje::deserializar(string const contenido) const {
 	return new Mensaje(*this);
 }
 
@@ -38,6 +38,6 @@ void Mensaje::operator =(const Mensaje& m) {
 	this->tipo = m.tipo;
 }
 
-string Mensaje::serializar() {
+string Mensaje::serializar() const {
 	return "v";
 }

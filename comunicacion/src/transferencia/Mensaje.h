@@ -10,6 +10,7 @@
 #include <string>
 using namespace std;
 
+static const string SEPARADOR = "|";
 
 class Mensaje {
 private:
@@ -26,11 +27,11 @@ public:
 	/**
 	 * Crea un mensaje del mismo tipo pero con los datos del string.
 	 */
-	Mensaje * deserializar(string contenido);
+	virtual Mensaje * deserializar(string const contenido) const;
 	/**
 	 * crea el una representacion en string.
 	 */
-	string serializar();
+	virtual string serializar() const;
 };
 
 #endif /* MENSAJE_H_ */

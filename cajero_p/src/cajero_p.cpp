@@ -8,6 +8,8 @@
 
 #include <iostream>
 #include "Expendio.h"
+#include "src/transferencia/MensajeLog.h"
+#include <string>
 using namespace std;
 
 int main() {
@@ -22,5 +24,6 @@ int main() {
 		cout << "venta concretada" << endl;
 		i++;
 	}
+
 	return 0;
 }

@@ -7,9 +7,10 @@
 
 #include "Serializador.h"
 #include "../constantes.h"
-
+#include "MensajeLog.h"
 Serializador::Serializador() {
 	this->mensajes.insert(pair<char, Mensaje*>(MENSAJE_VACIO, new Mensaje()));
+	this->mensajes.insert(pair<char, Mensaje*>(MENSAJE_LOG, new Mensaje()));
 
 }
 
