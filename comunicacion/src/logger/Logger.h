@@ -21,8 +21,8 @@ public:
 	virtual ~Logger();
 
 private:
-	FifoEscritura * fifo;
-	Serializador * serializador;
+	Serializador serializador;
+	FifoEscritura  fifo;
 	std::string id;
 	string pid;
 	std::string getTime();

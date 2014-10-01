@@ -12,27 +12,23 @@
 #include <unistd.h>
 #include <sstream>
 Logger::Logger(std::string name) :
-		id(name) {
+		id(name),fifo(PATH_FIFOLOG,this->serializador) {
 	//conversion fea de un int a string.
 	std::ostringstream ss;
 	ss << getpid();
 	this->pid = ss.str();
-	this->serializador = new Serializador();
-	this->fifo = new FifoEscritura(PATH_FIFOLOG, *(this->serializador));
-	fifo->abrir();
+	fifo.abrir();
 }
 
 Logger::~Logger() {
-	fifo->cerrar();
-	delete fifo;
-	delete serializador;
+	fifo.cerrar();
 
 }
 
 void Logger::log(std::string mensaje) {
 	std::string temp = getTime();
 	MensajeLog * mje = new MensajeLog(this->pid, id, temp, mensaje);
-	fifo->escribir(mje);
+	fifo.escribir(mje);
 }
 
 std::string Logger::getTime() {

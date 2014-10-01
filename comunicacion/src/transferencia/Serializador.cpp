@@ -10,11 +10,12 @@
 #include "MensajeLog.h"
 Serializador::Serializador() {
 	this->mensajes.insert(pair<char, Mensaje*>(MENSAJE_VACIO, new Mensaje()));
-	this->mensajes.insert(pair<char, Mensaje*>(MENSAJE_LOG, new Mensaje()));
+	this->mensajes.insert(pair<char, Mensaje*>(MENSAJE_LOG, new MensajeLog("","","","")));
 
 }
 
 Serializador::~Serializador() {
+	//TODO LIMPIAR EL MAPEO
 }
 
 void Serializador::enviar(int fd, Mensaje * mje) {

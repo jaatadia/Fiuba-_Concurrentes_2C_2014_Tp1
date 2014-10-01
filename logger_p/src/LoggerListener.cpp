@@ -9,33 +9,27 @@
 #include "src/constantes.h"
 #include "src/transferencia/Mensaje.h"
 #include "src/transferencia/MensajeLog.h"
-LoggerListener::LoggerListener(std::string name) : file(), cont(0), muted(0){
-	this->ser = new Serializador();
-	fifo= new FifoLectura(PATH_FIFOLOG, *ser);
-	fifoEsc= new FifoEscritura( name + "_fifo", *ser),
-	file.open(name.c_str(),std::ios::app | std::ios::out);
+LoggerListener::LoggerListener(std::string fileName) : fifo(PATH_FIFOLOG,this->ser),fifoEsc(PATH_FIFOLOG, ser),file(), cont(0), muted(0){
+	file.open(fileName.c_str(),std::ios::app | std::ios::out);
 }
 
 LoggerListener::~LoggerListener() {
-	fifo->cerrar();
-	fifo->eliminar();
-	fifoEsc->cerrar();
-	fifoEsc->eliminar();
-	delete fifo;
-	delete fifoEsc;
-	delete ser;
+	fifo.cerrar();
+	fifo.eliminar();
+	fifoEsc.cerrar();
+	fifoEsc.eliminar();
 	file.close();
 
 }
 
 void LoggerListener::start(){
-	fifo->abrir();
-	fifoEsc->abrir();
+	fifo.abrir();
+	fifoEsc.abrir();
 }
 
 void LoggerListener::listen() {
 
-	Mensaje* mje = fifo->leer();
+	Mensaje* mje = fifo.leer();
 	if (mje == NULL){
 		return;
 	}
@@ -44,6 +38,7 @@ void LoggerListener::listen() {
 		file<< mjeLog->getHora() << " " <<mjeLog->getId()<< ": " << mjeLog->getMensaje() << std::endl;
 	}
 	std::cout<< mjeLog->getHora() << " " <<mjeLog->getId()<< ": " << mjeLog->getMensaje() << std::endl;
+	delete mjeLog;
 }
 
 void LoggerListener::mute(){

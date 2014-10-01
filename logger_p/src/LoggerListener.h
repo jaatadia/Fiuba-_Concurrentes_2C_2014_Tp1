@@ -32,10 +32,10 @@ public:
 	int alive();
 
 private:
-	FifoLectura * fifo;//fifo del que se va a leer
-	FifoEscritura * fifoEsc;//fifo en modo escritura para mantenerlo abierto en modo escritura
+	Serializador ser;
+	FifoLectura fifo;//fifo del que se va a leer
+	FifoEscritura fifoEsc;//fifo en modo escritura para mantenerlo abierto en modo escritura
 	std::fstream file;
-	Serializador * ser;
 	int cont;
 	int muted;
 
