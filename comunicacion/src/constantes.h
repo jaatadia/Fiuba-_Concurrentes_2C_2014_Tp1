@@ -19,6 +19,6 @@ static const string PATH_FIFOVENTA= "/tmp/venta-fifo";
 
 
 //MENSAJES
-static const char MENSAJE_VACIO= 0;
+static const char MENSAJE_VACIO= 1;
 
 #endif /* CONSTANTES_H_ */

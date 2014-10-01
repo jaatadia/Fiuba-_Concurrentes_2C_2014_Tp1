@@ -15,7 +15,7 @@ using namespace std;
 
 Expendio::Expendio() {
 
-	this->com =new ViaDoble(PATH_FIFOVENTA,false,false, true);
+	this->com =new ViaDoble(PATH_FIFOVENTA,false,false, false);
 	this->com->setDuenio(true);
 }
 
@@ -25,7 +25,12 @@ Expendio::~Expendio() {
 
 void Expendio::esperarCliente() {
 	Mensaje* mje = com->recibir();
-	cout<< "recibido " << mje->getTipo() << endl;
+	if(mje == NULL){
+		com->cerrar();
+		//cierro la cola y la abro para esperar que llegue alguien.
+		com->abrir();
+		mje = com->recibir();
+	}
 	delete mje;
 }
 

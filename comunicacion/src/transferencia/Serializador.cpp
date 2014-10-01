@@ -59,6 +59,9 @@ Mensaje* Serializador::recibir(int fd) {
 		//leo que longitud tiene el mensaje
 		int result = read(fd, &longitudTotal, sizeof(size_t));
 
+		if(result == 0){
+			return NULL;
+		}
 		if (result == -1) {
 			throw "No se pudo recibir el mensaje del host";
 		}

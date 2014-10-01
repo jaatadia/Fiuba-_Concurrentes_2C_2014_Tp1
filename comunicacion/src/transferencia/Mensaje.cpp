@@ -39,5 +39,5 @@ void Mensaje::operator =(const Mensaje& m) {
 }
 
 string Mensaje::serializar() {
-	return "";
+	return "v";
 }
