@@ -24,6 +24,5 @@ int main() {
 		cout << "venta concretada" << endl;
 		i++;
 	}
-
 	return 0;
 }
