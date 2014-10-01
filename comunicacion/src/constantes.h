@@ -20,7 +20,7 @@ static const string PATH_FIFOLOG = "/tmp/log-fifo";
 
 
 //MENSAJES
-static const char MENSAJE_VACIO= 1;
-static const char MENSAJE_LOG= 2;
+static const string MENSAJE_VACIO= "v";
+static const string MENSAJE_LOG= "l";
 
 #endif /* CONSTANTES_H_ */

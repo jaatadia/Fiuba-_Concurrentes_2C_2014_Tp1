@@ -8,9 +8,14 @@
 #include "Serializador.h"
 #include "../constantes.h"
 #include "MensajeLog.h"
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include "ComunicacionException.h"
 Serializador::Serializador() {
-	this->mensajes.insert(pair<char, Mensaje*>(MENSAJE_VACIO, new Mensaje()));
-	this->mensajes.insert(pair<char, Mensaje*>(MENSAJE_LOG, new MensajeLog("","","","")));
+	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_VACIO, new Mensaje()));
+	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_LOG, new MensajeLog("","","","")));
 
 }
 
@@ -26,15 +31,15 @@ void Serializador::enviar(int fd, Mensaje * mje) {
 	string serializacion = mje->getTipo() + mje->serializar();
 	size_t len = serializacion.size();
 	if(len > MAX_BUFFER){
-		throw "Mensaje demasiado largo";
+		throw ComunicacionException("Mensaje demasiado largo", "El mensaje que se intenta enviar es demasiado largo");
 	}
 	string ser_cstr = serializacion.c_str();
 	size_t enviados = 0;
 	int restantes;
 	//envio la cantidad de caracteres.
 	int result = write(fd, &len, sizeof(size_t));
-	if (result == -1) {
-		throw "No se pudo enviar el mensaje";
+	if (result == ERR_CODE) {
+		throw ComunicacionException("No se pudo enviar el mensaje",string(strerror(errno)));
 	}
 	//comienzo el bucle (restantes = longitud total del mensaje;
 	while (enviados < len) {
@@ -42,13 +47,12 @@ void Serializador::enviar(int fd, Mensaje * mje) {
 		//Ahora intento enviar lo restante.
 		result = write(fd, &(ser_cstr[enviados]), restantes);
 		//Si da error cancelo
-		if (result == -1) {
-			throw "No se pudo enviar el mensaje";
+		if (result == ERR_CODE) {
+			throw ComunicacionException("No se pudo enviar el mensaje",string(strerror(errno)));
 		}
 
 		//Sumo a los enviados lo que envié.
 		enviados += result;
-//			cout<< "Se enviaron "<< restantes<< "restantes  de " << enviados << "/"<<len<<endl;
 	}
 }
 
@@ -57,37 +61,37 @@ Mensaje* Serializador::recibir(int fd) {
 		size_t longitudTotal;
 		size_t recibidos = 0;
 
-		//TODO MANEJAR ERRNO.
 		//leo que longitud tiene el mensaje
 		int result = read(fd, &longitudTotal, sizeof(size_t));
 
 		if(result == 0){
 			return NULL;
 		}
-		if (result == -1) {
-			throw "No se pudo recibir el mensaje del host";
+
+		if (result == ERR_CODE) {
+			throw ComunicacionException("No se pudo recibir el mensaje",string(strerror(errno)));
 		}
 
 		//va concatenando lo que puede leer.
 		while (recibidos < longitudTotal) {
 			result = read(fd, &(buffer[recibidos]), longitudTotal - recibidos);
 
-			if (result == -1) {
-				throw "No se pudo recibir el mensaje del host";
+			if (result == ERR_CODE) {
+				throw ComunicacionException("No se pudo recibir el mensaje",string(strerror(errno)));
 			}
 			recibidos += result;
 		}
 
 		//siempre lo primero es el codigo.
-		char claveMensaje = buffer[0];
+		string claveMensaje=string(buffer).substr(0,1);
 
 		Mensaje * mje = NULL;
-		std::map<char, Mensaje*>::iterator msjCreator = this->mensajes.find(claveMensaje);
+		std::map<string, Mensaje*>::iterator msjCreator = this->mensajes.find(claveMensaje);
 		if (msjCreator != mensajes.end()) {
 			mje = msjCreator->second->deserializar(string(buffer+1));
 
 		} else {
-		 throw "Se recibio un mensaje invalido " + claveMensaje;
+				throw ComunicacionException("Se recibio un mensaje invalido ","Clave de mensaje invalida " +claveMensaje);
 		}
 		return mje;
 }

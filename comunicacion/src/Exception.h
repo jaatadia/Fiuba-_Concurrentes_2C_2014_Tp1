@@ -13,10 +13,12 @@ using namespace std;
 class Exception {
 private:
 	string mensaje;
+	string cause;
 public:
-	Exception(string mje);
+	Exception(string mje, string cause);
 	~Exception();
 	const string& getMensaje() const;
+	const string& getCause() const;
 };
 
 #endif /* EXCEPTION_H_ */

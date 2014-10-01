@@ -16,6 +16,10 @@ using namespace std;
 int main() {
 	Logger log("") ;
 	log.log("mensaje prueba 2");
+	log.log("varios");
+	log.log("mensajes");
+	log.log("uno");
+	log.log("atras del otro");
 //	cout << "Soy el cajero" << endl;
 //	Expendio e;
 //	int i = 0;

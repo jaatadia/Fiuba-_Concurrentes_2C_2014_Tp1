@@ -14,16 +14,15 @@ static const string SEPARADOR = "|";
 
 class Mensaje {
 private:
-	char tipo;
+	string tipo;
 
 public:
-	Mensaje(char tipo);
+	Mensaje(string tipo);
 	Mensaje();
 	Mensaje(const Mensaje &);
 	void  operator= (const Mensaje & v);
 	virtual ~Mensaje();
-	char getTipo() const;
-	void setTipo(char tipo);
+	string getTipo() const;
 	/**
 	 * Crea un mensaje del mismo tipo pero con los datos del string.
 	 */

@@ -7,12 +7,12 @@
 
 #include "Mensaje.h"
 #include "../constantes.h"
-Mensaje::Mensaje(char tipo) {
+Mensaje::Mensaje(string tipo) {
 	this->tipo = tipo;
 
 }
 
-char Mensaje::getTipo() const {
+string Mensaje::getTipo() const {
 	return tipo;
 }
 
@@ -22,9 +22,6 @@ Mensaje::Mensaje(): tipo(MENSAJE_VACIO) {
 Mensaje::~Mensaje() {
 }
 
-void Mensaje::setTipo(char tipo) {
-	this->tipo = tipo;
-}
 
 Mensaje * Mensaje::deserializar(string const contenido) const {
 	return new Mensaje(*this);

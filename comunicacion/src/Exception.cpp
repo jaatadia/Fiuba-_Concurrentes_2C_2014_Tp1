@@ -7,7 +7,7 @@
 
 #include "Exception.h"
 
-Exception::Exception(string mje): mensaje(mje) {
+Exception::Exception(string mje, string cause): mensaje(mje),cause(cause) {
 	// TODO Auto-generated constructor stub
 
 }
@@ -20,3 +20,6 @@ Exception::~Exception() {
 	// TODO Auto-generated destructor stub
 }
 
+const string& Exception::getCause() const {
+	return cause;
+}

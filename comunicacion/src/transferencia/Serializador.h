@@ -20,7 +20,7 @@ static const size_t MAX_BUFFER = 524288;
 
 class Serializador {
 private:
-	map<char, Mensaje*> mensajes;
+	map<string, Mensaje*> mensajes;
 public:
 	Serializador();
 	~Serializador();
