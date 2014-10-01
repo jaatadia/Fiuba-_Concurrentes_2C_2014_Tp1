@@ -21,3 +21,7 @@ void Boleteria::comprar() {
 	Mensaje* mje = com->recibir();
 	delete mje;
 }
+
+void Boleteria::abandonar() {
+	com->cerrar();
+}

@@ -19,6 +19,7 @@ public:
 	Boleteria();
 	~Boleteria();
 	void comprar();
+	void abandonar();
 };
 
 #endif /* BOLETERIA_H_ */
