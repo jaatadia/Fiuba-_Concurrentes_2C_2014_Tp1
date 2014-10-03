@@ -6,9 +6,9 @@
  */
 
 #include "MensajeString.h"
+#include "../constantes.h"
 
-
-MensajeString::MensajeString(string msj):mensaje(msj) {
+MensajeString::MensajeString(string msj):Mensaje(MENSAJE_STRING),mensaje(msj) {
 
 }
 
