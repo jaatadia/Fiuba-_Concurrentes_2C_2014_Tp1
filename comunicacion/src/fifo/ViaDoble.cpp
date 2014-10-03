@@ -8,22 +8,14 @@
 #include "ViaDoble.h"
 #include "../lock/FileLock.h"
 
-ViaDoble::ViaDoble(const string nombre, const bool inlock, const bool outlock,
-		bool inversa) :
+ViaDoble::ViaDoble(const string nombre, bool inversa) :
 		duenio(false), abierta(false), inversa(inversa) {
 
-	string nombreIn = nombre + "-" + (inversa ? OUT_POSTFIX: IN_POSTFIX);
-	string nombreOut = nombre + "-" + (inversa ? IN_POSTFIX: OUT_POSTFIX);
+	string nombreIn = nombre + "-" + (inversa ? OUT_POSTFIX : IN_POSTFIX);
+	string nombreOut = nombre + "-" + (inversa ? IN_POSTFIX : OUT_POSTFIX);
 	this->ser = new Serializador();
-	this->in =
-			inlock ?
-					new FifoLectura(nombreIn, *ser, new FileLock(nombreIn)) :
-					new FifoLectura(nombreIn, *ser);
-	this->out =
-			outlock ?
-					new FifoEscritura(nombreOut, *ser,
-							new FileLock(nombreOut)) :
-					new FifoEscritura(nombreOut, *ser);
+	this->in = new FifoLectura(nombreIn, *ser);
+	this->out = new FifoEscritura(nombreOut, *ser);
 	this->abrir();
 
 }

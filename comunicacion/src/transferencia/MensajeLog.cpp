@@ -7,7 +7,7 @@
 
 #include "MensajeLog.h"
 #include "../constantes.h"
-#include "ParseException.h"
+#include "exception/ParseException.h"
 MensajeLog::MensajeLog(string pid,string id, string hora, string mensaje) :
 		Mensaje(MENSAJE_LOG),pid(pid), id(id), hora(hora), mensaje(mensaje) {
 

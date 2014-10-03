@@ -8,7 +8,7 @@
 #include "Boleteria.h"
 #include "src/constantes.h"
 Boleteria::Boleteria() {
-	this->com = new ViaDoble(PATH_FIFOVENTA,true,true,true);
+	this->com = new ViaDoble(PATH_FIFOVENTA,true);
 
 }
 

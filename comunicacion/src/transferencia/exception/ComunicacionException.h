@@ -7,7 +7,7 @@
 
 #ifndef COMUNICACIONEXCEPTION_H_
 #define COMUNICACIONEXCEPTION_H_
-#include "../Exception.h"
+#include "../../Exception.h"
 class ComunicacionException: public Exception {
 public:
 	ComunicacionException(string msje, string cause);

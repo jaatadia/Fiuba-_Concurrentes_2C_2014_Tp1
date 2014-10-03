@@ -11,8 +11,8 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
-#include <errno.h>
-#include "ComunicacionException.h"
+#include "exception/ComunicacionException.h"
+#include "exception/InterrumpidoException.h"
 Serializador::Serializador() {
 	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_VACIO, new Mensaje()));
 	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_LOG, new MensajeLog("","","","")));
@@ -25,7 +25,8 @@ Serializador::~Serializador() {
 
 void Serializador::enviar(int fd, Mensaje * mje) {
 
-	//TODO mensaje con errorn.
+	//TODO HAY QUE TENER EN CUENTA QUE ESTO HACE DOS WRITES, SI NO SE BLOQUEA PARA QUE OTRO NO ESCRIBA, VA A FALLAR
+
 
 	//armo el mensaje inicial.
 	string serializacion = mje->getTipo() + mje->serializar();
@@ -33,27 +34,42 @@ void Serializador::enviar(int fd, Mensaje * mje) {
 	if(len > MAX_BUFFER){
 		throw ComunicacionException("Mensaje demasiado largo", "El mensaje que se intenta enviar es demasiado largo");
 	}
-	string ser_cstr = serializacion.c_str();
-	size_t enviados = 0;
-	int restantes;
+	const char* ser_cstr = serializacion.c_str();
 	//envio la cantidad de caracteres.
 	int result = write(fd, &len, sizeof(size_t));
 	if (result == ERR_CODE) {
 		throw ComunicacionException("No se pudo enviar el mensaje",string(strerror(errno)));
 	}
-	//comienzo el bucle (restantes = longitud total del mensaje;
-	while (enviados < len) {
-		restantes = len - enviados;
-		//Ahora intento enviar lo restante.
-		result = write(fd, &(ser_cstr[enviados]), restantes);
-		//Si da error cancelo
-		if (result == ERR_CODE) {
-			throw ComunicacionException("No se pudo enviar el mensaje",string(strerror(errno)));
-		}
+	//Este codigo es por si llegamos a enviar mas de lo que el buffer del sistema permite
 
-		//Sumo a los enviados lo que envié.
-		enviados += result;
+
+//	size_t enviados = 0;
+//	int restantes;
+	//comienzo el bucle (restantes = longitud total del mensaje;
+//	while (enviados < len) {
+//		restantes = len - enviados;
+//		//Ahora intento enviar lo restante.
+//		result = write(fd, &(ser_cstr[enviados]), restantes);
+//		//Si da error cancelo
+//		if (result == ERR_CODE) {
+//			throw ComunicacionException("No se pudo enviar el mensaje",string(strerror(errno)));
+//		}
+//
+//		//Sumo a los enviados lo que envié.
+//		enviados += result;
+//	}
+
+	//Envio del mensaje.
+	result = write(fd, ser_cstr, len);
+	//Si da error cancelo
+	if (result == ERR_CODE) {
+		throw ComunicacionException("No se pudo enviar el mensaje",
+				string(strerror(errno)));
 	}
+	if(result < len) {
+		throw ComunicacionException("No se pudo enviar el mensaje","Demasiado largo");
+	}
+
 }
 
 Mensaje* Serializador::recibir(int fd) {
@@ -69,6 +85,9 @@ Mensaje* Serializador::recibir(int fd) {
 		}
 
 		if (result == ERR_CODE) {
+			if(errno == EINTR){
+				throw InterrumpidoException("No se pudo recibir el mensaje","Interrumpido por señal");
+			}
 			throw ComunicacionException("No se pudo recibir el mensaje",string(strerror(errno)));
 		}
 

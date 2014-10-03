@@ -8,7 +8,7 @@
 #ifndef PARSEEXCEPTION_H_
 #define PARSEEXCEPTION_H_
 #include <string>
-#include "../Exception.h"
+#include "../../Exception.h"
 using namespace std;
 
 class ParseException: public Exception {

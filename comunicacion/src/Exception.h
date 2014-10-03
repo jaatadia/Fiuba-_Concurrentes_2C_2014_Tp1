@@ -16,7 +16,7 @@ private:
 	string cause;
 public:
 	Exception(string mje, string cause);
-	~Exception();
+	virtual ~Exception();
 	const string& getMensaje() const;
 	const string& getCause() const;
 };

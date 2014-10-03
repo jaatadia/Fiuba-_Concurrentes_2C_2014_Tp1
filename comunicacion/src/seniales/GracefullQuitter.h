@@ -26,7 +26,7 @@ class GracefullQuitter : public EventHandler {
 		}
 
 		sig_atomic_t alive () const {
-			return this->gracefulQuit;
+			return this->gracefulQuit == 0;
 		}
 
 };

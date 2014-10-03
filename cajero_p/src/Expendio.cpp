@@ -15,7 +15,7 @@ using namespace std;
 
 Expendio::Expendio() {
 
-	this->com =new ViaDoble(PATH_FIFOVENTA,false,false, false);
+	this->com =new ViaDoble(PATH_FIFOVENTA,false);
 	this->com->setDuenio(true);
 }
 

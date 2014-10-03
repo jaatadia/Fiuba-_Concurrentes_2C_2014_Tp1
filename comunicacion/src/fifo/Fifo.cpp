@@ -1,30 +1,40 @@
 #include "Fifo.h"
 #include "../lock/OpenLock.h"
-Fifo::Fifo(const std::string nombre, Serializador & s ) : nombre(nombre), serializador(s), fd(-1), lock(new OpenLock()) {
-	mknod ( static_cast<const char*>(nombre.c_str()),S_IFIFO|0666,0 );
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+#include <iostream>
+#include "../constantes.h"
+#include "../Exception.h"
+
+Fifo::Fifo(const std::string nombre, Serializador & s ) : nombre(nombre), serializador(s), fd(-1) {
+
+	int result = this->crearArchivo(nombre) ;
+	if (result == ERR_CODE){
+		if(errno == EEXIST){
+			cout << "El archivo "<< nombre << " para la FIFO ya estaba creado al querer crearlo"<< std::endl;
+		} else {
+			throw Exception("No se pudo crear la fifo", strerror(errno));
+		}
+	}
 }
 
 Fifo::~Fifo() {
-	delete lock;
 }
 
 void Fifo::cerrar() {
-	close ( fd );
+	if(close ( fd ) == ERR_CODE){
+		throw Exception("No se pudo cerrar la fifo", strerror(errno));
+	}
 	fd = -1;
 }
 
-void Fifo::eliminar() const {
-	unlink ( nombre.c_str() );
+void Fifo::eliminar() {
+	if(unlink ( nombre.c_str() )==ERR_CODE){
+		throw Exception("No se pudo eliminar la fifo", strerror(errno));
+	}
 }
 
-Fifo::Fifo(const std::string nombre,Serializador & s, Lock* lock): nombre(nombre), serializador(s), fd(-1), lock(lock) {
-	mknod ( static_cast<const char*>(nombre.c_str()),S_IFIFO|0666,0 );
-}
-
-void Fifo::getLock() {
-	this->lock->acquire();
-}
-
-void Fifo::unlock() {
-	this->lock->free();
+int Fifo::crearArchivo(const string& str) {
+	return mknod ( static_cast<const char*>(nombre.c_str()),S_IFIFO|0666,0 );
 }

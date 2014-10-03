@@ -8,22 +8,32 @@
 #include <unistd.h>
 #include "../lock/Lock.h"
 #include "../transferencia/Serializador.h"
+/*
+ * Clase encargada de establecer un vinculo FIFO
+ */
 class Fifo {
 public:
 	Fifo(const std::string nombre, Serializador & s );
-	Fifo(const std::string nombre, Serializador & s , Lock * lock);
 	virtual ~Fifo();
+	/**
+	 * Abre la fifo.
+	 */
 	virtual void abrir() = 0;
-	void getLock();
-	void unlock();
+	/**
+	 * Cierra la fifo.
+	 */
 	void cerrar();
-	void eliminar() const;
+	/**
+	 * Elimina la fifo.
+	 */
+	void eliminar();
 
 protected:
 	std::string nombre;
 	Serializador & serializador;
 	int fd;
-	Lock * lock;
+private:
+	int crearArchivo(const string & str);
 };
 
 #endif /* FIFO_H_ */

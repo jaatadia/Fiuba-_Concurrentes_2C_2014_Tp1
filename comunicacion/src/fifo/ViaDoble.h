@@ -19,7 +19,6 @@ static const string OUT_POSTFIX = "out";
 
 /**
  * Permite tener una comunicacion sincronica doble via entre dos procesos.
- * Para que pueda funcionar, inPrimero deberia ir invertido en cada proceso.
  */
 class ViaDoble {
 
@@ -31,14 +30,14 @@ private:
 	bool abierta;
 	bool inversa;
 public:
+
+	//TODO SACAR EL PARAMETRO INVERSA Y DEJAR SOLAMENTE SI ES EL DUENIO O NO.
 	/**
 	 *
-	 * nombre: el nombre de la cola
-	 * inlock: si requiere lock la entrada
-	 * outlock: si requiere lock la salida
-	 * inPrimero: si debe abrir primero la entrada.
+	 * Nombre: el nombre de la cola
+	 * inversa: En el
 	 */
-	ViaDoble(const string nombre, const bool inlock, const bool outlock, bool inversa);
+	ViaDoble(const string nombre, bool inversa);
 	~ViaDoble();
 	void enviar(Mensaje * mje);
 	Mensaje * recibir();

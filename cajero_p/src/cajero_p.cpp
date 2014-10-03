@@ -10,16 +10,22 @@
 #include "Expendio.h"
 #include "src/transferencia/MensajeLog.h"
 #include <string>
+#include "src/Exception.h"
 #include "src/logger/Logger.h"
 using namespace std;
 
 int main() {
-	Logger log("") ;
-	log.log("mensaje prueba 2");
-	log.log("varios");
-	log.log("mensajes");
-	log.log("uno");
-	log.log("atras del otro");
+try {
+			Logger log("") ;
+			log.log("mensaje prueba 2");
+			log.log("varios");
+			log.log("mensajes");
+			log.log("uno");
+			log.log("atras del otro");
+
+} catch (Exception & e) {
+	cout << e.getMensaje() << ": "<< e.getCause();
+}
 //	cout << "Soy el cajero" << endl;
 //	Expendio e;
 //	int i = 0;
