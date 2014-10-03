@@ -9,6 +9,9 @@
 #define BOLETERIA_H_
 #include "src/fifo/ViaDoble.h"
 
+/**
+ * Clase que permite COMPRAR EL BOLETO AL CAJERO.
+ */
 class Boleteria {
 
 private:
@@ -19,7 +22,6 @@ public:
 	Boleteria();
 	~Boleteria();
 	void comprar();
-	void abandonar();
 };
 
 #endif /* BOLETERIA_H_ */

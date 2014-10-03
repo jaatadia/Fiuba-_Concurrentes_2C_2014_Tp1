@@ -16,8 +16,6 @@ ViaDoble::ViaDoble(const string nombre, bool inversa) :
 	this->ser = new Serializador();
 	this->in = new FifoLectura(nombreIn, *ser);
 	this->out = new FifoEscritura(nombreOut, *ser);
-	this->abrir();
-
 }
 
 ViaDoble::~ViaDoble() {

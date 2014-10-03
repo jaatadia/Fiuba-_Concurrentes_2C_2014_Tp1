@@ -17,11 +17,10 @@ Boleteria::~Boleteria() {
 }
 
 void Boleteria::comprar() {
+	this->com->abrir();
 	com->enviar(new Mensaje());
 	Mensaje* mje = com->recibir();
+	com->cerrar();
 	delete mje;
 }
 
-void Boleteria::abandonar() {
-	com->cerrar();
-}

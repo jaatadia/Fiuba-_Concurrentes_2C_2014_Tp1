@@ -14,6 +14,5 @@ int main() {
 	cout << "ninio comprando" << endl;
 	Boleteria b;
 	b.comprar();
-	b.abandonar();
 	cout << "ninio compro" << endl;
 }

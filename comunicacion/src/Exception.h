@@ -19,6 +19,7 @@ public:
 	virtual ~Exception();
 	const string& getMensaje() const;
 	const string& getCause() const;
+	virtual string what() const;
 };
 
 #endif /* EXCEPTION_H_ */

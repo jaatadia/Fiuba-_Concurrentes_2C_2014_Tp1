@@ -7,15 +7,17 @@
 
 #include "Serializador.h"
 #include "../constantes.h"
-#include "MensajeLog.h"
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include "exception/ComunicacionException.h"
 #include "exception/InterrumpidoException.h"
+#include "MensajeLog.h"
+#include "MensajeString.h"
 Serializador::Serializador() {
 	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_VACIO, new Mensaje()));
 	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_LOG, new MensajeLog("","","","")));
+	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_STRING, new MensajeString("")));
 
 }
 
@@ -66,7 +68,7 @@ void Serializador::enviar(int fd, Mensaje * mje) {
 		throw ComunicacionException("No se pudo enviar el mensaje",
 				string(strerror(errno)));
 	}
-	if(result < len) {
+	if(size_t(result) < len) {
 		throw ComunicacionException("No se pudo enviar el mensaje","Demasiado largo");
 	}
 

@@ -24,6 +24,7 @@ Expendio::~Expendio() {
 }
 
 void Expendio::esperarCliente() {
+	com->abrir();
 	Mensaje* mje = com->recibir();
 	if(mje == NULL){
 		com->cerrar();
@@ -36,4 +37,5 @@ void Expendio::esperarCliente() {
 
 void Expendio::darBoleto() {
 	com->enviar(new Mensaje());
+	com->cerrar();
 }

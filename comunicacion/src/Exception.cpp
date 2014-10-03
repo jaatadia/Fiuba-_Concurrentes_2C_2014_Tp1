@@ -23,3 +23,8 @@ Exception::~Exception() {
 const string& Exception::getCause() const {
 	return cause;
 }
+
+string Exception::what() const {
+
+	return this->mensaje + ": " + this->cause;
+}
