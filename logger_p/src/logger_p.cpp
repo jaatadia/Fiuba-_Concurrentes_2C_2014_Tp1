@@ -19,6 +19,7 @@
 
 #include "LoggerListener.h"
 #include "src/seniales/SignalHandler.h"
+#include "src/seniales/GracefullQuitter.h"
 
 using namespace std;
 
@@ -35,13 +36,15 @@ int main(int argc,char* argv[]) {
 	}
 
 
-	LoggerListener log(ARCHIVO_LOGG); //creo el lector del listener
-	SignalHandler::getInstance()->registrarHandler(SIGUSR1,&log);//le paso como handler de la señal sigusr1
-	if (argc == 3) log.mute();
+	GracefullQuitter grace;
+	SignalHandler::getInstance()->registrarHandler(SIGUSR1,&grace);//le paso como handler de la señal sigusr1
 
-	log.start();
-	while (log.alive()){//mientras el log se encuentre activo
+
+	LoggerListener log(ARCHIVO_LOGG); //creo el lector del listener
+	if (argc == 3) log.mute();
+	while (grace.alive()){//mientras el log se encuentre activo
 		log.listen();//le digo que escuche mensajes y los escriba
 	}
 
+	SignalHandler::destruir();
 }

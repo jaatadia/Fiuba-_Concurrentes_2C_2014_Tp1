@@ -11,6 +11,8 @@
 #include "src/transferencia/MensajeLog.h"
 LoggerListener::LoggerListener(std::string fileName) : fifo(PATH_FIFOLOG,this->ser),fifoEsc(PATH_FIFOLOG, ser),file(), cont(0), muted(0){
 	file.open(fileName.c_str(),std::ios::app | std::ios::out);
+	fifo.abrir();
+	fifoEsc.abrir();
 }
 
 LoggerListener::~LoggerListener() {
@@ -20,11 +22,6 @@ LoggerListener::~LoggerListener() {
 	fifoEsc.eliminar();
 	file.close();
 
-}
-
-void LoggerListener::start(){
-	fifo.abrir();
-	fifoEsc.abrir();
 }
 
 void LoggerListener::listen() {

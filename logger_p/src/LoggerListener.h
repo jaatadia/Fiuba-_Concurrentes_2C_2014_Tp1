@@ -22,7 +22,6 @@ public:
 	const static long int BUFFLEN = 200;
 
 	LoggerListener(std::string name);
-	void start();
 	void listen();
 	void mute();
 	void resume();
