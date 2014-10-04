@@ -12,7 +12,6 @@ FileLock::FileLock(string nombre) {
 }
 
 FileLock::~FileLock() {
-	// TODO Auto-generated destructor stub
 }
 
 void FileLock::acquire() {

@@ -23,7 +23,7 @@ Fifo::~Fifo() {
 }
 
 void Fifo::cerrar() {
-	if(close ( fd ) == ERR_CODE){
+	if(fd != -1 && close ( fd ) == ERR_CODE){
 		throw Exception("No se pudo cerrar la fifo", strerror(errno));
 	}
 	fd = -1;

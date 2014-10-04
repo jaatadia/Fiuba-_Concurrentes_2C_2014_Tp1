@@ -15,8 +15,7 @@ using namespace std;
 
 Expendio::Expendio(int precio):precio(precio) {
 
-	this->com =new ViaDoble(PATH_FIFOVENTA,false);
-	this->com->setDuenio(true);
+	this->com =new ViaDoble(PATH_FIFOVENTA,true);
 
 	fifoEsc = NULL;
 }
@@ -40,9 +39,6 @@ int Expendio::recibirNinio() {
 		fifoEsc->abrir();
 	}
 	Mensaje* mje = (Mensaje*)com->recibir();
-	if(mje == NULL) {
-		cout<<"eso es willis"<< endl;
-	}
 	MensajeCompraBoleto* mjeb = (MensajeCompraBoleto *) mje;
 	int importe = mjeb->getImporte();
 	delete mje;

@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "exception/ComunicacionException.h"
-#include "exception/InterrumpidoException.h"
+#include "../InterrumpidoException.h"
 #include "MensajeLog.h"
 #include "MensajeString.h"
 #include "MensajeCompraBoleto.h"

@@ -47,7 +47,6 @@ Proceso::Proceso(const string path) :
 }
 
 Proceso::~Proceso() {
-	// TODO Auto-generated destructor stub
 }
 
 int Proceso::getPid() const {

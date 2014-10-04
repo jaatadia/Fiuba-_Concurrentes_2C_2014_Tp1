@@ -12,6 +12,5 @@ ComunicacionException::ComunicacionException(string msje, string cause):Exceptio
 }
 
 ComunicacionException::~ComunicacionException() {
-	// TODO Auto-generated destructor stub
 }
 

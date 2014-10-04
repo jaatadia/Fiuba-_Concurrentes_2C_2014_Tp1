@@ -28,21 +28,18 @@ private:
 	Serializador * serializador;
 	bool duenio;
 	bool abierta;
-	bool inversa;
 public:
 
 	//TODO SACAR EL PARAMETRO INVERSA Y DEJAR SOLAMENTE SI ES EL DUENIO O NO.
 	/**
 	 *
 	 * Nombre: el nombre de la cola
-	 * inversa: En el
+	 * Duenio: Si es el duenio de la via, esto implicara que busque eliminarla al finalizar.
 	 */
-	ViaDoble(const string nombre, bool inversa);
+	ViaDoble(const string nombre, bool duenio);
 	~ViaDoble();
 	void enviar(Mensaje * mje);
 	Mensaje * recibir();
-	bool isDuenio() const;
-	void setDuenio(bool duenio);
 	void cerrar();
 	void abrir();
 	/**

@@ -8,6 +8,7 @@
 #include "Boleteria.h"
 #include "src/constantes.h"
 #include "src/transferencia/MensajeCompraBoleto.h"
+#include "src/InterrumpidoException.h"
 #include "DineroInsuficienteException.h"
 Boleteria::Boleteria() {
 	this->com = new ViaDoble(PATH_FIFOVENTA,true);

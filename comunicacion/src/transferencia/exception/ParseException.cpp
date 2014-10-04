@@ -8,7 +8,6 @@
 #include "ParseException.h"
 
 ParseException::ParseException(string mje):Exception(mje,"Mensaje mal formado") {
-	// TODO Auto-generated constructor stub
 
 }
 

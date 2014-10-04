@@ -8,7 +8,7 @@
 #ifndef INTERRUMPIDOEXCEPTION_H_
 #define INTERRUMPIDOEXCEPTION_H_
 
-#include "../../Exception.h"
+#include "Exception.h"
 
 class InterrumpidoException: public Exception {
 public:
