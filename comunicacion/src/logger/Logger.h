@@ -18,7 +18,12 @@ public:
 
 	Logger(std::string name);
 	void log(std::string mensaje);
-	void log(std::string mensaje, int param, ...);
+	/**
+	 * Loggea un mensaje con parametros enteros. Se debe incluir en el mensaje el token <#> para que sea reemplazado por el parametro nro #
+	 * Solo permite un token por parametro, pero se puede incluirlos en cualquier orden dentro del mensaje
+	 *
+	 */
+	void log(std::string mensaje, int countParams, ...);
 	virtual ~Logger();
 
 private:
