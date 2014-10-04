@@ -9,33 +9,58 @@
 #include "src/constantes.h"
 #include "src/fifo/ViaDoble.h"
 #include <iostream>
-#include "src/transferencia/Mensaje.h"
+#include "src/transferencia/MensajeCompraBoleto.h"
 using namespace std;
 
 
-Expendio::Expendio() {
+Expendio::Expendio(int precio):precio(precio) {
 
 	this->com =new ViaDoble(PATH_FIFOVENTA,false);
 	this->com->setDuenio(true);
+
+	fifoEsc = NULL;
 }
 
 Expendio::~Expendio() {
-	delete this->com;
-}
-
-void Expendio::esperarCliente() {
-	com->abrir();
-	Mensaje* mje = com->recibir();
-	if(mje == NULL){
-		com->cerrar();
-		//cierro la cola y la abro para esperar que llegue alguien.
-		com->abrir();
-		mje = com->recibir();
+	if(fifoEsc != NULL){
+		fifoEsc->cerrar();
+		delete fifoEsc;
 	}
-	delete mje;
+	delete this->com;
+
 }
 
-void Expendio::darBoleto() {
-	com->enviar(new Mensaje());
+int Expendio::recibirNinio() {
+	//Si todavia no tengo la fifo que mantenga viva la conexion, la creo y la abro..
+
+	com->abrir();
+	if(fifoEsc == NULL){
+		Serializador * ser = this->com->getSerializador();
+		fifoEsc = new FifoEscritura(this->com->getNombreEntrada(), *ser );
+		fifoEsc->abrir();
+	}
+	Mensaje* mje = (Mensaje*)com->recibir();
+	if(mje == NULL) {
+		cout<<"eso es willis"<< endl;
+	}
+	MensajeCompraBoleto* mjeb = (MensajeCompraBoleto *) mje;
+	int importe = mjeb->getImporte();
+	delete mje;
+	return importe;
+}
+
+void Expendio::darBoleto(int nroTicket) {
+	MensajeCompraBoleto* mensaje = new MensajeCompraBoleto(this->precio);
+	mensaje->setNroBoleto(nroTicket);
+	com->enviar(mensaje);
 	com->cerrar();
+}
+
+void Expendio::rechazarPagoInsuficiente() {
+	//setea el importe que sale el ticket y un nro de ticket invalido
+	MensajeCompraBoleto* mensaje = new MensajeCompraBoleto(this->precio);
+	mensaje->setNroBoleto(NRO_BOLETO_INVALIDO);
+	com->enviar(mensaje);
+	com->cerrar();
+
 }

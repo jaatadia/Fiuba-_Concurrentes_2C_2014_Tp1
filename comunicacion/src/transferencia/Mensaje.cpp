@@ -4,6 +4,7 @@
  *  Created on: 28/09/2014
  *      Author: jonathan
  */
+#include <sstream>
 
 #include "Mensaje.h"
 #include "../constantes.h"
@@ -16,12 +17,12 @@ string Mensaje::getTipo() const {
 	return tipo;
 }
 
-Mensaje::Mensaje(): tipo(MENSAJE_VACIO) {
+Mensaje::Mensaje() :
+		tipo(MENSAJE_VACIO) {
 }
 
 Mensaje::~Mensaje() {
 }
-
 
 Mensaje * Mensaje::deserializar(string const contenido) const {
 	return new Mensaje(*this);
@@ -38,3 +39,4 @@ void Mensaje::operator =(const Mensaje& m) {
 string Mensaje::serializar() const {
 	return "v";
 }
+

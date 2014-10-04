@@ -8,7 +8,9 @@
 #include "MensajeLog.h"
 #include "../constantes.h"
 #include "exception/ParseException.h"
-MensajeLog::MensajeLog(string pid,string id, string hora, string mensaje) :
+#include "Interprete.h"
+#include <sstream>
+MensajeLog::MensajeLog(int pid,string id, string hora, string mensaje) :
 		Mensaje(MENSAJE_LOG),pid(pid), id(id), hora(hora), mensaje(mensaje) {
 
 }
@@ -16,39 +18,19 @@ MensajeLog::MensajeLog(string pid,string id, string hora, string mensaje) :
 MensajeLog::~MensajeLog() {
 }
 
+
+
+
 Mensaje* MensajeLog::deserializar(const string mje) const {
-	size_t pos = mje.find(SEPARADOR);
-	if (pos == string::npos) {
-		throw ParseException("Error deserializando un mensaje de log");
-	}
-
-	string pid = mje.substr(0, pos);
-
-	size_t posAnt = pos + 1;
-	pos = mje.find(SEPARADOR, posAnt);
-	if (pos == string::npos) {
-		throw ParseException("Error deserializando un mensaje de log");
-	}
-	string id = mje.substr(posAnt, pos - posAnt);
-
-	posAnt = pos + 1;
-
-	pos = mje.find(SEPARADOR, posAnt);
-	if (pos == string::npos) {
-		throw ParseException("Error deserializando un mensaje de log");
-	}
-	string hora = mje.substr(posAnt, pos - posAnt);
-
-
-	string mensaje = mje.substr(pos+1,mje.length() - pos);
-
-	return new MensajeLog(pid,id,hora,mensaje);
+	Interprete i(mje,SEPARADOR,4);
+	return new MensajeLog(i.getNextAsInt(),i.getNextAsStr(),i.getNextAsStr(),i.getNextAsStr());
 
 }
 
 string MensajeLog::serializar() const {
-	return this->pid + SEPARADOR + this->id + SEPARADOR + this->hora + SEPARADOR + this->mensaje;
-
+	ostringstream ss;
+	ss << this->pid << SEPARADOR << this->id << SEPARADOR << this->hora << SEPARADOR << this->mensaje;
+	return ss.str();
 }
 
 const string& MensajeLog::getHora() const {
@@ -63,6 +45,6 @@ const string& MensajeLog::getMensaje() const {
 	return mensaje;
 }
 
-const string& MensajeLog::getPid() const {
+const int MensajeLog::getPid() const {
 	return pid;
 }

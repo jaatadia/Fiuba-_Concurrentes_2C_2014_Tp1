@@ -25,7 +25,7 @@ class ViaDoble {
 private:
 	FifoEscritura * out;
 	FifoLectura * in;
-	Serializador * ser;
+	Serializador * serializador;
 	bool duenio;
 	bool abierta;
 	bool inversa;
@@ -45,6 +45,11 @@ public:
 	void setDuenio(bool duenio);
 	void cerrar();
 	void abrir();
+	/**
+	 * Retorna el nombre del archivo de entrada..
+	 */
+	string getNombreEntrada();
+	Serializador* getSerializador() const;
 };
 
 #endif /* VIADOBLE_H_ */

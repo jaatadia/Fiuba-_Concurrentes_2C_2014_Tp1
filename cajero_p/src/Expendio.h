@@ -16,19 +16,27 @@
 class Expendio {
 private:
 	ViaDoble * com;
+	int precio;
+	FifoEscritura * fifoEsc;
 public:
-	Expendio();
+	Expendio(int precio);
 	~Expendio();
 
 	/**
-	 * Se pone a la espera de un cliente
+	 * Espera a recibir el dinero de un ninio.
 	 */
-	void esperarCliente();
+	int recibirNinio();
 
 	/**
-	 * Da el boleto al ciente.
+	 * Da el boleto al ninio.
 	 */
-	void darBoleto();
+	void darBoleto(int nroBoleto);
+
+	/**
+	 * No le da el boleto al ninio porque no tiene dinero suficiente (muy poli).
+	 */
+	void rechazarPagoInsuficiente();
+
 
 };
 

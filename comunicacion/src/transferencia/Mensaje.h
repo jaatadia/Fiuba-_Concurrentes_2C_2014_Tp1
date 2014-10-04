@@ -15,7 +15,6 @@ static const string SEPARADOR = "|";
 class Mensaje {
 private:
 	string tipo;
-
 public:
 	Mensaje(string tipo);
 	Mensaje();
@@ -32,5 +31,6 @@ public:
 	 */
 	virtual string serializar() const;
 };
+
 
 #endif /* MENSAJE_H_ */

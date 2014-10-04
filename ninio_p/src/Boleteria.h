@@ -21,7 +21,12 @@ private:
 public:
 	Boleteria();
 	~Boleteria();
-	void comprar();
+
+	/**
+	 * Se indica de cuanta plata dispone y si es suficiente, devuelve el numero de boleto.
+	 * Sino lanza una excepcion.
+	 */
+	int comprar(int dineroDisponible);
 };
 
 #endif /* BOLETERIA_H_ */

@@ -24,7 +24,7 @@ private:
 	Serializador serializador;
 	std::string id;
 	FifoEscritura  fifo;
-	string pid;
+	int pid;
 	std::string getTime();
 
 };

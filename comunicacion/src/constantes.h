@@ -23,5 +23,8 @@ static const string PATH_FIFOLOG = "/tmp/log-fifo";
 static const string MENSAJE_VACIO= "v";
 static const string MENSAJE_LOG= "l";
 static const string MENSAJE_STRING= "s";
+static const string MENSAJE_COMPRAVENTA= "c";
+
+static const int NRO_BOLETO_INVALIDO=0;
 
 #endif /* CONSTANTES_H_ */

@@ -13,14 +13,16 @@ ViaDoble::ViaDoble(const string nombre, bool inversa) :
 
 	string nombreIn = nombre + "-" + (inversa ? OUT_POSTFIX : IN_POSTFIX);
 	string nombreOut = nombre + "-" + (inversa ? IN_POSTFIX : OUT_POSTFIX);
-	this->ser = new Serializador();
-	this->in = new FifoLectura(nombreIn, *ser);
-	this->out = new FifoEscritura(nombreOut, *ser);
+	this->serializador = new Serializador();
+	this->in = new FifoLectura(nombreIn, *serializador);
+	this->out = new FifoEscritura(nombreOut, *serializador);
 }
 
 ViaDoble::~ViaDoble() {
-	this->in->cerrar();
-	this->out->cerrar();
+	if(this->abierta){
+		this->in->cerrar();
+		this->out->cerrar();
+	}
 	if (duenio) {
 		this->in->eliminar();
 		this->out->eliminar();
@@ -28,7 +30,7 @@ ViaDoble::~ViaDoble() {
 
 	delete this->in;
 	delete this->out;
-	delete this->ser;
+	delete this->serializador;
 }
 
 void ViaDoble::enviar(Mensaje * mje) {
@@ -68,4 +70,15 @@ void ViaDoble::abrir() {
 		this->in->abrir();
 		this->out->abrir();
 	}
+}
+
+string ViaDoble::getNombreEntrada() {
+	if(this->inversa){
+		return this->out->getNombre();
+	}
+	return this->in->getNombre();
+}
+
+Serializador* ViaDoble::getSerializador() const {
+	return serializador;
 }

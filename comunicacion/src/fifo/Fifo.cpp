@@ -38,3 +38,7 @@ void Fifo::eliminar() {
 int Fifo::crearArchivo(const string& str) {
 	return mknod ( static_cast<const char*>(nombre.c_str()),S_IFIFO|0666,0 );
 }
+
+const std::string& Fifo::getNombre() const {
+	return nombre;
+}

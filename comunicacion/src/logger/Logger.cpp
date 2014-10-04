@@ -14,9 +14,7 @@
 Logger::Logger(std::string name) :
 		id(name),fifo(PATH_FIFOLOG,this->serializador) {
 	//conversion fea de un int a string.
-	std::ostringstream ss;
-	ss << getpid();
-	this->pid = ss.str();
+	this->pid = getpid();
 	fifo.abrir();
 }
 

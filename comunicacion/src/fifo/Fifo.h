@@ -27,6 +27,10 @@ public:
 	 * Elimina la fifo.
 	 */
 	void eliminar();
+	/**
+	 * getter del nombre
+	 */
+	const std::string& getNombre() const;
 
 protected:
 	std::string nombre;
