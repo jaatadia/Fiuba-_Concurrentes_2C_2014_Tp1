@@ -34,10 +34,10 @@ void LoggerListener::listen() {
 		}
 		MensajeLog * mjeLog = (MensajeLog*) mje;
 		if (!muted) {
-			file << mjeLog->getHora() << " " << mjeLog->getId() << ": "
+			file << mjeLog->getHora() << " " << mjeLog->getPid()<< " " << mjeLog->getId() << ": "
 					<< mjeLog->getMensaje() << std::endl;
 		}
-		std::cout << mjeLog->getHora() << " " << mjeLog->getId() << ": "
+		std::cout << mjeLog->getHora() << " " << mjeLog->getPid()<< " " << mjeLog->getId() << ": "
 				<< mjeLog->getMensaje() << std::endl;
 		delete mjeLog;
 }

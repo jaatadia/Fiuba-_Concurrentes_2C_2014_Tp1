@@ -2,8 +2,7 @@
 // Name        : cajero_p.cpp
 // Author      : jtierno
 // Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : Proceso que se encarga de la venta de Boletos.
 //============================================================================
 
 #include <iostream>

@@ -19,7 +19,7 @@
 static const size_t MAX_BUFFER = 524288;
 
 /**
- * Clase en cargada de la serializacion de los mensajes a traves del descriptor indicado
+ * Clase encargada de la serializacion de los mensajes a traves del descriptor indicado
  * -El descriptir debe estar abierto para la operación que se desea realizar
  */
 class Serializador {

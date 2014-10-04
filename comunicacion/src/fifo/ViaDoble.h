@@ -18,7 +18,7 @@ static const string IN_POSTFIX = "in";
 static const string OUT_POSTFIX = "out";
 
 /**
- * Permite tener una comunicacion sincronica doble via entre dos procesos.
+ * Permite tener una comunicacion sincronica doble via (con 2 fifos) entre dos procesos.
  */
 class ViaDoble {
 
@@ -30,11 +30,9 @@ private:
 	bool abierta;
 public:
 
-	//TODO SACAR EL PARAMETRO INVERSA Y DEJAR SOLAMENTE SI ES EL DUENIO O NO.
 	/**
-	 *
 	 * Nombre: el nombre de la cola
-	 * Duenio: Si es el duenio de la via, esto implicara que busque eliminarla al finalizar.
+	 * Duenio: Si es el duenio de la via, esto implicara que busque eliminarla al finalizar y use o no las vias invertidas.
 	 */
 	ViaDoble(const string nombre, bool duenio);
 	~ViaDoble();

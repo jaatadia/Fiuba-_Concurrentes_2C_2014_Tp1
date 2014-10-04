@@ -12,6 +12,9 @@
 #include "../constantes.h"
 using namespace std;
 
+/**
+ * Representacion de un proceso ageno al proceso actual.
+ */
 class Proceso {
 private:
 	int pid;

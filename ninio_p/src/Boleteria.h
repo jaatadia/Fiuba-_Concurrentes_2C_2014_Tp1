@@ -8,7 +8,7 @@
 #ifndef BOLETERIA_H_
 #define BOLETERIA_H_
 #include "src/fifo/ViaDoble.h"
-
+#include "src/lock/LockFile.h"
 /**
  * Clase que permite COMPRAR EL BOLETO AL CAJERO.
  */
@@ -16,7 +16,7 @@ class Boleteria {
 
 private:
 	ViaDoble * com;
-
+	LockFile * lock;
 
 public:
 	Boleteria();

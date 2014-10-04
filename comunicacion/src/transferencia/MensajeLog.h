@@ -11,6 +11,9 @@
 #include "Mensaje.h"
 using namespace std;
 
+/**
+ * Mensaje de un log.
+ */
 class MensajeLog: public Mensaje {
 private:
 	int pid;

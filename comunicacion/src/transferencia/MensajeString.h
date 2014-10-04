@@ -10,6 +10,10 @@
 #include "Mensaje.h"
 #include <string>
 
+
+/*
+ * Mensaje simple con un solo campo String, NO ES PARA CONCATENAR COSAS EN ESE STRING.
+ */
 class MensajeString: public Mensaje {
 private:
 	string mensaje;

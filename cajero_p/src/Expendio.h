@@ -10,7 +10,7 @@
 #include "src/fifo/ViaDoble.h"
 
 /**
- * Clase que permite al cajero comunicarse con los clientes que lleguen.
+ * Clase que permite al cajero comunicarse con los ninio que lleguen.
  */
 
 class Expendio {

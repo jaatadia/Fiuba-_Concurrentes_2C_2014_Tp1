@@ -1,9 +1,8 @@
 //============================================================================
 // Name        : logger.cpp
-// Author      : 
+// Author      : jaatadia
 // Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : Proceso que recibe el logging, lo imprime y almacena de forma correcta.
 //============================================================================
 
 #include <iostream>

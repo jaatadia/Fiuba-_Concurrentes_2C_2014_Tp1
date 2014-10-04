@@ -6,7 +6,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include "../lock/Lock.h"
 #include "../transferencia/Serializador.h"
 /*
  * Clase encargada de establecer un vinculo FIFO

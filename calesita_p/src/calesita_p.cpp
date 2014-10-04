@@ -2,8 +2,7 @@
 // Name        : calesita_p.cpp
 // Author      : jtierno
 // Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : TODO
 //============================================================================
 
 #include <iostream>

@@ -11,7 +11,9 @@
 using namespace std;
 
 static const string SEPARADOR = "|";
-
+/**
+ * Abstraccion de un mensaje que se serializa y envia para luego ser recibido y desserializado.
+ */
 class Mensaje {
 private:
 	string tipo;

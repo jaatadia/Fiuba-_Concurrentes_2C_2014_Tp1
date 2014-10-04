@@ -10,6 +10,9 @@
 
 #include "Exception.h"
 
+/**
+ * Excepcion para cuando un proceso es interrumpido por una senial
+ */
 class InterrumpidoException: public Exception {
 public:
 	InterrumpidoException(string mje, string cause);

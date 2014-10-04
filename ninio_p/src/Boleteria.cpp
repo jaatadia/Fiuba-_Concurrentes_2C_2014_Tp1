@@ -12,14 +12,17 @@
 #include "DineroInsuficienteException.h"
 Boleteria::Boleteria() {
 	this->com = new ViaDoble(PATH_FIFOVENTA,false);
-
+	this->lock = new LockFile(com->getNombreEntrada());
 }
 
 Boleteria::~Boleteria() {
+	delete this->lock;
 	delete this->com;
 }
 
 int Boleteria::comprar(int dineroDisponible) {
+	//me aseguro de obtener el lock para acceder al cajero.
+	this->lock->tomarLock();
 	this->com->abrir();
 	com->enviar(new MensajeCompraBoleto(dineroDisponible));
 	MensajeCompraBoleto* mje = (MensajeCompraBoleto*)com->recibir();
@@ -33,6 +36,8 @@ int Boleteria::comprar(int dineroDisponible) {
 	if(precio > dineroDisponible){
 		throw DineroInsuficienteException(precio,dineroDisponible);
 	}
+	//libero el lock.
+	this->lock->liberarLock();
 	return boleto;
 }
 

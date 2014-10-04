@@ -6,7 +6,6 @@
  */
 
 #include "ViaDoble.h"
-#include "../lock/FileLock.h"
 
 ViaDoble::ViaDoble(const string nombre, bool duenio) :
 		duenio(duenio), abierta(false) {
