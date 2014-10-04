@@ -11,7 +11,7 @@
 #include "src/InterrumpidoException.h"
 #include "DineroInsuficienteException.h"
 Boleteria::Boleteria() {
-	this->com = new ViaDoble(PATH_FIFOVENTA,true);
+	this->com = new ViaDoble(PATH_FIFOVENTA,false);
 
 }
 

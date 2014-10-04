@@ -17,6 +17,8 @@ public:
 	DineroInsuficienteException(int necesario, int disponible);
 	~DineroInsuficienteException();
 	string what() const;
+	int getDisponible() const;
+	int getNecesario() const;
 };
 
 #endif /* DINEROINSUFICIENTEEXCEPTION_H_ */

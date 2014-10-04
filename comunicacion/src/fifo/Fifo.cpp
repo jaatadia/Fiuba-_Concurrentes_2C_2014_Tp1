@@ -11,10 +11,10 @@ Fifo::Fifo(const std::string nombre, Serializador & s ) : nombre(nombre), serial
 
 	int result = this->crearArchivo(nombre) ;
 	if (result == ERR_CODE){
-		if(errno == EEXIST){
-			cout << "El archivo "<< nombre << " para la FIFO ya estaba creado al querer crearlo"<< std::endl;
-		} else {
+		if(errno != EEXIST){
 			throw Exception("No se pudo crear la fifo", strerror(errno));
+		} else {
+			//cout << "El archivo "<< nombre << " para la FIFO ya estaba creado al querer crearlo"<< std::endl;
 		}
 	}
 }

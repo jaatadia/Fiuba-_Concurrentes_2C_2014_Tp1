@@ -7,6 +7,7 @@
 //============================================================================
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include "src/seniales/SignalHandler.h"
 #include "src/seniales/GracefullQuitter.h"
@@ -31,26 +32,30 @@ int main(int argc, char* argv[]) {
 	SignalHandler::getInstance()->registrarHandler(SIGINT, &grace); //le paso como handler de la señal sigusr1
 
 	try {
-		cout<< "Iniciando cajero"<<endl;
+		Logger logger("CAJERO");
+		logger.log("Iniciando venta");
 		Expendio e(precioBoleto);
 		Caja caja;
-		int i = 0;
+		int i = 1;
 		while (grace.alive()) {
 			try {
-				cout << "Esperando Ninio" << endl;
+				logger.log("Esperando Ninio");
 				int plataNinio = e.recibirNinio();
-				cout << "Llega el Ninio nro: " << i << endl;
+
+				logger.log("Llega el ninio nro <0>", 1,i);
 				if(plataNinio>= precioBoleto){
 					caja.almacenarDinero(precioBoleto);
+					logger.log("Se guardaron $<0> en la caja", 1,precioBoleto);
+
 					e.darBoleto(nroBoleto++);
-					cout << "Venta concretada" << endl;
+					logger.log("Se vendio el boleto nro <0>", 1,nroBoleto-1);
 				} else {
-					cout << "No se pudo vender boleto ya que no tenia suficiente dinero" << endl;
 					e.rechazarPagoInsuficiente();
+					logger.log("No se pudo vender boleto ya que no tenia suficiente dinero");
 				}
 				i++;
 			} catch (InterrumpidoException & ex) {
-				// Si me interrumpieron vendiendo un boleto, rechazo el pago
+				// Si me interrumpieron esperando un cliente.
 				cout<<"Se interrumpio la espera de ninio por una signal." << endl;
 			}
 		}

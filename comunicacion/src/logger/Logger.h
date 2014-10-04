@@ -18,6 +18,7 @@ public:
 
 	Logger(std::string name);
 	void log(std::string mensaje);
+	void log(std::string mensaje, int param, ...);
 	virtual ~Logger();
 
 private:
@@ -26,7 +27,7 @@ private:
 	FifoEscritura  fifo;
 	int pid;
 	std::string getTime();
-
+	void replace(std::string & cadena,int pos, int valor);
 };
 
 #endif /* LOGGER_H_ */

@@ -14,6 +14,14 @@ DineroInsuficienteException::DineroInsuficienteException(int necesario, int disp
 DineroInsuficienteException::~DineroInsuficienteException() {
 }
 
+int DineroInsuficienteException::getDisponible() const {
+	return disponible;
+}
+
+int DineroInsuficienteException::getNecesario() const {
+	return necesario;
+}
+
 string DineroInsuficienteException::what() const {
 	ostringstream ss;
 	ss<< "Dinero insuficiente para compar el boleto. Faltan $" << necesario - disponible;
