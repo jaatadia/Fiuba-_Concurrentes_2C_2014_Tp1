@@ -9,6 +9,9 @@
 #define INTERPRETE_H_
 #include <string>
 using namespace std;
+/**
+ * Sirve para parsear un un string separado por campos.
+ */
 
 class Interprete {
 private:
@@ -23,9 +26,21 @@ private:
 	int strToInt(string &);
 	size_t nextpos();
 public:
+	/**
+	 * Cadena: el string a parsear
+	 * Separador: el separador. (no probado si tiene mas de un caracter)
+	 * CantCampos: la cantidad de campos que tiene el string.
+	 */
 	Interprete(string candena, string separador,char cantCampos);
 	~Interprete();
+	/**
+	 * Proximo valor como entero
+	 */
 	int getNextAsInt();
+
+	/**
+	 * Proximo valor como string.
+	 */
 	string getNextAsStr();
 };
 

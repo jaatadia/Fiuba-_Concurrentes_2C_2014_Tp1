@@ -38,7 +38,7 @@ size_t Interprete::nextpos() {
 string Interprete::nextValue() {
 	size_t pos = cadena.find(this->separador,posActual);
 	string result = cadena.substr(posActual, pos - posActual);
-	posActual = pos+1;
+	posActual = pos+separador.length();
 	campoActual++;
 	return result;
 }
