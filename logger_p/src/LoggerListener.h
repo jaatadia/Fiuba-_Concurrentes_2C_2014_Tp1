@@ -17,7 +17,7 @@
 #include <string.h>
 #include <errno.h>
 
-class LoggerListener : public EventHandler{
+class LoggerListener {
 public:
 	const static long int BUFFLEN = 200;
 
@@ -26,9 +26,6 @@ public:
 	void mute();
 	void resume();
 	virtual ~LoggerListener();
-
-	virtual int handleSignal ( int signum );
-	int alive();
 
 private:
 	Serializador ser;

@@ -49,12 +49,3 @@ void LoggerListener::resume() {
 	muted = 0;
 }
 
-int LoggerListener::alive() {
-	return cont == 0;
-}
-
-int LoggerListener::handleSignal(int signum) {
-	cont = 1;
-	std::cout << "Ending Logger" << std::endl;
-	return 0;
-}
