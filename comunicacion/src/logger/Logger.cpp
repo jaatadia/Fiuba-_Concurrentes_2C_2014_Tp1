@@ -25,7 +25,7 @@ Logger::~Logger() {
 
 void Logger::log(std::string mensaje) {
 	std::string temp = getTime();
-	std::cout<<this->pid + id + temp + mensaje<<endl;
+	std::cout<<this->pid +" " + id +" " +temp +" " + mensaje<<endl;
 	//MensajeLog * mje = new MensajeLog(this->pid, id, temp, mensaje);
 	//fifo.escribir(mje);
 }
