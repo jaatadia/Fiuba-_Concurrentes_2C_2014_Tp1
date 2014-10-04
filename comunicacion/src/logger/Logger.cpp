@@ -15,18 +15,19 @@ Logger::Logger(std::string name) :
 		id(name),fifo(PATH_FIFOLOG,this->serializador) {
 	//conversion fea de un int a string.
 	this->pid = getpid();
-	fifo.abrir();
+	//fifo.abrir();
 }
 
 Logger::~Logger() {
-	fifo.cerrar();
+	//fifo.cerrar();
 
 }
 
 void Logger::log(std::string mensaje) {
 	std::string temp = getTime();
-	MensajeLog * mje = new MensajeLog(this->pid, id, temp, mensaje);
-	fifo.escribir(mje);
+	std::cout<<this->pid +" " + id +" " +temp +" " + mensaje<<endl;
+	//MensajeLog * mje = new MensajeLog(this->pid, id, temp, mensaje);
+	//fifo.escribir(mje);
 }
 
 std::string Logger::getTime() {
