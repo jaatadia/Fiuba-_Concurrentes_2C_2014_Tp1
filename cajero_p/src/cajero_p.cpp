@@ -16,9 +16,11 @@
 #include "src/transferencia/MensajeCompraBoleto.h"
 #include "src/Exception.h"
 #include "src/InterrumpidoException.h"
+#include "src/memoriaCompartida/MemoriaCompartidaException.h"
 #include "src/logger/Logger.h"
 #include "src/constantes.h"
 using namespace std;
+
 //TODO sacar couts.
 int main(int argc, char* argv[]) {
 	int nroBoleto = NRO_BOLETO_INVALIDO + 1;
@@ -53,6 +55,9 @@ int main(int argc, char* argv[]) {
 					logger.log("No se pudo vender boleto ya que no tenia suficiente dinero");
 				}
 				i++;
+			} catch (MemoriaCompartidaException &ex) {
+				//error de mem compartida
+				logger.log(ex.what());
 			} catch (InterrumpidoException & ex) {
 				// Si me interrumpieron esperando un cliente.
 				cout<<"Se interrumpio la espera de ninio por una signal." << endl;

@@ -80,6 +80,7 @@ int main() {
 	} catch (Exception & e) {
 		cout << e.what() << endl;
 		//TODO SALIR.
+		//TODO sacar cout
 	}
 }
 
