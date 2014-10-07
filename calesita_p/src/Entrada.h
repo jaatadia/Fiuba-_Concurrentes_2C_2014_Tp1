@@ -34,15 +34,15 @@ private:
 	//falta implementar
 	int verificarBoleto(Mensaje* boleto);//devuelve 1 si el voleto es balido , -1 sino
 
-	int comenzarVuelta;
 	int error;
 	int ninos;//cantidad de niños que espere
 	int nroNinosPorVuelta;//cantidad de ninos por vuelta
 	int nroNinosEnVuelta;//la cantidad de niños que hay
 	Serializador ser;
-	FifoLectura fifoLec;
-	FifoEscritura fifoEsc;
-	FifoEscritura fifoTimeout;
+	FifoLectura fifoLec;//fifo para leer desde los niños
+	FifoEscritura fifoLecEsc;//fifo para leer abierto para escritura para que no devuelva 0
+	FifoEscritura fifoEsc;//fifo para escribir hacia los niños
+	FifoEscritura fifoTimeout;//fifo para escribir hacia el interrupter
 };
 
 #endif /* ENTRADA_H_ */

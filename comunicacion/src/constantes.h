@@ -42,8 +42,12 @@ static const string MENSAJE_NUMERO= "n";
 static const int NRO_BOLETO_INVALIDO=0;
 
 //calesita
-static const string PATH_FIFO_CALESITA="/tmp/fifo_calesita";
+static const string PATH_FIFO_CALESITA_HACIA_CALESITA="/tmp/fifo_calesita";
+static const string PATH_FIFO_CALESITA_HACIA_NINOS="/tmp/fifo_calesita_ninos";
 static const string PATH_FIFO_CALESITA_TIMEOUT="/tmp/fifo_calesita_timeout";
+static const string LOCK_ENTRADA="/tmp/lock_entrada.tmp";
+static const string LOCK_SALIDA="/tmp/lock_salida.tmp";
+static const string LOCK_ASIENTOS="/tmp/lock_asientos.tmp";
 static const int CALESITA_TIMEOUT=5;
 static const int CALESITA_PASAR=0;
 static const int CALESITA_NO_PASAR=1;

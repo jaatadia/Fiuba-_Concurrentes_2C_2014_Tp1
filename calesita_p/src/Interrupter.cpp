@@ -7,7 +7,7 @@
 
 #include "Interrupter.h"
 
-Interrupter::Interrupter() : ser(),fifoLec(PATH_FIFO_CALESITA_TIMEOUT,&ser),fifoEsc(PATH_FIFO_CALESITA,&ser) {
+Interrupter::Interrupter() : ser(),fifoEsc(PATH_FIFO_CALESITA_HACIA_CALESITA,ser), fifoLec(PATH_FIFO_CALESITA_TIMEOUT,ser){
 	fifoEsc.abrir();
 	fifoLec.abrir();
 }

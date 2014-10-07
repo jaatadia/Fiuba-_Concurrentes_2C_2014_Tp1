@@ -9,7 +9,7 @@
 #include "../constantes.h"
 #include <sstream>
 #include "Interprete.h"
-MensajeInt::MensajeInt(int numero):Mensaje(MENSAJE_NUMERO),numero(numero){
+MensajeInt::MensajeInt(int mynumero): Mensaje(MENSAJE_NUMERO), numero(mynumero){
 
 }
 

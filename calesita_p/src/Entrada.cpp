@@ -7,8 +7,9 @@
 
 #include "Entrada.h"
 
-Entrada::Entrada(int numero) : comenzarVuelta(0) ,error(0), ninos(0), nroNinosPorVuelta(numero),nroNinosEnVuelta(0), ser(),fifoLec(PATH_FIFO_CALESITA,&ser),fifoEsc(PATH_FIFO_CALESITA,&ser),fifoTimeout(PATH_FIFO_CALESITA_TIMEOUT,&ser){
+Entrada::Entrada(int numero) : error(0), ninos(0), nroNinosPorVuelta(numero),nroNinosEnVuelta(0), ser(),fifoLec(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoLecEsc(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoEsc(PATH_FIFO_CALESITA_HACIA_NINOS,ser),fifoTimeout(PATH_FIFO_CALESITA_TIMEOUT,ser){
 	fifoLec.abrir();
+	fifoLecEsc.abrir();
 	fifoEsc.abrir();
 	fifoTimeout.abrir();
 }
@@ -28,11 +29,11 @@ Mensaje* Entrada::getBoleto(){
 			}
 		}else if(msg->getTipo()==MENSAJE_VACIO){//me fijo si no hubo un error
 			found = 1;
-			resultado = -1;
+			resultado = NULL;
 			error = 1;
 		}else{//sino, fue un nino bien
 			found = 1;
-			resultado = 1;
+			resultado = NULL;
 		}
 	}
 	return resultado;
@@ -40,10 +41,10 @@ Mensaje* Entrada::getBoleto(){
 
 int Entrada::verificarBoleto(Mensaje* msj){
 	if(true){// falta verificar validez del boleto
-		fifoEsc(new MensajeInt(CALESITA_PASAR));
+		fifoEsc.escribir(new MensajeInt(CALESITA_PASAR));
 		return 1;//siempre es valido por ahora
 	}else{
-		fifoEsc(new MensajeInt(CALESITA_NO_PASAR));
+		fifoEsc.escribir(new MensajeInt(CALESITA_NO_PASAR));
 		return -1;//siempre es valido por ahora
 	}
 }
@@ -51,7 +52,6 @@ int Entrada::verificarBoleto(Mensaje* msj){
 
 void Entrada::esperarSentado(){
 	int found = 0;
-	Mensaje* resultado = NULL;
 	while(found == 0){
 		Mensaje* msg = fifoLec.leer(); //espero al niño
 		if(msg->getTipo()==MENSAJE_NUMERO){//me fijo si es el timeout de un nino
@@ -66,7 +66,7 @@ void Entrada::esperarSentado(){
 
 int Entrada::tramitarNino(Mensaje* msj){
 	if(verificarBoleto(msj)==1){
-		esperarSentado();
+		//esperarSentado();
 		nroNinosEnVuelta++;
 	}
 	delete msj;
@@ -93,7 +93,6 @@ int Entrada::proximo(){
 void Entrada::reset(){
 	error=0;
 	nroNinosEnVuelta=0;
-	comenzarVuelta=0;
 	//tomar semaforos
 }
 
@@ -113,8 +112,10 @@ int Entrada::proxNino(){
 
 Entrada::~Entrada() {
 	fifoLec.cerrar();
+	fifoLecEsc.cerrar();
 	fifoEsc.cerrar();
 	fifoTimeout.cerrar();
 	fifoLec.eliminar();
+	fifoEsc.eliminar();
 }
 

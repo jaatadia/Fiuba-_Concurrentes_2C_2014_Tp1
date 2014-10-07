@@ -14,6 +14,9 @@
 #include "src/lock/LockException.h"
 #include "src/logger/Logger.h"
 
+
+#include "Calesita.h"
+
 using namespace std;
 
 string determinarSexo() {
@@ -61,6 +64,7 @@ string deteminarCodigo() {
 }
 
 int main() {
+	/*
 	int boleto = -1;
 	Logger logger(deteminarCodigo());
 	try {
@@ -82,5 +86,14 @@ int main() {
 		//TODO SALIR.
 		//TODO sacar cout
 	}
+
+	*/
+	Logger log("./log");
+	Calesita cale;
+	if(cale.entrar("1030")==CALESITA_NO_PASAR){
+		log.log("No pude entrar");
+		return -1;
+	}
+	cale.sentarse(10);
 }
 
