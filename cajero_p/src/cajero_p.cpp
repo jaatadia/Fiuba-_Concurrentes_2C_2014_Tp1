@@ -19,7 +19,7 @@
 #include "src/logger/Logger.h"
 #include "src/constantes.h"
 using namespace std;
-
+//TODO sacar couts.
 int main(int argc, char* argv[]) {
 	int nroBoleto = NRO_BOLETO_INVALIDO + 1;
 	int precioBoleto = 10;
