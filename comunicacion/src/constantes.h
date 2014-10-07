@@ -37,7 +37,15 @@ static const string MENSAJE_VACIO= "v";
 static const string MENSAJE_LOG= "l";
 static const string MENSAJE_STRING= "s";
 static const string MENSAJE_COMPRAVENTA= "c";
+static const string MENSAJE_NUMERO= "n";
 
 static const int NRO_BOLETO_INVALIDO=0;
+
+//calesita
+static const string PATH_FIFO_CALESITA="/tmp/fifo_calesita";
+static const string PATH_FIFO_CALESITA_TIMEOUT="/tmp/fifo_calesita_timeout";
+static const int CALESITA_TIMEOUT=5;
+static const int CALESITA_PASAR=0;
+static const int CALESITA_NO_PASAR=1;
 
 #endif /* CONSTANTES_H_ */
