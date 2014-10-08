@@ -18,6 +18,9 @@
 #include "Calesita.h"
 
 using namespace std;
+/**
+ * Recibe como parametros 0 y 1 el nombre del ejecutable y el pid del padre.
+ */
 
 string determinarSexo() {
 	int sexo = rand() % 2;

@@ -11,6 +11,11 @@
 using namespace std;
 static int const ERR_CODE=-1;
 
+
+//generales
+static const string DEFAULT_LOG_FILE="./calesita.log";
+
+
 //PATHS; Definir la carpeta donde esta el ejecutable. Notar que las FOLDER_ no tienen espacios ni antes ni dsps del =, dejarlas asi.
 static const string MAIN_FOLDER="/home/jonathan/git/Fiuba-_Concurrentes_2C_2014_Tp1";
 static const string DEBUG="/Debug";
@@ -27,9 +32,10 @@ static const string EJECUTABLE_GENERADOR = MAIN_FOLDER + FOLDER_GENERADOR + DEBU
 static const string EJECUTABLE_LOGGER = MAIN_FOLDER + FOLDER_LOGGER + DEBUG+"/logger_p";
 static const string EJECUTABLE_NINIO = MAIN_FOLDER + FOLDER_NINIO + DEBUG+"/ninio_p";
 
-
+//cajero
 static const string PATH_FIFOVENTA= "/tmp/venta-fifo";
 static const string PATH_FIFOLOG = "/tmp/log-fifo";
+static const int NRO_BOLETO_INVALIDO=0;
 
 
 //MENSAJES
@@ -39,7 +45,6 @@ static const string MENSAJE_STRING= "s";
 static const string MENSAJE_COMPRAVENTA= "c";
 static const string MENSAJE_NUMERO= "n";
 
-static const int NRO_BOLETO_INVALIDO=0;
 
 //calesita
 static const string PATH_FIFO_CALESITA_HACIA_CALESITA="/tmp/fifo_calesita";

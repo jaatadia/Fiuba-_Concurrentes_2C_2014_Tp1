@@ -14,6 +14,9 @@
 #include "src/proceso/Proceso.h"
 using namespace std;
 
+/**
+ * Recibe como parametros 0 y 1 el nombre del ejecutable y el pid del padre.
+ */
 int main(int argc, char * argv []) {
 	int tiempoMax = 5;
 	int cantNinios = 1;

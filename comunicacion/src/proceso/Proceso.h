@@ -10,6 +10,8 @@
 
 #include <string>
 #include "../constantes.h"
+#include "Proceso.h"
+#include "Parametros.h"
 using namespace std;
 
 /**
@@ -18,12 +20,14 @@ using namespace std;
 class Proceso {
 private:
 	int pid;
+	void run(const string path, Parametros & params);
 public:
 
 	/**
 	 * Crea un proceso con el ejecutable indicado.
 	 * lanza excepcion si no pudo crear el proceso.
 	 */
+	Proceso(const string path, Parametros & params);
 	Proceso(const string path);
 	~Proceso();
 	int getPid() const;
