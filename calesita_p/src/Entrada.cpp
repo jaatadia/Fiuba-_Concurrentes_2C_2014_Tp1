@@ -7,7 +7,7 @@
 
 #include "Entrada.h"
 
-Entrada::Entrada(int numero) : error(0), ninos(0), nroNinosPorVuelta(numero),nroNinosEnVuelta(0), ser(),fifoLec(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoLecEsc(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoEsc(PATH_FIFO_CALESITA_HACIA_NINOS,ser),fifoTimeout(PATH_FIFO_CALESITA_TIMEOUT,ser){
+Entrada::Entrada(int numero, int vuelta, Logger* log) : error(0), vuelta(vuelta), ninos(0), nroNinosPorVuelta(numero),nroNinosEnVuelta(0), ser(),fifoLec(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoLecEsc(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoEsc(PATH_FIFO_CALESITA_HACIA_NINOS,ser),fifoTimeout(PATH_FIFO_CALESITA_TIMEOUT,ser), log(log){
 	fifoLec.abrir();
 	fifoLecEsc.abrir();
 	fifoEsc.abrir();
@@ -24,16 +24,20 @@ Mensaje* Entrada::getBoleto(){
 		if(msg->getTipo()==MENSAJE_NUMERO){//me fijo si es el timeout de un nino
 			MensajeInt* msgInt = static_cast<MensajeInt*>(msg);
 			if(msgInt->getInt()==ninos) {//me fijo si es el timeout del nino actual
+				log->log("No han llegado niños");
 				found = 1;
-				resultado = 0;
+				delete(msg);
+				resultado = NULL;
 			}
 		}else if(msg->getTipo()==MENSAJE_VACIO){//me fijo si no hubo un error
-			found = 1;
-			resultado = NULL;
 			error = 1;
-		}else{//sino, fue un nino bien
 			found = 1;
+			delete(msg);
 			resultado = NULL;
+		}else{//sino, fue un nino bien
+			log->log("Ha llegado un niño");
+			found = 1;
+			resultado = msg;
 		}
 	}
 	return resultado;
@@ -50,30 +54,21 @@ int Entrada::verificarBoleto(Mensaje* msj){
 }
 
 
-void Entrada::esperarSentado(){
-	int found = 0;
-	while(found == 0){
-		Mensaje* msg = fifoLec.leer(); //espero al niño
-		if(msg->getTipo()==MENSAJE_NUMERO){//me fijo si es el timeout de un nino
-		}else if(msg->getTipo()==MENSAJE_VACIO){//me fijo si no hubo un error
-			error = 1;
-			found = 1;
-		}else{//sino, fue un nino bien
-			found = 1;
-		}
-	}
-}
-
 int Entrada::tramitarNino(Mensaje* msj){
+	log->log("Verificando el boleto del niño");
 	if(verificarBoleto(msj)==1){
 		//esperarSentado();
+		log->log("El boleto es valido");
 		nroNinosEnVuelta++;
+	}else{
+		log->log("El boleto Es invalido");
 	}
 	delete msj;
 	return 1;
 }
 
 int Entrada::inicial(){
+	log->log("Esperando al primer niño");
 	Mensaje* msj;
 	while((msj = getBoleto())==NULL){
 		if (huboError()) return -1;
@@ -82,6 +77,7 @@ int Entrada::inicial(){
 }
 
 int Entrada::proximo(){
+	log->log("Esperando al proximo niño");
 	Mensaje* msj = getBoleto();
 	if (msj == NULL) {
 		return ((huboError())? -1:0);
@@ -103,6 +99,16 @@ void Entrada::liberar(){
 int Entrada::huboError(){
 	return error==1;
 }
+
+void Entrada::esperarSienten(){
+
+}
+
+void Entrada::comenzarVuelta(){
+
+}
+
+
 
 int Entrada::proxNino(){
 	if(nroNinosEnVuelta==0) return inicial();

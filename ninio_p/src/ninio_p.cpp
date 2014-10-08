@@ -89,11 +89,21 @@ int main() {
 
 	*/
 	Logger log("./log");
-	Calesita cale;
+	Calesita cale(&log);
+
+	log.log("niño: esperando en la entrada");
 	if(cale.entrar("1030")==CALESITA_NO_PASAR){
 		log.log("No pude entrar");
 		return -1;
 	}
+	log.log("niño: entre a la calesita");
 	cale.sentarse(10);
+	log.log("niño: me sente");
+	cale.esperar();
+	log.log("niño: termino la vuelta");
+	cale.salir();
+	log.log("niño: salí");
+
+
 }
 

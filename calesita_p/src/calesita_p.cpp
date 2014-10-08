@@ -35,11 +35,11 @@ int main(int argc,char* argv[]) {
 
 	}else{
 		//proceso que tramita la calesita
-		int nroNinos = 5;//niños por vuelta
+		int nroNinos = 3;//niños por vuelta
 		int vuelta = 10;//duracion de la vuelta
 		if(argc==3){
-			int nroNinos = atoi(argv[1]);
-			int vuelta = atoi(argv[2]);
+			nroNinos = atoi(argv[1]);
+			vuelta = atoi(argv[2]);
 		}
 
 		GracefullQuitter quit;
@@ -47,16 +47,21 @@ int main(int argc,char* argv[]) {
 
 		Logger log("./log");
 
-		Entrada ent(nroNinos);
+		Entrada ent(nroNinos,vuelta,&log);
+
+		log.log("Calesita: Empezando primera vez");
 		ent.reset();
 		while(quit.alive()){
+			log.log("Calesita: Esperando ninos");
 			while(ent.proxNino()==1);
-			log.log("Comenzando la vuelta");
-			sleep(vuelta);
-			log.log("Termino la vuelta");
+			log.log("Calesita: Esperando que los niños terminen de sentarse");
+			ent.esperarSienten();
+			log.log("Calesita: Comenzando la vuelta");
+			ent.comenzarVuelta();
+			log.log("Calesita: Termino la vuelta");
 			ent.liberar();
 			ent.reset();
-			log.log("Todos los niños salieron");
+			log.log("Calesita: Todos los niños salieron");
 		}
 		SignalHandler::destruir();
 	}
