@@ -30,7 +30,11 @@ int main(int argc,char* argv[]) {
 		SignalHandler::getInstance()->registrarHandler(SIGUSR1,&quit);
 		Interrupter inter;
 		while(quit.alive()){
-			inter.reenviar();
+			try{
+				inter.reenviar();
+			}catch(Exception &e){
+				std::cout<<e.getCause()<<std::endl;
+			}
 		}
 		SignalHandler::destruir();
 
@@ -61,8 +65,9 @@ int main(int argc,char* argv[]) {
 				ent.comenzarVuelta();
 				log.log("Calesita: Termino la vuelta");
 				ent.liberar();
-				log.log("Calesita: Todos los niños salieron");
+				log.log("Calesita: Esperando que los niños salgan");
 				ent.reset();
+				log.log("Calesita: Todos los niños salieron");
 			}catch(Exception &e){
 				std::cout<<e.getCause()<<std::endl;
 			}

@@ -64,9 +64,10 @@ string deteminarCodigo() {
 }
 
 int main() {
-	/*
+
 	int boleto = -1;
 	Logger logger(deteminarCodigo());
+	/*
 	try {
 		Boleteria b;
 		int dineroDisponible = 10;
@@ -88,23 +89,23 @@ int main() {
 	}
 
 	*/
-	Logger log("./log");
-	Calesita cale(&log);
 
-	log.log("niño: esperando en la entrada");
+
+	/* ------------------- calesita ----------------------------*/
+	Calesita cale(&logger);
+
+	logger.log("niño: esperando en la entrada");
 	if(cale.entrar("1030")==CALESITA_NO_PASAR){
-		log.log("No pude entrar");
+		logger.log("No pude entrar");
 		return -1;
 	}
-	log.log("niño: entre a la calesita");
-	sleep(10);
+	logger.log("niño: entre a la calesita");
 	cale.sentarse(10);
-	log.log("niño: me sente");
+	logger.log("niño: me sente");
 	cale.esperar();
-	log.log("niño: termino la vuelta");
-	sleep(10);
+	logger.log("niño: termino la vuelta");
 	cale.salir();
-	log.log("niño: salí");
+	logger.log("niño: salí");
 
 
 }

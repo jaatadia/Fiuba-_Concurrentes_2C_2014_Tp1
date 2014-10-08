@@ -124,6 +124,7 @@ Entrada::~Entrada() {
 	fifoTimeout.cerrar();
 	fifoLec.eliminar();
 	fifoEsc.eliminar();
+	fifoTimeout.eliminar();
 	semAsientosOcupados.eliminar();
 	semSoltarNinos.eliminar();
 }
