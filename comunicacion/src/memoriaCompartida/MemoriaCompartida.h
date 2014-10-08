@@ -14,6 +14,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <errno.h>
+#include "MemoriaCompartidaException.h"
 
 
 using namespace std;

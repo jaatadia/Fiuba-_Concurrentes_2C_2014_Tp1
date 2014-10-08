@@ -25,27 +25,23 @@ template <class T> MemoriaCompartida<T>::MemoriaCompartida( const string &archiv
 			if ( tmpPtr != (void*) -1 ) {
 				this->ptrDatos = static_cast<T*> (tmpPtr);
 			} else {
-				string mensaje = string("Error en shmat(): ") + string(strerror(errno));
-				throw mensaje;
+				throw MemoriaCompartidaException("Error en shmat(), el segmento creado no se mapeo al proceso",strerror(errno));
 			}
 		} else {
-			string mensaje = string("Error en shmget(): ") + string(strerror(errno));
-			throw mensaje;
+			throw MemoriaCompartidaException("Error en shmget(), no se creara el segmento",strerror(errno));
 		}
 	} else {
-		string mensaje = string("Error en ftok(): ") + string(strerror(errno));
-		throw mensaje;
+		throw MemoriaCompartidaException("Error en ftok(), no se creara el segmento",strerror(errno));
 	}
 }
 
 template <class T> MemoriaCompartida<T>::MemoriaCompartida( const MemoriaCompartida &origen ):shmId(origen.shmId) {
-	void* tmpPtr = shmat ( origen.shmId,NULL,0 );
+	void* tmpPtr = shmat( origen.shmId,NULL,0 );
 
 	if ( tmpPtr != (void*) -1 ) {
 		this->ptrDatos = static_cast<T*> (tmpPtr);
 	} else {
-		string mensaje = string("Error en shmat(): ") + string(strerror(errno));
-		throw mensaje;
+		throw MemoriaCompartidaException("Error en shmat(), el segmento creado no se mapeo al proceso",strerror(errno));
 	}
 }
 
@@ -55,24 +51,23 @@ template <class T> MemoriaCompartida<T>::~MemoriaCompartida() {
 	if ( errorDt != -1 ) {
 		int procAdosados = this->cantidadProcesosAdosados ();
 		if ( procAdosados == 0 ) {
-			shmctl ( this->shmId,IPC_RMID,NULL );
+			int errorDest = shmctl( this->shmId,IPC_RMID,NULL );
+			if ( errorDest == -1) throw MemoriaCompartidaException("Error en shmctl() (destruccion de la memoria)",strerror(errno));
 		}
 	} else {
-		cerr << "Error en shmdt(): " << strerror(errno) << endl;
+		throw MemoriaCompartidaException("Error en shmdt() y no se eliminara",strerror(errno));
 	}
 }
 
 template <class T> MemoriaCompartida<T>& MemoriaCompartida<T>::operator= ( const MemoriaCompartida& origen ) {
 	this->shmId = origen.shmId;
-	void* tmpPtr = shmat ( this->shmId,NULL,0 );
+	void* tmpPtr = shmat( this->shmId,NULL,0 );
 
 	if ( tmpPtr != (void*) -1 ) {
 		this->ptrDatos = static_cast<T*> (tmpPtr);
 	} else {
-		string mensaje = string("Error en shmat(): ") + string(strerror(errno));
-		throw mensaje;
+		throw MemoriaCompartidaException("Error en shmat(), no se pudo asignar la memoria",strerror(errno));
 	}
-
 	return *this;
 }
 
@@ -126,7 +121,8 @@ template <class T> T MemoriaCompartida<T>::leer() const {
 
 template <class T> int MemoriaCompartida<T>::cantidadProcesosAdosados() const {
 	shmid_ds estado;
-	shmctl ( this->shmId,IPC_STAT,&estado );
+	int errorEst = shmctl( this->shmId,IPC_STAT,&estado );
+	if (errorEst == -1) throw MemoriaCompartidaException("Error en shmctl() al obtener cantidad de procesos attached",strerror(errno));
 	return estado.shm_nattch;
 }
 
