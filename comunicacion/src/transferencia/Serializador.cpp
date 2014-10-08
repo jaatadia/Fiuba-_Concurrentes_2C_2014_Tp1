@@ -27,7 +27,8 @@ Serializador::Serializador() {
 }
 
 Serializador::~Serializador() {
-	//TODO LIMPIAR EL MAPEO
+	for (std::map<string,Mensaje*>::iterator it=mensajes.begin(); it!=mensajes.end(); ++it)
+	   delete it->second;
 }
 
 void Serializador::enviar(int fd, Mensaje * mje) {
