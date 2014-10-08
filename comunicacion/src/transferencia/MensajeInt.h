@@ -5,8 +5,8 @@
  *      Author: jonathan
  */
 
-#ifndef MENSAJECOMPRABOLETO_H_
-#define MENSAJECOMPRABOLETO_H_
+#ifndef MENSAJEINT_H_
+#define MENSAJEINT_H_
 #include "Mensaje.h"
 #include <string>
 /**
@@ -16,11 +16,11 @@ class MensajeInt: public Mensaje {
 private:
 	int numero; //el importe
 public:
-	MensajeInt(int);
+	MensajeInt(int numero);
 	~MensajeInt();
 	virtual Mensaje * deserializar(string const contenido) const;
 	virtual string serializar() const;
 	int getInt() const;
 };
 
-#endif /* MENSAJECOMPRABOLETO_H_ */
+#endif /* MENSAJEINT_H_ */

@@ -22,7 +22,7 @@ Serializador::Serializador() {
 	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_LOG, new MensajeLog(0,"","","")));
 	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_STRING, new MensajeString("")));
 	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_COMPRAVENTA, new MensajeCompraBoleto(0)));
-	//this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_NUMERO, new MensajeInt()));
+	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_NUMERO, new MensajeInt(0)));
 
 }
 
