@@ -16,13 +16,14 @@
 #include "src/fifo/FifoLectura.h"
 #include "src/fifo/FifoEscritura.h"
 #include "src/logger/Logger.h"
+#include "src/semaforos/Semaforo.h"
 
 class Calesita {
 public:
 	Calesita(Logger* log);
 	int entrar(std::string boleto);//devuelve CALESITA_PASAR si pudo entrar CALESITA_NO_PASAR sino
 /*falta*/	int sentarse(int lugar);//devuelve en el lugar que se sento
-/*falta*/	void esperar();
+	void esperar();
 /*falta*/	void salir();
 	virtual ~Calesita();
 
@@ -35,6 +36,8 @@ private:
 	FifoLectura fifoLec;
 	FifoEscritura fifoEsc;
 	Logger* log;
+	Semaforo semAsientos;
+	Semaforo semVuelta;
 
 };
 

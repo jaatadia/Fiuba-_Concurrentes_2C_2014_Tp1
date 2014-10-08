@@ -19,6 +19,7 @@
 
 #include "Entrada.h"
 #include "Interrupter.h"
+#include "src/Exception.h"
 
 
 int main(int argc,char* argv[]) {
@@ -29,7 +30,11 @@ int main(int argc,char* argv[]) {
 		SignalHandler::getInstance()->registrarHandler(SIGUSR1,&quit);
 		Interrupter inter;
 		while(quit.alive()){
-			inter.reenviar();
+			try{
+				inter.reenviar();
+			}catch(Exception &e){
+				std::cout<<e.getCause()<<std::endl;
+			}
 		}
 		SignalHandler::destruir();
 
@@ -50,19 +55,24 @@ int main(int argc,char* argv[]) {
 		Entrada ent(nroNinos,vuelta,&log);
 
 		log.log("Calesita: Empezando primera vez");
-		ent.reset();
 		while(quit.alive()){
-			log.log("Calesita: Esperando ninos");
-			while(ent.proxNino()==1);
-			log.log("Calesita: Esperando que los niños terminen de sentarse");
-			ent.esperarSienten();
-			log.log("Calesita: Comenzando la vuelta");
-			ent.comenzarVuelta();
-			log.log("Calesita: Termino la vuelta");
-			ent.liberar();
-			ent.reset();
-			log.log("Calesita: Todos los niños salieron");
+			try{
+				log.log("Calesita: Esperando ninos");
+				while(ent.proxNino()==1);
+				log.log("Calesita: Esperando que los niños terminen de sentarse");
+				ent.esperarSienten();
+				log.log("Calesita: Comenzando la vuelta");
+				ent.comenzarVuelta();
+				log.log("Calesita: Termino la vuelta");
+				ent.liberar();
+				log.log("Calesita: Esperando que los niños salgan");
+				ent.reset();
+				log.log("Calesita: Todos los niños salieron");
+			}catch(Exception &e){
+				std::cout<<e.getCause()<<std::endl;
+			}
 		}
+		kill(child_process,SIGINT);
 		SignalHandler::destruir();
 	}
 }

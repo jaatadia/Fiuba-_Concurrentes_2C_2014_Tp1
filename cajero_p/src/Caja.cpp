@@ -7,12 +7,15 @@
 
 #include "Caja.h"
 
-Caja::Caja() {
-
+Caja::Caja() : saldo(MEMCOMP_ARCH,MEMCOMP_LETRA) {
 }
 
 Caja::~Caja() {
 }
 
 void Caja::almacenarDinero(int dinero) {
+}
+
+int Caja::consultarSaldo(){
+
 }

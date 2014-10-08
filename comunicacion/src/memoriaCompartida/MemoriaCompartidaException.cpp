@@ -15,6 +15,6 @@ MemoriaCompartidaException::~MemoriaCompartidaException() {
 
 string MemoriaCompartidaException::what() const {
 
-	return "Error de Memoria Compartida: "+ getMensaje() + ": " + getCause();
+	return "Memoria Compartida: "+ getMensaje() + ": " + getCause();
 }
 
