@@ -52,4 +52,9 @@ static const int CALESITA_TIMEOUT=5;
 static const int CALESITA_PASAR=0;
 static const int CALESITA_NO_PASAR=1;
 
+//semaforo
+static const string PATH_ARCH_SEM_ASIENTOS="/tmp/fifo_calesita";
+static const string PATH_ARCH_SEM_CALE="/tmp/fifo_calesita_ninos";
+
+
 #endif /* CONSTANTES_H_ */

@@ -7,11 +7,13 @@
 
 #include "Entrada.h"
 
-Entrada::Entrada(int numero, int vuelta, Logger* log) : error(0), vuelta(vuelta), ninos(0), nroNinosPorVuelta(numero),nroNinosEnVuelta(0), ser(),fifoLec(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoLecEsc(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoEsc(PATH_FIFO_CALESITA_HACIA_NINOS,ser),fifoTimeout(PATH_FIFO_CALESITA_TIMEOUT,ser), log(log){
+Entrada::Entrada(int numero, int vuelta, Logger* log) : error(0), vuelta(vuelta), ninos(0), nroNinosPorVuelta(numero),nroNinosEnVuelta(0), ser(),fifoLec(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoLecEsc(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoEsc(PATH_FIFO_CALESITA_HACIA_NINOS,ser),fifoTimeout(PATH_FIFO_CALESITA_TIMEOUT,ser), log(log),semAsientosOcupados(PATH_ARCH_SEM_ASIENTOS.c_str(),0),semSoltarNinos(PATH_ARCH_SEM_CALE.c_str(),0){
 	fifoLec.abrir();
 	fifoLecEsc.abrir();
 	fifoEsc.abrir();
 	fifoTimeout.abrir();
+	semAsientosOcupados.inicializar();
+	semSoltarNinos.inicializar();
 }
 
 Mensaje* Entrada::getBoleto(){
@@ -57,7 +59,6 @@ int Entrada::verificarBoleto(Mensaje* msj){
 int Entrada::tramitarNino(Mensaje* msj){
 	log->log("Verificando el boleto del niño");
 	if(verificarBoleto(msj)==1){
-		//esperarSentado();
 		log->log("El boleto es valido");
 		nroNinosEnVuelta++;
 	}else{
@@ -87,13 +88,13 @@ int Entrada::proximo(){
 
 
 void Entrada::reset(){
+	semSoltarNinos.wait_cant(nroNinosEnVuelta);
 	error=0;
 	nroNinosEnVuelta=0;
-	//tomar semaforos
 }
 
 void Entrada::liberar(){
-	//liberar semaforo
+	semSoltarNinos.signal_cant(nroNinosEnVuelta);
 }
 
 int Entrada::huboError(){
@@ -101,11 +102,11 @@ int Entrada::huboError(){
 }
 
 void Entrada::esperarSienten(){
-
+	semAsientosOcupados.wait_cant(nroNinosEnVuelta);
 }
 
 void Entrada::comenzarVuelta(){
-
+	sleep(vuelta);
 }
 
 
@@ -123,5 +124,7 @@ Entrada::~Entrada() {
 	fifoTimeout.cerrar();
 	fifoLec.eliminar();
 	fifoEsc.eliminar();
+	semAsientosOcupados.eliminar();
+	semSoltarNinos.eliminar();
 }
 

@@ -15,15 +15,16 @@
 #include "src/transferencia/Mensaje.h"
 #include "src/transferencia/MensajeInt.h"
 #include "src/logger/Logger.h"
+#include "src/semaforos/Semaforo.h"
 
 class Entrada {
 public:
 	Entrada(int nroNinos, int vuelta, Logger* log);//recibe la cantidad de niños que pueden ingresar a la vez
-/*falta*/	void reset();//se resetean los valores internos
+	void reset();//se resetean los valores internos
 	int proxNino();//espera al proximio niño, devuele 1 en caso de que la espera fue exitosa; -1 en caso de que sea posible esperar
-/*falta*/	void esperarSienten();//espera a que los niños se sienten
-/*falta*/	void comenzarVuelta();//comienza la vuelta
-/*falta*/	void liberar();//libera los niños que entraron
+	void esperarSienten();//espera a que los niños se sienten
+	void comenzarVuelta();//comienza la vuelta
+	void liberar();//libera los niños que entraron
 	int huboError();//devuelve si hubo error (error para salir del programa)
 
 	virtual ~Entrada();
@@ -47,6 +48,8 @@ private:
 	FifoEscritura fifoEsc;//fifo para escribir hacia los niños
 	FifoEscritura fifoTimeout;//fifo para escribir hacia el interrupter
 	Logger* log;
+	Semaforo semAsientosOcupados; //debe inicializarse en 0 asientos ocupados , para saber que se liberaron los ninos que necesitaba
+	Semaforo semSoltarNinos;	//debe inicializarse 0 para yo liberar los ninos
 };
 
 #endif /* ENTRADA_H_ */

@@ -97,10 +97,12 @@ int main() {
 		return -1;
 	}
 	log.log("niño: entre a la calesita");
+	sleep(10);
 	cale.sentarse(10);
 	log.log("niño: me sente");
 	cale.esperar();
 	log.log("niño: termino la vuelta");
+	sleep(10);
 	cale.salir();
 	log.log("niño: salí");
 
