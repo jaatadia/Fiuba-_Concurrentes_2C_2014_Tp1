@@ -26,6 +26,7 @@ Logger::~Logger() {
 
 }
 
+//TODO cambiar del cout
 void Logger::log(std::string mensaje) {
 	std::string temp = getTime();
 	std::cout << temp << " " << this->pid<< " " << this->id << ": "

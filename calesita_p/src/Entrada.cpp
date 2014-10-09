@@ -51,7 +51,7 @@ int Entrada::verificarBoleto(Mensaje* msj){
 		return 1;//siempre es valido por ahora
 	}else{
 		fifoEsc.escribir(new MensajeInt(CALESITA_NO_PASAR));
-		return -1;//siempre es valido por ahora
+		return -1;
 	}
 }
 

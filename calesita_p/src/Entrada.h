@@ -32,7 +32,7 @@ private:
 	int inicial();//devuelve 1 si llega el nino ; -1 en caso de error
 	int proximo();//devuelve 1 si llega el nino ; devuelve 0 si no llego el proximo niño despues de timeout ; -1 en caso de error
 	Mensaje* getBoleto();//devuelve el boleto o NULL si no pudo obtenerlo
-/*falta*/	int verificarBoleto(Mensaje* boleto);//devuelve 1 si el voleto es balido , -1 sino
+/*TODO*/	int verificarBoleto(Mensaje* boleto);//devuelve 1 si el voleto es balido , -1 sino
 	int tramitarNino(Mensaje* msj);
 
 

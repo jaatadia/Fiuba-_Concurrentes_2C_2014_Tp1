@@ -27,6 +27,7 @@ int Calesita::entrar(std::string boleto){
 
 int Calesita::sentarse(int asiento){
 	asientos.tomarLock();//elegir donde sentarme
+	//TODO elegir en la memoria compartida el asiento
 	log->log("Buscando Asiento");
 	asientos.liberarLock();
 	semAsientos.signal();//informar que me sente
@@ -40,6 +41,7 @@ void Calesita::esperar(){
 void Calesita::salir(){
 
 	asientos.tomarLock();//sacarme del asiento
+	//TODO liberar en la memoria compartida el asiento
 	asientos.liberarLock();
 	salida.tomarLock();//encolarme en la salida
 	salida.liberarLock();

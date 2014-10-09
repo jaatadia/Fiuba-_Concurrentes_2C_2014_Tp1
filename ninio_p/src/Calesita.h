@@ -22,9 +22,9 @@ class Calesita {
 public:
 	Calesita(Logger* log);
 	int entrar(std::string boleto);//devuelve CALESITA_PASAR si pudo entrar CALESITA_NO_PASAR sino
-/*falta*/	int sentarse(int lugar);//devuelve en el lugar que se sento
+/*TODO*/	int sentarse(int lugar);//devuelve en el lugar que se sento
 	void esperar();
-/*falta*/	void salir();
+/*TODO*/	void salir();
 	virtual ~Calesita();
 
 
