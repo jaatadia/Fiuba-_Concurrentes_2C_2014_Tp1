@@ -29,11 +29,12 @@ int main(int argc,char* argv[]) {
 		GracefullQuitter quit;
 		SignalHandler::getInstance()->registrarHandler(SIGUSR1,&quit);
 		Interrupter inter;
+		Logger log("./log");
 		while(quit.alive()){
 			try{
 				inter.reenviar();
 			}catch(Exception &e){
-				std::cout<<e.getCause()<<std::endl;
+				log.log(e.getCause());
 			}
 		}
 		SignalHandler::destruir();
@@ -69,7 +70,7 @@ int main(int argc,char* argv[]) {
 				ent.reset();
 				log.log("Calesita: Todos los niños salieron");
 			}catch(Exception &e){
-				std::cout<<e.getCause()<<std::endl;
+				log.log(e.getCause());
 			}
 		}
 		kill(child_process,SIGINT);
