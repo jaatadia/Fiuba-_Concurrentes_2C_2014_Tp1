@@ -8,9 +8,10 @@
 #ifndef CAJA_H_
 #define CAJA_H_
 
-#include "src/memoriaCompartida/MemoriaCompartida.h"
-#include "src/memoriaCompartida/MemoriaCompartidaException.h"
-#include "src/constantes.h"
+#include "memoriaCompartida/MemoriaCompartida.h"
+#include "memoriaCompartida/MemoriaCompartidaException.h"
+#include "constantes.h"
+#include "lock/LockFile.h"
 
 /**
  * Clase para almacenar el dinero fuera de la memoria del proceso.
@@ -19,6 +20,7 @@
 class Caja {
 	private:
 		MemoriaCompartida<int> saldo;
+		LockFile lock_caja;
 	public:
 		Caja();
 		~Caja();

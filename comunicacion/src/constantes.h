@@ -65,5 +65,10 @@ static const string PATH_ARCH_SEM_CALE="/tmp/fifo_calesita_ninos";
 static const string MEMCOMP_ARCH=LOCK_ASIENTOS; //TODO qué archivo usar? y que letra?
 static const char MEMCOMP_LETRA='a';
 
+//caja (lock)
+static const string LOCK_CAJA="/tmp/lock_caja.tmp";
+
+//nro max para random
+static const int MAX_T_RAND=10;
 
 #endif /* CONSTANTES_H_ */
