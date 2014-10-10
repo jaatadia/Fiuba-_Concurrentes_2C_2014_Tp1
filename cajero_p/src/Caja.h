@@ -9,6 +9,7 @@
 #define CAJA_H_
 
 #include "src/memoriaCompartida/MemoriaCompartida.h"
+#include "src/memoriaCompartida/MemoriaCompartidaException.h"
 #include "src/constantes.h"
 
 /**

@@ -97,18 +97,18 @@ int main() {
 	/* ------------------- calesita ----------------------------*/
 	Calesita cale(&logger);
 
-	logger.log("niño: esperando en la entrada");
+	logger.log("niño: Esperando en la entrada");
 	if(cale.entrar("1030")==CALESITA_NO_PASAR){
-		logger.log("No pude entrar");
+		logger.log("No pude entrar :(");
 		return -1;
 	}
-	logger.log("niño: entre a la calesita");
+	logger.log("niño: Entré a la calesita");
 	cale.sentarse(10);
-	logger.log("niño: me sente");
+	logger.log("niño: me senté");
 	cale.esperar();
-	logger.log("niño: termino la vuelta");
+	logger.log("niño: Terminó la vuelta");
 	cale.salir();
-	logger.log("niño: salí");
+	logger.log("niño: Salí");
 
 
 }

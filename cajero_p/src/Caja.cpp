@@ -14,8 +14,10 @@ Caja::~Caja() {
 }
 
 void Caja::almacenarDinero(int dinero) {
+	int anterior= saldo.leer();
+	saldo.escribir(anterior+dinero);
 }
 
 int Caja::consultarSaldo(){
-
+	return saldo.leer();
 }

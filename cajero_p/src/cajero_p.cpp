@@ -40,19 +40,19 @@ int main(int argc, char* argv[]) {
 		int i = 1;
 		while (grace.alive()) {
 			try {
-				logger.log("Esperando Ninio");
+				logger.log("Esperando Niño");
 				int plataNinio = e.recibirNinio();
 
-				logger.log("Llega el ninio nro <0>", 1,i);
+				logger.log("Llega el niño nro <0>", 1,i);
 				if(plataNinio>= precioBoleto){
 					caja.almacenarDinero(precioBoleto);
 					logger.log("Se guardaron $<0> en la caja", 1,precioBoleto);
 
 					e.darBoleto(nroBoleto++);
-					logger.log("Se vendio el boleto nro <0>", 1,nroBoleto-1);
+					logger.log("Se vendió el boleto nro <0>", 1,nroBoleto-1);
 				} else {
 					e.rechazarPagoInsuficiente();
-					logger.log("No se pudo vender boleto ya que no tenia suficiente dinero");
+					logger.log("No se pudo vender boleto ya que no tenía suficiente dinero");
 				}
 				i++;
 			} catch (MemoriaCompartidaException &ex) {
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
 				logger.log(ex.what());
 			} catch (InterrumpidoException & ex) {
 				// Si me interrumpieron esperando un cliente.
-				cout<<"Se interrumpio la espera de ninio por una signal." << endl;
+				cout<<"Se interrumpió la espera de niño por una signal." << endl;
 			}
 		}
 	} catch (Exception & e) {
