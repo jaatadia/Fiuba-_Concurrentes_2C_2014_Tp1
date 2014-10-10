@@ -18,13 +18,13 @@ private:
 
 public:
 	Semaforo (const char * nombre,int valorInicial);
-	int inicializar();//solo el que lo crea deberia llamar a esto
+	void inicializar();//solo el que lo crea deberia llamar a esto
 	virtual ~ Semaforo () ;
-	int wait(); //decrementa
-	int signal(); //incrementa
+	void wait(); //decrementa
+	void signal(); //incrementa
 
-	int wait_cant(int cant); //decrementa en cant
-	int signal_cant(int cant); //incrementa en cant
+	void wait_cant(int cant); //decrementa en cant
+	void signal_cant(int cant); //incrementa en cant
 
 	void eliminar();//solo el que lo crea deberia llamar a esto
 };
