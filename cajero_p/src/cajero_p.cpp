@@ -12,7 +12,7 @@
 #include "src/seniales/GracefullQuitter.h"
 
 #include "Expendio.h"
-#include "Caja.h"
+#include "src/Caja.h"
 #include "src/transferencia/MensajeCompraBoleto.h"
 #include "src/Exception.h"
 #include "src/InterrumpidoException.h"

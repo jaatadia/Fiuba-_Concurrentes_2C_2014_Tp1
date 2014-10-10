@@ -53,7 +53,7 @@ template <class T> MemoriaCompartida<T>::MemoriaCompartida( const string &archiv
 
 	if ( clave > 0 ) {
 
-		this->shmId = shmget( clave,sizeof(T),0644|IPC_CREAT|IPC_EXCL ); //si ya existía no la crea!
+		this->shmId = shmget( clave,sizeof(T),0644|IPC_CREAT );
 		if ( this->shmId > 0 ) {
 
 			void* tmpPtr = shmat( this->shmId,NULL,0 );
@@ -64,10 +64,7 @@ template <class T> MemoriaCompartida<T>::MemoriaCompartida( const string &archiv
 				throw MemoriaCompartidaException("Error en shmat(), el segmento creado no se mapeo al proceso",strerror(errno));
 			}
 		} else {
-			if (errno == EEXIST) //TODO avisarle a la caja q no la inicialice en cero. como? nueva excepcion?¿?
-				;
-			else
-				throw MemoriaCompartidaException("Error en shmget(), no se creara el segmento",strerror(errno));
+			throw MemoriaCompartidaException("Error en shmget(), no se creara el segmento",strerror(errno));
 		}
 	} else {
 		throw MemoriaCompartidaException("Error en ftok(), no se creara el segmento",strerror(errno));
