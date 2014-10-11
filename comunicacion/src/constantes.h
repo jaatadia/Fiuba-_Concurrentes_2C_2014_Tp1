@@ -26,11 +26,16 @@ static const string FOLDER_LOGGER="/logger_p";
 static const string FOLDER_NINIO="/ninio_p";
 
 //Se arman asi para dsps dinamicamente armar un release con bash.
-static const string EJECUTABLE_CAJERO = MAIN_FOLDER + FOLDER_CAJERO + DEBUG+"/cajero_p";
+/*static const string EJECUTABLE_CAJERO = MAIN_FOLDER + FOLDER_CAJERO + DEBUG+"/cajero_p";
 static const string EJECUTABLE_CALESITA = MAIN_FOLDER + FOLDER_CALESITA + DEBUG+"/calesita_p";
 static const string EJECUTABLE_GENERADOR = MAIN_FOLDER + FOLDER_GENERADOR + DEBUG+"/generador_p";
 static const string EJECUTABLE_LOGGER = MAIN_FOLDER + FOLDER_LOGGER + DEBUG+"/logger_p";
-static const string EJECUTABLE_NINIO = MAIN_FOLDER + FOLDER_NINIO + DEBUG+"/ninio_p";
+static const string EJECUTABLE_NINIO = MAIN_FOLDER + FOLDER_NINIO + DEBUG+"/ninio_p";*/
+static const string EJECUTABLE_CAJERO = "./cajero_p";
+static const string EJECUTABLE_CALESITA = "./calesita_p";
+static const string EJECUTABLE_GENERADOR = "./generador_p";
+static const string EJECUTABLE_LOGGER = "./logger_p";
+static const string EJECUTABLE_NINIO = "./ninio_p";
 
 //cajero
 static const string PATH_FIFOVENTA= "/tmp/venta-fifo";
@@ -70,5 +75,10 @@ static const string LOCK_CAJA="/tmp/lock_caja.tmp";
 
 //nro max para random
 static const int MAX_T_RAND=10;
+
+//ninios
+static const int MIN_NINIOS=1;
+static const int MAX_NINIOS=5;
+
 
 #endif /* CONSTANTES_H_ */

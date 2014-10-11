@@ -29,7 +29,7 @@ int main(int argc,char* argv[]) {
 		GracefullQuitter quit;
 		SignalHandler::getInstance()->registrarHandler(SIGUSR1,&quit);
 		Interrupter inter;
-		Logger log("./log");
+		Logger log("CALESITA_HELPER");
 		while(quit.alive()){
 			try{
 				inter.reenviar();
@@ -51,7 +51,7 @@ int main(int argc,char* argv[]) {
 		GracefullQuitter quit;
 		SignalHandler::getInstance()->registrarHandler(SIGUSR1,&quit);
 
-		Logger log("./log");
+		Logger log("CALESITA");
 
 		Entrada ent(nroNinos,vuelta,&log);
 

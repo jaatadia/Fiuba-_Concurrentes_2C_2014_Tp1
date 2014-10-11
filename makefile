@@ -8,7 +8,7 @@ RELEASE = ./$(PROYECTO)
 PROCESOS = ninio calesita administrador cajero generador logger maestro_p
 
 #parametros para construccion de la libreria
-LIBRERIA = comunicacion
+LIBRERIA = comunicacionlib
 PATH_LIBRERIA = ./comunicacion/src
 
 #parametros para la compilacion del proceso niño
