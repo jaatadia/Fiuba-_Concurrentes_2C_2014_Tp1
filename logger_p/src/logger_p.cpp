@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
 			log.listen(); //le digo que escuche mensajes y los escriba
 		}
 	} catch (Exception & e) {
-		cout << e.what();
+		cout <<"Fallo el logger: "<<e.what();
 	}
 	SignalHandler::destruir();
 

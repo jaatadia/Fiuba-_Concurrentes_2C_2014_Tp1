@@ -34,7 +34,7 @@ int main(int argc,char* argv[]) {
 			try{
 				inter.reenviar();
 			}catch(Exception &e){
-				log.log(e.getCause());
+				log.log(e.what());
 			}
 		}
 		SignalHandler::destruir();
@@ -70,7 +70,7 @@ int main(int argc,char* argv[]) {
 				ent.reset();
 				log.log("Calesita: Todos los niños salieron");
 			}catch(Exception &e){
-				log.log(e.getCause());
+				log.log(e.what());
 			}
 		}
 		kill(child_process,SIGINT);
