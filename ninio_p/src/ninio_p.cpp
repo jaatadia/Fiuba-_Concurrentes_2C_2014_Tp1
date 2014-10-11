@@ -70,7 +70,8 @@ int main() {
 
 	int boleto = -1;
 	Logger logger(deteminarCodigo());
-	/*
+
+	//---------------------Boleteria--------------------
 	try {
 		Boleteria b;
 		int dineroDisponible = 10;
@@ -90,8 +91,6 @@ int main() {
 		//TODO SALIR.
 		//TODO sacar cout
 	}
-
-	*/
 
 
 	/* ------------------- calesita ----------------------------*/

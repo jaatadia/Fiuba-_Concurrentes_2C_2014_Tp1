@@ -28,7 +28,7 @@ using namespace std;
 int calcularRandom () {
 	srand ( time(NULL) );
 	int resultado = rand() % MAX_T_RAND;
-	return resultado;
+	return resultado+1;
 }
 
 int main(int argc, char* argv[]) {
