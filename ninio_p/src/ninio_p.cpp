@@ -87,7 +87,7 @@ int main() {
 	} catch (LockException & e) {
 		logger.log(e.what());
 	} catch (Exception & e) {
-		cout << e.what() << endl;
+		cout <<"Fallo del ninio: "<< e.what() << endl;
 		//TODO SALIR.
 		//TODO sacar cout
 	}

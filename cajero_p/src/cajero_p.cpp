@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 	}
 	//Inicializo el quitter.
 	GracefullQuitter grace;
-	SignalHandler::getInstance()->registrarHandler(SIGINT, &grace); //le paso como handler de la señal sigusr1
+	SignalHandler::getInstance()->registrarHandler(SIGUSR1, &grace); //le paso como handler de la señal sigusr1
 
 	try {
 		Logger logger("CAJERO");
@@ -62,11 +62,11 @@ int main(int argc, char* argv[]) {
 				logger.log(ex.what());
 			} catch (InterrumpidoException & ex) {
 				// Si me interrumpieron esperando un cliente.
-				cout<<"Se interrumpió la espera de niño por una signal." << endl;
+				logger.log("Se interrumpió la espera de niño por una signal.");
 			}
 		}
 	} catch (Exception & e) {
-		cout << e.what() << endl;
+		cout <<"Fallo del cajero: "<<e.what() << endl;
 
 	}
 	cout<< "Terminando proceso de cajero"<<endl;

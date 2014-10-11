@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include "src/proceso/Parametros.h"
 #include "src/logger/Logger.h"
 #include "src/constantes.h"
 #include "src/proceso/Proceso.h"
@@ -18,10 +19,12 @@ using namespace std;
 
 /**
  * Recibe como parametros 0 y 1: el nombre del ejecutable y la cantidad de ninios.
+ * y 2 la cantidad de asientos
  */
 int main(int argc, char * argv []) {
 	int tiempoMax = 5;
 	int cantNinios = atoi(argv[1]);
+	int asientos = atoi (argv[2]);
 
 	if(argc > 2){
 		//TODO CARGAR DE PARAMETROS LA CANT DE NINIOS.
@@ -30,10 +33,12 @@ int main(int argc, char * argv []) {
 	Logger log("GENERADOR");
 	log.log("Iniciado: se crearan <0> ninios",1,cantNinios);
 	//TODO NO SE ESTAN GUARDANDO REFERENCIAS A LOS NINIOS. HAY QUE PENSAR MEJOR ESTO.
+	Parametros params;
+	params.push(asientos);
 	for(int i = 0; i < cantNinios; i++){
 		//creo un ninio cada tiempo random.
 		sleep(rand()% tiempoMax);
-		Proceso ninio(EJECUTABLE_NINIO);
+		Proceso ninio(EJECUTABLE_NINIO,params);
 		log.log("Se crea ninio con pid <0>", 1, ninio.getPid());
 	}
 

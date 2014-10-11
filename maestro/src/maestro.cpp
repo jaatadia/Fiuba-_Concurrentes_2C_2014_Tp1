@@ -57,6 +57,7 @@ int main(int argc, char* argv[]) {
 		//---------------INICIALIZANDO GENERADOR DE NINIOS--------------------
 		Parametros paramsGen;
 		paramsGen.push(calcular_random(MIN_NINIOS,MAX_NINIOS));
+		paramsGen.push(cantidadAsientos);
 		Proceso generador(EJECUTABLE_GENERADOR,paramsGen);
 		log.log("Iniciado proceso del GENERADOR con PID <0>",1, generador.getPid());
 
@@ -89,7 +90,7 @@ int main(int argc, char* argv[]) {
 
 		kill(SIGUSR1,logger.getPid());
 	} catch (ProcesoException & e) {
-		std::cout<<e.getMensaje()<<endl;
+		std::cout<<"Fallo del maestro"<<e.getMensaje()<<endl;
 	}
 
 }
