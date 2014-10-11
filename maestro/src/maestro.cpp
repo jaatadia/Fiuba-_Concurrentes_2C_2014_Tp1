@@ -62,11 +62,32 @@ int main(int argc, char* argv[]) {
 
 
 		//---------------INICIALIZANDO CAJERO--------------------
-		//Proceso cajero(EJECUTABLE_CAJERO);
-		//log.log("Iniciado proceso del CAJERO con PID <0>",1, cajero.getPid());
+		Parametros paramsCajero;
+		paramsCajero.push(precioBoleto);
+		Proceso cajero(EJECUTABLE_CAJERO,paramsCajero);
+		log.log("Iniciado proceso del CAJERO con PID <0>",1, cajero.getPid());
 
+		//---------------INICIALIZANDO CALESITA--------------------
+		Parametros paramsCalesita;
+		paramsCalesita.push(cantidadAsientos);
+		paramsCalesita.push(duracionVuelta);
+		Proceso calesita(EJECUTABLE_CALESITA,paramsCalesita);
+		log.log("Iniciado proceso del CALESITA con PID <0>",1, calesita.getPid());
 
-		wait(0);
+		//---------------INICIALIZANDO ADMINISTRADOR--------------------
+		Proceso admin(EJECUTABLE_ADMINISTRADOR);
+		log.log("Iniciado proceso del CALESITA con PID <0>",1, admin.getPid());
+
+		waitpid(generador.getPid(),NULL,0);
+
+		kill(SIGUSR1,cajero.getPid());
+		waitpid(cajero.getPid(),NULL,0);
+		kill(SIGUSR1,calesita.getPid());
+		waitpid(calesita.getPid(),NULL,0);
+		kill(SIGUSR1,admin.getPid());
+		waitpid(admin.getPid(),NULL,0);
+
+		kill(SIGUSR1,logger.getPid());
 	} catch (ProcesoException & e) {
 		std::cout<<e.getMensaje()<<endl;
 	}

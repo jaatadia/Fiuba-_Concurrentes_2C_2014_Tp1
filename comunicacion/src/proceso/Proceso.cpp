@@ -35,7 +35,6 @@ void Proceso::setPid(int pid) {
 }
 
 void Proceso::run(const string path, Parametros& params) {
-	pid_t parentPid = getpid();
 		pid_t pid = fork();
 		if (pid == ERR_CODE) {
 			throw ProcesoException("Error creando el nuevo proceso",

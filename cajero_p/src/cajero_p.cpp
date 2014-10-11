@@ -20,11 +20,13 @@
 #include "src/logger/Logger.h"
 #include "src/constantes.h"
 using namespace std;
+#include <stdlib.h>
 
+//recibe como parametro 1 precio del boleto
 //TODO sacar couts.
 int main(int argc, char* argv[]) {
 	int nroBoleto = NRO_BOLETO_INVALIDO + 1;
-	int precioBoleto = 10;
+	int precioBoleto = atoi(argv[1]);
 	if(argc>2){
 		//TODO CARGAR DE PARAMETROS EL PRECIO DEL BOLETO.
 	}

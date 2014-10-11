@@ -8,6 +8,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "src/logger/Logger.h"
 #include "src/constantes.h"
@@ -35,4 +37,8 @@ int main(int argc, char * argv []) {
 		log.log("Se crea ninio con pid <0>", 1, ninio.getPid());
 	}
 
+	for(int i = 0; i < cantNinios; i++){
+		pid_t pid = wait(NULL);
+		log.log("Termino el ninio con pid <0>", 1, pid);
+	}
 }

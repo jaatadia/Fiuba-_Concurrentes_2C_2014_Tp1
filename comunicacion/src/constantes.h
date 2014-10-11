@@ -36,6 +36,7 @@ static const string EJECUTABLE_CALESITA = "./calesita_p";
 static const string EJECUTABLE_GENERADOR = "./generador_p";
 static const string EJECUTABLE_LOGGER = "./logger_p";
 static const string EJECUTABLE_NINIO = "./ninio_p";
+static const string EJECUTABLE_ADMINISTRADOR = "./administrador_p";
 
 //cajero
 static const string PATH_FIFOVENTA= "/tmp/venta-fifo";
