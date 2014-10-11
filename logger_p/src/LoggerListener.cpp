@@ -37,8 +37,8 @@ void LoggerListener::listen() {
 			file << mjeLog->getHora() << " " << mjeLog->getPid()<< " " << mjeLog->getId() << ": "
 					<< mjeLog->getMensaje() << std::endl;
 		}
-		std::cout << mjeLog->getHora() << " " << mjeLog->getPid()<< " " << mjeLog->getId() << ": "
-				<< mjeLog->getMensaje() << std::endl;
+		//std::cout << mjeLog->getHora() << " " << mjeLog->getPid()<< " " << mjeLog->getId() << ": "
+		//		<< mjeLog->getMensaje() << std::endl;
 		delete mjeLog;
 }
 
