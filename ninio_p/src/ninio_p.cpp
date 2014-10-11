@@ -66,8 +66,10 @@ string deteminarCodigo() {
 	return codigo;
 }
 
-int main() {
+/* recibe en argv[1] la cantidad de asientos de la calesita */
+int main(int argc, char* argv[]) {
 
+	int cantAsientos = atoi(argv[1]);
 	int boleto = -1;
 	Logger logger(deteminarCodigo());
 
