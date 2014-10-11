@@ -43,7 +43,6 @@ void Proceso::run(const string path, Parametros& params) {
 		}
 
 		if (pid == 0) {
-			params.pushFirst(parentPid);
 			params.pushFirst(path);
 			cout << "cargando la imagen" << path << endl;
 			int res = execv(path.c_str(), params.getContenido());
