@@ -19,6 +19,7 @@
 #include "src/seniales/SignalHandler.h"
 #include "src/seniales/GracefullQuitter.h"
 #include "src/Exception.h"
+#include "src/constantes.h"
 
 using namespace std;
 
@@ -44,7 +45,7 @@ int main(int argc, char* argv[]) {
 		}
 
 		GracefullQuitter grace;
-		SignalHandler::getInstance()->registrarHandler(SIGUSR1, &grace); //le paso como handler de la señal sigusr1
+		SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, &grace); //le paso como handler de la señal sigusr1
 
 		LoggerListener log(ARCHIVO_LOGG); //creo el lector del listener
 		if (argc != 3){

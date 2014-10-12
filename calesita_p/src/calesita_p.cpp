@@ -23,11 +23,12 @@
 
 
 int main(int argc,char* argv[]) {
+	//TODO NO TIENE MANEJO DE ERRORES.
 	pid_t child_process = fork();
 	if (child_process == 0){
 		//proceso que interrumpe la lectura bloqueante
 		GracefullQuitter quit;
-		SignalHandler::getInstance()->registrarHandler(SIGUSR1,&quit);
+		SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL,&quit);
 		Interrupter inter;
 		Logger log("CALESITA_HELPER");
 		while(quit.alive()){
@@ -49,7 +50,7 @@ int main(int argc,char* argv[]) {
 		}
 
 		GracefullQuitter quit;
-		SignalHandler::getInstance()->registrarHandler(SIGUSR1,&quit);
+		SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL,&quit);
 
 		Logger log("CALESITA");
 

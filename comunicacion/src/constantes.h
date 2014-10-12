@@ -8,6 +8,7 @@
 #ifndef CONSTANTES_H_
 #define CONSTANTES_H_
 #include <string>
+#include <sys/wait.h>
 using namespace std;
 static int const ERR_CODE=-1;
 
@@ -51,6 +52,9 @@ static const string MENSAJE_STRING= "s";
 static const string MENSAJE_COMPRAVENTA= "c";
 static const string MENSAJE_NUMERO= "n";
 
+//SENIALES
+static const pid_t QUIT_SIGNAL = SIGUSR1;
+static const pid_t ERROR_SIGNAL = SIGUSR2;
 
 //calesita
 static const string PATH_FIFO_CALESITA_HACIA_CALESITA="/tmp/fifo_calesita";
@@ -75,7 +79,8 @@ static const char MEMCOMP_LETRA='a';
 static const string LOCK_CAJA="/tmp/lock_caja.tmp";
 
 //nro max para random
-static const int MAX_T_RAND=10;
+static const int MAX_ADMIN_DORMIR=10;
+static const int MAX_NINIO_RND=333;
 
 //ninios
 static const int MIN_NINIOS=1;
