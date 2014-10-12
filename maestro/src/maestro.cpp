@@ -25,6 +25,9 @@ int calcular_random(int min,int max){
 	return resultado+min;
 }
 
+void bloquearSenialFallo(){
+
+}
 /*PARAMETROS:
  * 0 el nombre del programa
  * 1 duracion de la vuelta
@@ -87,16 +90,16 @@ int main(int argc, char* argv[]) {
 
 		waitpid(generador.getPid(),NULL,0);
 
-		kill(SIGUSR1,cajero.getPid());
+		kill(QUIT_SIGNAL,cajero.getPid());
 		waitpid(cajero.getPid(),NULL,0);
-		kill(SIGUSR1,calesita.getPid());
+		kill(QUIT_SIGNAL,calesita.getPid());
 		waitpid(calesita.getPid(),NULL,0);
-		kill(SIGUSR1,admin.getPid());
+		kill(QUIT_SIGNAL,admin.getPid());
 		waitpid(admin.getPid(),NULL,0);
-		kill(SIGUSR1,logger.getPid());
+		kill(QUIT_SIGNAL,logger.getPid());
 
 	} catch (ProcesoException & e) {
-		std::cout<<"La simulacion no pudo comenzar. nose pudideron correr todos los procesos."<<e.getMensaje()<<endl;
+		std::cout<<"La simulacion no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
 		list<int>::iterator it;
 		for(it= pids.begin(); it != pids.end(); ++it){
 			kill(SIGUSR1,*it);
