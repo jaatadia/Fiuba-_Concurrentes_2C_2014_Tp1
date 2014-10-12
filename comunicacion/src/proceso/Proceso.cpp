@@ -16,11 +16,12 @@
 #include "ProcesoException.h"
 #include <sstream>
 #include "Parametros.h"
+#include "../seniales/SignalHandler.h"
 using namespace std;
 
 Proceso::Proceso(const string path, Parametros & params) :
-		pid(-1) {
-	run(path,params);
+		pid(-1), log(NULL) {
+	run(path, params);
 }
 
 Proceso::~Proceso() {
@@ -33,36 +34,53 @@ int Proceso::getPid() const {
 void Proceso::setPid(int pid) {
 	this->pid = pid;
 }
-
 void Proceso::run(const string path, Parametros& params) {
-		pid_t pid = fork();
-		if (pid == ERR_CODE) {
-			throw ProcesoException("Error creando el nuevo proceso",
-					strerror(errno));
-		}
+	this->pid = fork();
+	if (pid == ERR_CODE) {
+		throw ProcesoException("Error creando el nuevo proceso",
+				strerror(errno));
+	}
 
-		if (pid == 0) {
-			params.pushFirst(path);
-			cout << "cargando la imagen" << path << endl;
-			int res = execv(path.c_str(), params.getContenido());
-			if (res == ERR_CODE) {
-				string err(strerror(errno));
-				//si esto pasa muere el proceso hijo. no se si hay algo mas por hacer.
-				cout << "Error cargando la imagen del nuevo proceso: " << err
-						<< endl;
-				/**
-				 TODO MANDAR UNA SEÑAL AL PADRE INDICANDO QUE NO SE PUDO CREAR EL PROCESO HIJO.
-				 ESTE PROCESO PODRIA REGISTRAR UN HANDLER DE SEÑAL O EL QUE PODRÍA REGISTRARLO ES EL QUE LLAMA A
-				 ESTE Y SE ENCARGUE EL DE SABER QUE ESTO PUEDE FALLAR DANDO UNA SIGNAL.
-				 */
-				exit(EXIT_FAILURE);
-			}
+	if (pid == 0) {
+		params.pushFirst(path);
+		if (log == NULL) {
+			cout << "Iniciando proceso con la imagen " << path << endl;
 		} else {
-			this->pid = pid;
+			log->log("Iniciando proceso con la imagen " + path);
 		}
+		int res = execv(path.c_str(), params.getContenido());
+		if (res == ERR_CODE) {
+			string err(strerror(errno));
+			if (log == NULL) {
+				cout << "Error cargando la imagen del nuevo proceso: " << err << endl;
+			} else {
+				log->log("Error cargando la imagen del nuevo proceso: " + err);
+			}
+			kill(getppid(), ERROR_SIGNAL);
+			exit(EXIT_FAILURE);
+		}
+	}
 }
 
-Proceso::Proceso(const string path):pid(-1) {
+Proceso::Proceso(const string path) :
+		pid(-1), log(NULL) {
 	Parametros params;
-	run(path,params);
+	run(path, params);
+}
+
+Proceso::Proceso(const string path, Parametros& params, Logger* log) :
+		pid(-1), log(log) {
+	run(path, params);
+}
+
+Proceso::Proceso(const string path, Logger* log) :
+		pid(-1), log(log) {
+	Parametros params;
+	run(path, params);
+}
+
+GracefullQuitter* Proceso::getErrorFlag() {
+	GracefullQuitter * grace = new GracefullQuitter ();
+	SignalHandler::getInstance()->registrarHandler(ERROR_SIGNAL, grace);
+	return grace;
 }

@@ -2,10 +2,6 @@
 //Se comunica con el cajero mediante la Caja
 
 
-/**
- * Recibe como parametros 0 y 1 el nombre del ejecutable y el pid del padre.
- */
-
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -27,7 +23,7 @@ using namespace std;
 
 int calcularRandom () {
 	srand ( time(NULL) );
-	int resultado = rand() % MAX_T_RAND;
+	int resultado = rand() % MAX_ADMIN_DORMIR;
 	return resultado+1;
 }
 

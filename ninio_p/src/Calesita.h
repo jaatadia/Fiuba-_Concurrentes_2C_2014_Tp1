@@ -20,7 +20,7 @@
 
 class Calesita {
 public:
-	Calesita(Logger* log);
+	Calesita(int id, Logger* log);
 	int entrar(std::string boleto);//devuelve CALESITA_PASAR si pudo entrar CALESITA_NO_PASAR sino
 /*TODO*/	int sentarse(int lugar);//devuelve en el lugar que se sento
 	void esperar();
@@ -38,6 +38,8 @@ private:
 	Logger* log;
 	Semaforo semAsientos;
 	Semaforo semVuelta;
+
+	int id_ninio;
 
 };
 

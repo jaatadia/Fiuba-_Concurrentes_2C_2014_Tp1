@@ -1,5 +1,8 @@
 #include "SignalHandler.h"
-
+#include "string.h"
+#include "errno.h"
+#include "SignalException.h"
+#include "../constantes.h"
 SignalHandler* SignalHandler :: instance = NULL;
 EventHandler* SignalHandler :: signal_handlers [ NSIG ];
 
@@ -30,8 +33,14 @@ EventHandler* SignalHandler :: registrarHandler ( int signum,EventHandler* eh ) 
 	memset(&sa, 0, sizeof(sa));
 	sa.sa_handler = SignalHandler :: dispatcher;
 	sigemptyset ( &sa.sa_mask );	// inicializa la mascara de seniales a bloquear durante la ejecucion del handler como vacio
-	sigaddset ( &sa.sa_mask,signum );
-	sigaction ( signum,&sa,0 );	// cambiar accion de la senial
+	int result = sigaddset ( &sa.sa_mask,signum );
+	if(result == ERR_CODE){
+		throw SignalException("No se pudo establecer el handler", strerror(errno));
+	}
+	result = sigaction ( signum,&sa,0 );	// cambiar accion de la senial
+	if(result == ERR_CODE){
+		throw SignalException("No se pudo establecer el handler", strerror(errno));
+	}
 
 	return old_eh;
 }

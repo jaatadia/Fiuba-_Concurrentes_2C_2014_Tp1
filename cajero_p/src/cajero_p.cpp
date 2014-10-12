@@ -23,16 +23,15 @@ using namespace std;
 #include <stdlib.h>
 
 //recibe como parametro 1 precio del boleto
-//TODO sacar couts.
 int main(int argc, char* argv[]) {
 	int nroBoleto = NRO_BOLETO_INVALIDO + 1;
 	int precioBoleto = atoi(argv[1]);
 	if(argc>2){
-		//TODO CARGAR DE PARAMETROS EL PRECIO DEL BOLETO.
+		precioBoleto = atoi(argv[1]);
 	}
 	//Inicializo el quitter.
 	GracefullQuitter grace;
-	SignalHandler::getInstance()->registrarHandler(SIGUSR1, &grace); //le paso como handler de la señal sigusr1
+	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, &grace);
 
 	Logger logger("CAJERO");
 	try {
@@ -67,9 +66,9 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	} catch (Exception & e) {
-		cout <<"Fallo del cajero: "<<e.what() << endl;
-
+		logger.log(e.what());
 	}
+	SignalHandler::destruir();
 	logger.log("Terminando proceso de cajero");
 	return 0;
 }
