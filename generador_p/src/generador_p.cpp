@@ -24,11 +24,12 @@ using namespace std;
  */
 int main(int argc, char * argv []) {
 	int tiempoMax = 5;
-	int cantNinios = atoi(argv[1]);
-	int asientos = atoi (argv[2]);
+	int cantNinios =10;
+	int asientos = 2;
 
-	if(argc > 2){
-		//TODO CARGAR DE PARAMETROS LA CANT DE NINIOS.
+	if(argc == 3){
+		cantNinios = atoi(argv[1]);
+		asientos = atoi (argv[2]);
 	}
 
 	Logger log("GENERADOR");

@@ -99,12 +99,11 @@ int main(int argc, char* argv[]) {
 				4, id_ninio, e.getNecesario(), e.getDisponible(),
 				e.getNecesario() - e.getDisponible());
 	} catch (LockException & e) {
-		logger.log(e.what());
+		logger.log("Fallo del ninio id:<0>"+e.what(),1,id_ninio);
 	} catch (Exception & e) {
+		logger.log("Fallo del ninio id:<0>"+e.what(),1,id_ninio);
+	}catch(...){
 		logger.log("Fallo del ninio id:<0>",1,id_ninio);
-		logger.log(e.what());
-		//TODO SALIR.
-		//TODO sacar cout
 	}
 
 
