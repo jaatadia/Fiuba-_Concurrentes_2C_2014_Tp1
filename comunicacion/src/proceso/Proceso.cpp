@@ -33,7 +33,7 @@ int Proceso::getPid() const {
 void Proceso::setPid(int pid) {
 	this->pid = pid;
 }
-
+//TODO los COUTs no deberian ir al log?
 void Proceso::run(const string path, Parametros& params) {
 		pid_t pid = fork();
 		if (pid == ERR_CODE) {
