@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 	}
 	//Inicializo el quitter.
 	GracefullQuitter grace;
-	SignalHandler::getInstance()->registrarHandler(SIGUSR1, &grace); //le paso como handler de la señal sigusr1
+	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, &grace); //le paso como handler de la señal sigusr1
 
 	try {
 		Logger logger("CAJERO");

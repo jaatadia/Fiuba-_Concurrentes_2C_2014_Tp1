@@ -8,6 +8,7 @@
 #ifndef CONSTANTES_H_
 #define CONSTANTES_H_
 #include <string>
+#include <sys/wait.h>
 using namespace std;
 static int const ERR_CODE=-1;
 
@@ -50,6 +51,9 @@ static const string MENSAJE_LOG= "l";
 static const string MENSAJE_STRING= "s";
 static const string MENSAJE_COMPRAVENTA= "c";
 static const string MENSAJE_NUMERO= "n";
+
+//SENIALES
+static const pid_t QUIT_SIGNAL = SIGUSR1;
 
 
 //calesita
