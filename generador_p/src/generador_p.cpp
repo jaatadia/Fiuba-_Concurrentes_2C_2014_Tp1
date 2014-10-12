@@ -33,9 +33,11 @@ int main(int argc, char * argv []) {
 	Logger log("GENERADOR");
 	log.log("Iniciado: se crearan <0> ninios",1,cantNinios);
 	//TODO NO SE ESTAN GUARDANDO REFERENCIAS A LOS NINIOS. HAY QUE PENSAR MEJOR ESTO.
-	Parametros params;
-	params.push(asientos);
+
 	for(int i = 0; i < cantNinios; i++){
+		Parametros params;
+		params.push(i);
+		params.push(asientos);
 		//creo un ninio cada tiempo random.
 		sleep(rand()% tiempoMax);
 		Proceso ninio(EJECUTABLE_NINIO,params);

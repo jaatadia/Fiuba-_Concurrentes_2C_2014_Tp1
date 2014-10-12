@@ -75,7 +75,8 @@ static const char MEMCOMP_LETRA='a';
 static const string LOCK_CAJA="/tmp/lock_caja.tmp";
 
 //nro max para random
-static const int MAX_T_RAND=10;
+static const int MAX_ADMIN_DORMIR=10;
+static const int MAX_NINIO_RND=333;
 
 //ninios
 static const int MIN_NINIOS=1;
