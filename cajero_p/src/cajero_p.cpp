@@ -26,9 +26,9 @@ using namespace std;
 //TODO sacar couts.
 int main(int argc, char* argv[]) {
 	int nroBoleto = NRO_BOLETO_INVALIDO + 1;
-	int precioBoleto = atoi(argv[1]);
+	int precioBoleto = 100;
 	if(argc>2){
-		//TODO CARGAR DE PARAMETROS EL PRECIO DEL BOLETO.
+		precioBoleto = atoi(argv[1]);
 	}
 	//Inicializo el quitter.
 	GracefullQuitter grace;
