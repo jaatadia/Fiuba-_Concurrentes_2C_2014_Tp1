@@ -9,12 +9,14 @@
 #include <stdio.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <list>
 
 #include "src/constantes.h"
 #include "src/proceso/Proceso.h"
 #include "src/proceso/ProcesoException.h"
 #include "src/logger/Logger.h"
 #include "src/proceso/Parametros.h"
+
 using namespace std;
 
 
@@ -83,8 +85,6 @@ int main(int argc, char* argv[]) {
 		log.log("Iniciado proceso del CALESITA con PID <0>",1, calesita.getPid());
 		pids.push_back(calesita.getPid());
 		//---------------INICIALIZANDO ADMINISTRADOR--------------------
-		Proceso admin(EJECUTABLE_ADMINISTRADOR);
-		log.log("Iniciado proceso del ADMINISTRADOR con PID <0>",1, admin.getPid());
 		Proceso admin(EJECUTABLE_ADMINISTRADOR,&log);
 		log.log("Iniciado proceso del ADMINISTRADOR con PID <0>",1, admin.getPid());
 		pids.push_back(admin.getPid());
@@ -107,12 +107,11 @@ int main(int argc, char* argv[]) {
 	} catch (ProcesoException & e) {
 		std::cout<<"La simulacion no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
 		list<int>::iterator it;
-		for(it= pids.begin(); it != pids.end(); ++it){
+		for(it = pids.begin(); it != pids.end(); ++it){
 			kill(QUIT_SIGNAL,*it);
 		}
 	}catch(...){
 		std::cout<<"Error desconocido"<<endl;
 	}
 	delete quitter;
-	SignalHandler::destruir();
 }
