@@ -46,8 +46,6 @@ void Calesita::salir(){
 	salida.tomarLock();//encolarme en la salida
 	salida.liberarLock();
 	semAsientos.signal();//informar que sali
-	semVuelta.signal();//libero
-
 
 }
 

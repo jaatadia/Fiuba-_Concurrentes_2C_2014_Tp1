@@ -72,6 +72,7 @@ int main(int argc, char* argv[]) {
 	int cantAsientos = atoi(argv[1]);
 	int boleto = -1;
 	Logger logger(deteminarCodigo());
+	logger.log("Voy a correr hacia la boleteria");
 
 	//---------------------Boleteria--------------------
 	try {
@@ -94,6 +95,8 @@ int main(int argc, char* argv[]) {
 		//TODO sacar cout
 	}
 
+
+	logger.log("Corriendo hacia la calesita");
 
 	/* ------------------- calesita ----------------------------*/
 	Calesita cale(&logger);

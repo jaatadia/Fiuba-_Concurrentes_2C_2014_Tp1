@@ -77,9 +77,10 @@ int main(int argc, char* argv[]) {
 
 		//---------------INICIALIZANDO ADMINISTRADOR--------------------
 		Proceso admin(EJECUTABLE_ADMINISTRADOR);
-		log.log("Iniciado proceso del CALESITA con PID <0>",1, admin.getPid());
+		log.log("Iniciado proceso del ADMINISTRADOR con PID <0>",1, admin.getPid());
 
 		waitpid(generador.getPid(),NULL,0);
+		log.log("Termino el generador");
 
 		kill(SIGUSR1,cajero.getPid());
 		waitpid(cajero.getPid(),NULL,0);
@@ -90,7 +91,11 @@ int main(int argc, char* argv[]) {
 
 		kill(SIGUSR1,logger.getPid());
 	} catch (ProcesoException & e) {
-		std::cout<<"Fallo del maestro"<<e.getMensaje()<<endl;
+		std::cout<<"Fallo del maestro: "<<e.getMensaje()<<endl;
+	}catch(Exception &e){
+		std::cout<<"Fallo del maestro: " <<e.getMensaje()<<endl;
+	}catch(...){
+		std::cout<<"Error del maestro desconociado"<<endl;
 	}
 
 }
