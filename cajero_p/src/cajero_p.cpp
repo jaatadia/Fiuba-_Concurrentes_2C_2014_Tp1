@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 	}
 	//Inicializo el quitter.
 	GracefullQuitter grace;
-	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, &grace); //le paso como handler de la señal sigusr1
+	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, &grace);
 
 	try {
 		Logger logger("CAJERO");
@@ -69,6 +69,7 @@ int main(int argc, char* argv[]) {
 		cout <<"Fallo del cajero: "<<e.what() << endl;
 
 	}
+	SignalHandler::destruir();
 	cout<< "Terminando proceso de cajero"<<endl;
 	return 0;
 }

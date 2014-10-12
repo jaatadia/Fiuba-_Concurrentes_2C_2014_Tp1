@@ -16,6 +16,7 @@
 #include "ProcesoException.h"
 #include <sstream>
 #include "Parametros.h"
+#include "../seniales/SignalHandler.h"
 using namespace std;
 
 Proceso::Proceso(const string path, Parametros & params) :
@@ -81,4 +82,10 @@ Proceso::Proceso(const string path, Logger* log) :
 		pid(-1), log(log) {
 	Parametros params;
 	run(path, params);
+}
+
+GracefullQuitter* Proceso::getErrorFlag() {
+	GracefullQuitter * grace = new GracefullQuitter ();
+	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, grace);
+	return grace;
 }
