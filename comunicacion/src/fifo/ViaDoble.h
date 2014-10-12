@@ -23,11 +23,16 @@ static const string OUT_POSTFIX = "out";
 class ViaDoble {
 
 private:
-	FifoEscritura * out;
-	FifoLectura * in;
-	Serializador * serializador;
 	bool duenio;
 	bool abierta;
+	Serializador serializador;
+	FifoEscritura out;
+	FifoLectura in;
+	FifoEscritura inEsc;
+
+
+	void abrir();
+	void cerrar();
 public:
 
 	/**
@@ -38,13 +43,11 @@ public:
 	~ViaDoble();
 	void enviar(Mensaje * mje);
 	Mensaje * recibir();
-	void cerrar();
-	void abrir();
+
 	/**
 	 * Retorna el nombre del archivo de entrada..
 	 */
 	string getNombreEntrada();
-	Serializador* getSerializador() const;
 };
 
 #endif /* VIADOBLE_H_ */

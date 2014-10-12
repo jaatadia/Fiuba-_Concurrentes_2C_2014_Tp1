@@ -15,9 +15,9 @@
 
 class Expendio {
 private:
-	ViaDoble * com;
 	int precio;
-	FifoEscritura * fifoEsc;
+	ViaDoble com;
+
 public:
 	Expendio(int precio);
 	~Expendio();

@@ -15,8 +15,8 @@
 class Boleteria {
 
 private:
-	ViaDoble * com;
-	LockFile * lock;
+	ViaDoble com;
+	LockFile lock;
 
 public:
 	Boleteria();
