@@ -27,16 +27,17 @@ int main(int argc,char* argv[]) {
 	pid_t child_process = fork();
 	if (child_process == 0){
 		//proceso que interrumpe la lectura bloqueante
+
 		GracefullQuitter quit;
 		SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL,&quit);
-		Interrupter inter;
 		Logger log("CALESITA_HELPER");
-		while(quit.alive()){
-			try{
-				inter.reenviar();
-			}catch(Exception &e){
-				log.log(e.what());
+		try{
+			Interrupter inter;
+			while(quit.alive()){
+					inter.reenviar();
 			}
+		}catch(Exception &e){
+			log.log(e.what());
 		}
 		SignalHandler::destruir();
 
@@ -53,28 +54,27 @@ int main(int argc,char* argv[]) {
 		SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL,&quit);
 
 		Logger log("CALESITA");
+		try{
+			Entrada ent(nroNinos,vuelta,&log,&quit);
 
-		Entrada ent(nroNinos,vuelta,&log,&quit);
-
-		log.log("Calesita: Empezando primera vez");
-		while(quit.alive()){
-			try{
-				log.log("Calesita: Esperando ninos");
-				while(ent.proxNino()==1);
-				log.log("Calesita: Esperando que los niños terminen de sentarse");
-				ent.esperarSienten();
-				log.log("Calesita: Comenzando la vuelta");
-				ent.comenzarVuelta();
-				log.log("Calesita: Termino la vuelta");
-				ent.liberar();
-				log.log("Calesita: Esperando que los niños salgan");
-				ent.reset();
-				log.log("Calesita: Todos los niños salieron");
-			}catch(Exception &e){
-				log.log(e.what());
+			log.log("Calesita: Empezando primera vez");
+			while(quit.alive()){
+					log.log("Calesita: Esperando ninos");
+					while(ent.proxNino()==1);
+					log.log("Calesita: Esperando que los niños terminen de sentarse");
+					ent.esperarSienten();
+					log.log("Calesita: Comenzando la vuelta");
+					ent.comenzarVuelta();
+					log.log("Calesita: Termino la vuelta");
+					ent.liberar();
+					log.log("Calesita: Esperando que los niños salgan");
+					ent.reset();
+					log.log("Calesita: Todos los niños salieron");
 			}
+		}catch(Exception &e){
+			log.log(e.what());
 		}
-		kill(child_process,SIGUSR1);
+		kill(child_process,QUIT_SIGNAL);
 		SignalHandler::destruir();
 	}
 }

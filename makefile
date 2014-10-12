@@ -193,8 +193,8 @@ clear:
 	#eliminando archivos tmp
 	rm -f -r /tmp/*
 	
-clean:
+clean: clear
 	rm -f -r $(RELEASE) *.o
 
-$(PROYECTO): $(LIBRERIA) $(PROCESOS)
+$(PROYECTO): clean $(LIBRERIA) $(PROCESOS)
 	
