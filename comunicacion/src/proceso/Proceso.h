@@ -13,6 +13,7 @@
 #include "Proceso.h"
 #include "Parametros.h"
 #include "../logger/Logger.h"
+#include "../seniales/GracefullQuitter.h"
 using namespace std;
 
 /**
@@ -36,6 +37,7 @@ public:
 	~Proceso();
 	int getPid() const;
 	void setPid(int pid);
+	static GracefullQuitter * getErrorFlag();
 };
 
 #endif /* PROCESO_H_ */

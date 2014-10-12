@@ -15,6 +15,7 @@
 #include "src/logger/Logger.h"
 #include "src/constantes.h"
 #include "src/proceso/Proceso.h"
+#include "src/seniales/SignalHandler.h"
 using namespace std;
 
 /**
@@ -33,14 +34,15 @@ int main(int argc, char * argv []) {
 	Logger log("GENERADOR");
 	log.log("Iniciado: se crearan <0> ninios",1,cantNinios);
 	//TODO NO SE ESTAN GUARDANDO REFERENCIAS A LOS NINIOS. HAY QUE PENSAR MEJOR ESTO.
-
-	for(int i = 0; i < cantNinios; i++){
+	GracefullQuitter grace;
+	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, &grace);
+	for(int i = 0; i < cantNinios && grace.alive(); i++){
 		Parametros params;
 		params.push(i);
 		params.push(asientos);
 		//creo un ninio cada tiempo random.
-		sleep(rand()% tiempoMax);
-		Proceso ninio(EJECUTABLE_NINIO,params);
+		sleep((rand()% tiempoMax) + 1);
+		Proceso ninio(EJECUTABLE_NINIO,params, &log);
 		log.log("Se crea ninio con pid <0>", 1, ninio.getPid());
 	}
 
@@ -48,4 +50,5 @@ int main(int argc, char * argv []) {
 		pid_t pid = wait(NULL);
 		log.log("Termino el ninio con pid <0>", 1, pid);
 	}
+	SignalHandler::destruir();
 }

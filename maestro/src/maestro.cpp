@@ -15,6 +15,7 @@
 #include "src/proceso/ProcesoException.h"
 #include "src/logger/Logger.h"
 #include "src/proceso/Parametros.h"
+#include "src/seniales/SignalHandler.h"
 #include <list>
 using namespace std;
 
@@ -47,7 +48,7 @@ int main(int argc, char* argv[]) {
 		precioBoleto=atoi(argv[2]);
 		cantidadAsientos=atoi(argv[3]);
 	}
-
+	GracefullQuitter * quitter = Proceso::getErrorFlag();
 
 	try {
 
@@ -88,6 +89,10 @@ int main(int argc, char* argv[]) {
 		log.log("Iniciado proceso del ADMINISTRADOR con PID <0>",1, admin.getPid());
 		pids.push_back(admin.getPid());
 
+		if(!quitter->alive()){
+			cout<<"Error inicializando los procesos, se finaliza la simulacion" << endl;
+			kill(QUIT_SIGNAL,generador.getPid());
+		}
 		waitpid(generador.getPid(),NULL,0);
 
 		kill(QUIT_SIGNAL,cajero.getPid());
@@ -102,8 +107,9 @@ int main(int argc, char* argv[]) {
 		std::cout<<"La simulacion no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
 		list<int>::iterator it;
 		for(it= pids.begin(); it != pids.end(); ++it){
-			kill(SIGUSR1,*it);
+			kill(QUIT_SIGNAL,*it);
 		}
 	}
-
+	delete quitter;
+	SignalHandler::destruir();
 }
