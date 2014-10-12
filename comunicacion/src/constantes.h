@@ -64,11 +64,11 @@ static const int CALESITA_PASAR=0;
 static const int CALESITA_NO_PASAR=1;
 
 //semaforo
-static const string PATH_ARCH_SEM_ASIENTOS="/tmp/fifo_calesita";
-static const string PATH_ARCH_SEM_CALE="/tmp/fifo_calesita_ninos";
+static const string PATH_ARCH_SEM_ASIENTOS=PATH_FIFO_CALESITA_HACIA_CALESITA;
+static const string PATH_ARCH_SEM_CALE=PATH_FIFO_CALESITA_HACIA_NINOS;
 
 //memoria compartida
-static const string MEMCOMP_ARCH=LOCK_ASIENTOS; //TODO qué archivo usar? y que letra?
+static const string MEMCOMP_ARCH=EJECUTABLE_CAJERO; //TODO qué archivo usar? y que letra?
 static const char MEMCOMP_LETRA='a';
 
 //caja (lock)

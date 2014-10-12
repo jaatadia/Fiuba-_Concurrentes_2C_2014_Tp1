@@ -16,10 +16,12 @@
 #include "src/transferencia/MensajeInt.h"
 #include "src/logger/Logger.h"
 #include "src/semaforos/Semaforo.h"
+#include "src/seniales/GracefullQuitter.h"
+#include "src/Exception.h"
 
 class Entrada {
 public:
-	Entrada(int nroNinos, int vuelta, Logger* log);//recibe la cantidad de niños que pueden ingresar a la vez
+	Entrada(int nroNinos, int vuelta, Logger* log,GracefullQuitter* quitter);//recibe la cantidad de niños que pueden ingresar a la vez
 	void reset();//se resetean los valores internos
 	int proxNino();//espera al proximio niño, devuele 1 en caso de que la espera fue exitosa; -1 en caso de que sea posible esperar
 	void esperarSienten();//espera a que los niños se sienten
@@ -50,6 +52,7 @@ private:
 	Logger* log;
 	Semaforo semAsientosOcupados; //debe inicializarse en 0 asientos ocupados , para saber que se liberaron los ninos que necesitaba
 	Semaforo semSoltarNinos;	//debe inicializarse 0 para yo liberar los ninos
+	GracefullQuitter* quitter;
 };
 
 #endif /* ENTRADA_H_ */

@@ -53,7 +53,7 @@ int main(int argc,char* argv[]) {
 
 		Logger log("CALESITA");
 
-		Entrada ent(nroNinos,vuelta,&log);
+		Entrada ent(nroNinos,vuelta,&log,&quit);
 
 		log.log("Calesita: Empezando primera vez");
 		while(quit.alive()){
@@ -73,7 +73,7 @@ int main(int argc,char* argv[]) {
 				log.log(e.what());
 			}
 		}
-		kill(child_process,SIGINT);
+		kill(child_process,SIGUSR1);
 		SignalHandler::destruir();
 	}
 }
