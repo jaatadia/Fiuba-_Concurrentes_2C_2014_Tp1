@@ -23,7 +23,7 @@
 
 
 int main(int argc,char* argv[]) {
-	//TODO child_process == -1
+	//TODO NO TIENE MANEJO DE ERRORES.
 	pid_t child_process = fork();
 	if (child_process == 0){
 		//proceso que interrumpe la lectura bloqueante

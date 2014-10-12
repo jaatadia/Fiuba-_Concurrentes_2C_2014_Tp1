@@ -34,7 +34,6 @@ int Proceso::getPid() const {
 void Proceso::setPid(int pid) {
 	this->pid = pid;
 }
-//TODO los COUTs no deberian ir al log?
 void Proceso::run(const string path, Parametros& params) {
 	this->pid = fork();
 	if (pid == ERR_CODE) {
@@ -57,11 +56,7 @@ void Proceso::run(const string path, Parametros& params) {
 			} else {
 				log->log("Error cargando la imagen del nuevo proceso: " + err);
 			}
-			/**
-			 TODO MANDAR UNA SEÑAL AL PADRE INDICANDO QUE NO SE PUDO CREAR EL PROCESO HIJO.
-			 ESTE PROCESO PODRIA REGISTRAR UN HANDLER DE SEÑAL O EL QUE PODRÍA REGISTRARLO ES EL QUE LLAMA A
-			 ESTE Y SE ENCARGUE EL DE SABER QUE ESTO PUEDE FALLAR DANDO UNA SIGNAL.
-			 */
+			kill(getppid(), ERROR_SIGNAL);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -86,6 +81,6 @@ Proceso::Proceso(const string path, Logger* log) :
 
 GracefullQuitter* Proceso::getErrorFlag() {
 	GracefullQuitter * grace = new GracefullQuitter ();
-	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, grace);
+	SignalHandler::getInstance()->registrarHandler(ERROR_SIGNAL, grace);
 	return grace;
 }
