@@ -54,7 +54,7 @@ static const string MENSAJE_NUMERO= "n";
 
 //SENIALES
 static const pid_t QUIT_SIGNAL = SIGUSR1;
-
+static const pid_t ERROR_SIGNAL = SIGUSR2;
 
 //calesita
 static const string PATH_FIFO_CALESITA_HACIA_CALESITA="/tmp/fifo_calesita";

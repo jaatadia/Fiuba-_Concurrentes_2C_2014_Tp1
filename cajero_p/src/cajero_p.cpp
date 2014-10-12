@@ -34,8 +34,8 @@ int main(int argc, char* argv[]) {
 	GracefullQuitter grace;
 	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, &grace);
 
+	Logger logger("CAJERO");
 	try {
-		Logger logger("CAJERO");
 		logger.log("Iniciando venta");
 		Expendio e(precioBoleto);
 		Caja caja;
@@ -66,8 +66,7 @@ int main(int argc, char* argv[]) {
 			}
 		}
 	} catch (Exception & e) {
-		cout <<"Fallo del cajero: "<<e.what() << endl;
-
+		logger.log(e.what());
 	}
 	SignalHandler::destruir();
 	cout<< "Terminando proceso de cajero"<<endl;
