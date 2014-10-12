@@ -88,7 +88,7 @@ int Entrada::proximo(){
 
 
 void Entrada::reset(){
-	semSoltarNinos.wait_cant(nroNinosEnVuelta);
+	semAsientosOcupados.wait_cant(nroNinosEnVuelta);
 	error=0;
 	nroNinosEnVuelta=0;
 }
