@@ -18,12 +18,16 @@
 #include "Calesita.h"
 
 using namespace std;
-/**
- * Recibe como parametros 0 y 1 el nombre del ejecutable y el pid del padre.
- */
+
+
+int calcularRandom () {
+	srand ( time(NULL) );
+	int resultado = rand() % MAX_T_RAND;
+	return resultado+1;
+}
 
 string determinarSexo() {
-	int sexo = rand() % 2;
+	int sexo = calcularRandom() % 2;
 	switch (sexo) {
 	case 0:
 		return "NINIO";
@@ -35,7 +39,7 @@ string determinarSexo() {
 }
 
 string determinarGorro() {
-	int sexo = rand() % 2;
+	int sexo = calcularRandom() % 2;
 	switch (sexo) {
 	case 0:
 		return "(con gorrito";
@@ -47,7 +51,7 @@ string determinarGorro() {
 }
 
 string determinarPaleta() {
-	int sexo = rand() % 2;
+	int sexo = calcularRandom() % 2;
 	switch (sexo) {
 	case 0:
 		return " y con paleta)";
@@ -66,7 +70,9 @@ string deteminarCodigo() {
 	return codigo;
 }
 
+/**************************************************************************************/
 /* recibe en argv[1] la cantidad de asientos de la calesita */
+
 int main(int argc, char* argv[]) {
 
 	int cantAsientos = atoi(argv[1]);
@@ -111,6 +117,6 @@ int main(int argc, char* argv[]) {
 	cale.salir();
 	logger.log("niño: Salí");
 
-
+return 0;
 }
 
