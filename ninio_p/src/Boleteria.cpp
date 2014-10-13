@@ -10,26 +10,20 @@
 #include "src/transferencia/MensajeCompraBoleto.h"
 #include "src/InterrumpidoException.h"
 #include "DineroInsuficienteException.h"
-Boleteria::Boleteria() {
-	this->com = new ViaDoble(PATH_FIFOVENTA,false);
-	this->lock = new LockFile(com->getNombreEntrada());
+Boleteria::Boleteria() : com(PATH_FIFOVENTA,false),lock(com.getNombreEntrada()){
 }
 
 Boleteria::~Boleteria() {
-	delete this->lock;
-	delete this->com;
 }
 
 int Boleteria::comprar(int dineroDisponible) {
 	//me aseguro de obtener el lock para acceder al cajero.
-	this->lock->tomarLock();
-	this->com->abrir();
-	com->enviar(new MensajeCompraBoleto(dineroDisponible));
-	MensajeCompraBoleto* mje = (MensajeCompraBoleto*)com->recibir();
+	this->lock.tomarLock();
+	com.enviar(new MensajeCompraBoleto(dineroDisponible));
+	MensajeCompraBoleto* mje = (MensajeCompraBoleto*)com.recibir();
 	if(mje == NULL){
-		//TODO SE PUDRIO ALGO ACA SEGURO.
+		throw Exception("No llego respuesta ","Mensaje invalido");
 	}
-	com->cerrar();
 	int boleto = mje->getNroBoleto();
 	int precio = mje->getImporte();
 	delete mje;
@@ -37,7 +31,7 @@ int Boleteria::comprar(int dineroDisponible) {
 		throw DineroInsuficienteException(precio,dineroDisponible);
 	}
 	//libero el lock.
-	this->lock->liberarLock();
+	this->lock.liberarLock();
 	return boleto;
 }
 

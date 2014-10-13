@@ -40,6 +40,7 @@ Mensaje* Entrada::getBoleto(){
 			log->log("Ha llegado un niño");
 			found = 1;
 			resultado = msg;
+			log->log("Su boleto es: "+msg->serializar());
 		}
 	}
 	return resultado;

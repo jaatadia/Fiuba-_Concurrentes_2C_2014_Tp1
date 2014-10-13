@@ -6,70 +6,56 @@
  */
 
 #include "ViaDoble.h"
+#include <iostream>
 
-ViaDoble::ViaDoble(const string nombre, bool duenio) :
-		duenio(duenio), abierta(false) {
-
-	string nombreIn = nombre + "-" + (duenio ? IN_POSTFIX : OUT_POSTFIX);
-	string nombreOut = nombre + "-" + (duenio ? OUT_POSTFIX : IN_POSTFIX);
-	this->serializador = new Serializador();
-	this->in = new FifoLectura(nombreIn, *serializador);
-	this->out = new FifoEscritura(nombreOut, *serializador);
+ViaDoble::ViaDoble(const string nombre, bool duenio): duenio(duenio), abierta(false), serializador(),out(nombre + "-" + (duenio ? OUT_POSTFIX : IN_POSTFIX),serializador),in(nombre + "-" + (duenio ? IN_POSTFIX : OUT_POSTFIX),serializador),inEsc(nombre + "-" + (duenio ? IN_POSTFIX : OUT_POSTFIX),serializador){
+	this->abrir();
 }
 
 ViaDoble::~ViaDoble() {
-	if (this->abierta) {
-		this->in->cerrar();
-		this->out->cerrar();
-	}
+	cerrar();
 	if (duenio) {
-		this->in->eliminar();
-		this->out->eliminar();
+		std::cout<<"Se eliminan cosas que no se deben"<<std::endl;
+		this->in.eliminar();
+		this->out.eliminar();
 	}
-
-	delete this->in;
-	delete this->out;
-	delete this->serializador;
 }
 
 void ViaDoble::enviar(Mensaje * mje) {
-	this->out->escribir(mje);
+	this->out.escribir(mje);
 
 }
 
 Mensaje* ViaDoble::recibir() {
-	return this->in->leer();
+	return this->in.leer();
 }
 
 void ViaDoble::cerrar() {
-	abierta = false;
-	if (this->duenio) {
-		this->in->cerrar();
-		this->out->cerrar();
-	} else {
-		this->out->cerrar();
-		this->in->cerrar();
+	if(abierta){
+		abierta = false;
+		this->in.cerrar();
+		this->out.cerrar();
+		if(duenio){
+			this->inEsc.cerrar();
+		}
 	}
 }
 
 void ViaDoble::abrir() {
 	abierta = true;
 	if (this->duenio) {
-		this->in->abrir();
-		this->out->abrir();
+		this->in.abrir();
+		this->inEsc.abrir();
+		this->out.abrir();
 	} else {
-		this->out->abrir();
-		this->in->abrir();
+		this->out.abrir();
+		this->in.abrir();
 	}
 }
 
 string ViaDoble::getNombreEntrada() {
 	if (this->duenio) {
-		return this->in->getNombre();
+		return this->in.getNombre();
 	}
-	return this->out->getNombre();
-}
-
-Serializador* ViaDoble::getSerializador() const {
-	return serializador;
+	return this->out.getNombre();
 }

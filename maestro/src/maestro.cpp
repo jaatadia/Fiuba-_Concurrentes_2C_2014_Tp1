@@ -113,14 +113,19 @@ int main(int argc, char* argv[]) {
 		}
 		waitpid(generador.getPid(),NULL,0);
 		log.log("Termino el generador");
-
 		kill(QUIT_SIGNAL,cajero.getPid());
+		log.log("Esperando que el cajero termine");
 		waitpid(cajero.getPid(),NULL,0);
 		kill(QUIT_SIGNAL,calesita.getPid());
+		log.log("Esperando que la calesita termine");
 		waitpid(calesita.getPid(),NULL,0);
 		kill(QUIT_SIGNAL,admin.getPid());
+		log.log("Esperando que el cajero termine");
 		waitpid(admin.getPid(),NULL,0);
+
+		log.log("Matando al logger");
 		kill(QUIT_SIGNAL,logger.getPid());
+		waitpid(logger.getPid(),NULL,0);
 
 	} catch (ProcesoException & e) {
 		std::cout<<"La simulación no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
