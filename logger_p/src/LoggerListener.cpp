@@ -20,7 +20,6 @@ LoggerListener::LoggerListener(std::string fileName) :
 
 LoggerListener::~LoggerListener() {
 	fifo.cerrar();
-	fifo.eliminar();
 	fifoEsc.cerrar();
 	fifoEsc.eliminar();
 	file.close();

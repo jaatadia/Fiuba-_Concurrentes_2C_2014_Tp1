@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
 	} catch (Exception & e) {
 		cout <<"Fallo el logger: "<<e.what();
 	}catch (...){
-		cout<<"Fallo el logger: error desconocido";
+		cout<<"Fallo el logger: error desconocido"<<endl;
 	}
 	SignalHandler::destruir();
 
