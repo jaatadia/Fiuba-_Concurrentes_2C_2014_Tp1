@@ -16,6 +16,8 @@
 #include "src/proceso/ProcesoException.h"
 #include "src/logger/Logger.h"
 #include "src/proceso/Parametros.h"
+#include "src/memoriaCompartida/MemoriaCompartidaException.h"
+#include "src/memoriaCompartida/Asientos.h"
 
 using namespace std;
 
@@ -41,13 +43,14 @@ int main(int argc, char* argv[]) {
 
 	int duracionVuelta = 10;
 	int precioBoleto = 1;
-	int cantidadAsientos = 3;
+	int cantidadAsientos = 5;
 	list<int> pids;
 	if(argc >= 4){
 		duracionVuelta=atoi(argv[1]);
 		precioBoleto=atoi(argv[2]);
 		cantidadAsientos=atoi(argv[3]);
 	}
+
 	GracefullQuitter * quitter = Proceso::getErrorFlag();
 
 	try {
@@ -62,6 +65,19 @@ int main(int argc, char* argv[]) {
 		Logger log("MAESTRO");
 		log.log("Iniciado proceso del LOGGER con PID <0>",1, logger.getPid());
 		pids.push_back(logger.getPid());
+
+
+		//---INICIALIZO LA MEMORIA COMPARTIDA DE LOS ASIENTOS DE LA CALESITA---
+		try{
+		Asientos calesita_asientos(cantidadAsientos);
+		} catch (MemoriaCompartidaException &e) { //Si no se pudo crear, mato al logger y vuelvo
+			log.log("Error al crear los asientos de la calesita.");
+			log.log(e.what());
+			kill(QUIT_SIGNAL,logger.getPid());
+			return -1;
+		}
+
+
 		//---------------INICIALIZANDO GENERADOR DE NINIOS--------------------
 		Parametros paramsGen;
 		paramsGen.push(calcular_random(MIN_NINIOS,MAX_NINIOS));
@@ -79,11 +95,13 @@ int main(int argc, char* argv[]) {
 
 		//---------------INICIALIZANDO CALESITA--------------------
 		Parametros paramsCalesita;
+
 		paramsCalesita.push(cantidadAsientos);
 		paramsCalesita.push(duracionVuelta);
 		Proceso calesita(EJECUTABLE_CALESITA,paramsCalesita,&log);
 		log.log("Iniciado proceso del CALESITA con PID <0>",1, calesita.getPid());
 		pids.push_back(calesita.getPid());
+
 		//---------------INICIALIZANDO ADMINISTRADOR--------------------
 		Proceso admin(EJECUTABLE_ADMINISTRADOR,&log);
 		log.log("Iniciado proceso del ADMINISTRADOR con PID <0>",1, admin.getPid());
@@ -105,7 +123,7 @@ int main(int argc, char* argv[]) {
 		kill(QUIT_SIGNAL,logger.getPid());
 
 	} catch (ProcesoException & e) {
-		std::cout<<"La simulacion no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
+		std::cout<<"La simulación no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
 		list<int>::iterator it;
 		for(it = pids.begin(); it != pids.end(); ++it){
 			kill(QUIT_SIGNAL,*it);

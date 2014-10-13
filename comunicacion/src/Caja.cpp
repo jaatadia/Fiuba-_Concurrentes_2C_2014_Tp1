@@ -7,7 +7,7 @@
 
 #include "Caja.h"
 
-Caja::Caja() : saldo(MEMCOMP_ARCH,MEMCOMP_LETRA),lock_caja(LOCK_CAJA) {
+Caja::Caja() : saldo(MEMCOMP_CAJA_ARCH,MEMCOMP_CAJA_LETRA),lock_caja(LOCK_CAJA) {
 }
 
 Caja::~Caja() {
