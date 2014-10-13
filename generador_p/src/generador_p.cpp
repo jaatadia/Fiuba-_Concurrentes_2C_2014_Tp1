@@ -16,6 +16,7 @@
 #include "src/constantes.h"
 #include "src/proceso/Proceso.h"
 #include "src/seniales/SignalHandler.h"
+#include "src/seniales/GracefullQuitter.h"
 using namespace std;
 
 /**
@@ -23,6 +24,7 @@ using namespace std;
  * y 2 la cantidad de asientos
  */
 int main(int argc, char * argv []) {
+	srand (time(NULL));
 	int tiempoMax = 5;
 	int cantNinios =10;
 	int asientos = 2;

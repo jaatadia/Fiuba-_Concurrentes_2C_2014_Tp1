@@ -25,7 +25,6 @@ using namespace std;
 
 
 int calcular_random(int min,int max){
-	srand(time(NULL));
 	int resultado = rand()%(max-min+1);
 	return resultado+min;
 }
@@ -62,15 +61,8 @@ int getParamInt(int argc,char* argv[],const char* match,bool& exit){
 	return result;
 }
 
-/*PARAMETROS:
- * 0 el nombre del programa
- * 1 duracion de la vuelta
- * 2 precio del boleto
- * 3 cantidad de lugares de la calestia
- * 4 si hay 4 entonces no debugg TODO ES MAS PROLIJO QUE RECIBA ALGO CONCRETO.
- */
 int main(int argc, char* argv[]) {
-
+	srand(time(NULL));
 	bool found = getParam(argc,argv,"-h");
 	if(found){
 		std::cout<<"Trabajo practico de introduccion a los sistemas distribuidos 2ºC 2014" <<std::endl;
@@ -105,7 +97,6 @@ int main(int argc, char* argv[]) {
 
 
 	try{
-		GracefullQuitter * quitter = Proceso::getErrorFlag();
 
 		//---------------INICIALIZANDO LOGGER--------------------
 		Parametros paramsLogger;
@@ -178,10 +169,9 @@ int main(int argc, char* argv[]) {
 		log.log("Esperando que el administrador termine");
 		waitpid(admin.getPid(),NULL,0);
 
-		log.log("Matando al logger y terminando programa");
+		log.log("Apagando logger y terminando programa");
 		log.end();
 		waitpid(logger.getPid(),NULL,0);
-		delete quitter;
 		
 		unlink(LOCK_ENTRADA.c_str());
 		unlink(LOCK_SALIDA.c_str());

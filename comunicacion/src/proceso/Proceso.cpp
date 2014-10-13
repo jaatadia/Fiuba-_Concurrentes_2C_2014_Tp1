@@ -56,7 +56,6 @@ void Proceso::run(const string path, Parametros& params) {
 			} else {
 				log->log("Error cargando la imagen del nuevo proceso: " + err);
 			}
-			kill(getppid(), ERROR_SIGNAL);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -79,8 +78,3 @@ Proceso::Proceso(const string path, Logger* log) :
 	run(path, params);
 }
 
-GracefullQuitter* Proceso::getErrorFlag() {
-	GracefullQuitter * grace = new GracefullQuitter ();
-	SignalHandler::getInstance()->registrarHandler(ERROR_SIGNAL, grace);
-	return grace;
-}

@@ -18,10 +18,8 @@ Entrada::Entrada(int numero, int vuelta, Logger* log, GracefullQuitter* quitter)
 
 Mensaje* Entrada::getBoleto(){
 	ninos++;
-	int found = 0;
 	Mensaje* msg = fifoLec.leer(); //espero al niño
 	log->log("Ha llegado un niño con boleto: "+msg->serializar());
-
 	return msg;
 }
 
