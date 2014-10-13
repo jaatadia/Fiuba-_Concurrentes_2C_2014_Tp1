@@ -88,7 +88,7 @@ int main(int argc, char* argv[]) {
 	logger.log("(nro:<0>) Voy a correr hacia la boleteria",1,id_ninio);
 
 	//---------------------Boleteria--------------------
-	try {
+/*	try {
 		Boleteria b;
 		int dineroDisponible = 10;
 		logger.log("(nro:<0>) Intenta comprar boleto con $<1>", 2, id_ninio, dineroDisponible);
@@ -111,6 +111,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	logger.log("(nro:<0>) Corriendo hacia la calesita",1,id_ninio);
+*/
 
 	/* ------------------- calesita ----------------------------*/
 	try{
@@ -130,8 +131,8 @@ int main(int argc, char* argv[]) {
 	cale.salir();
 	logger.log("(nro:<0>) Salí",1,id_ninio);
 	} catch (Exception &e) {
-		logger.log("Error con el niño nro <0>, al entrar/estar/salir de la calesita");
-		logger.log(e.what());
+		cout<<"se rompio"<<endl;
+		logger.log("Fallo del ninio id:<0>"+e.what(),1,id_ninio);
 		return -1;
 	}
 
