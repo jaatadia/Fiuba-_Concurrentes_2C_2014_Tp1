@@ -126,7 +126,7 @@ int main(int argc, char* argv[]) {
 
 		logger.log("(nro:<0>) Esperando en la entrada",1,id_ninio);
 		if(cale.entrar(ss2.str())==CALESITA_NO_PASAR){
-			logger.log("(nro:<0>) No pude entrar :",1,id_ninio);
+			logger.log("(nro:<0>) No pude entrar :( me estafaron con el boleto",1,id_ninio);
 			return -1;
 		}
 		logger.log("(nro:<0>) Entré a la calesita",1,id_ninio);

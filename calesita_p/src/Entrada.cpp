@@ -20,8 +20,8 @@ Mensaje* Entrada::getBoleto(){
 	ninos++;
 	int found = 0;
 	Mensaje* msg = fifoLec.leer(); //espero al niño
-	log->log("Ha llegado un niño");
-	log->log("Su boleto es: "+msg->serializar());
+	log->log("Ha llegado un niño con boleto: "+msg->serializar());
+
 	return msg;
 }
 
@@ -33,11 +33,11 @@ int Entrada::verificarBoleto(Mensaje* msj){
 int Entrada::tramitarNino(Mensaje* msj){
 	log->log("Verificando el boleto del niño");
 	if(verificarBoleto(msj)==1){
-		log->log("El boleto es valido");
+		log->log("El boleto "+msj->serializar()+" es valido");
 		fifoEsc.escribir(new MensajeInt(CALESITA_PASAR));
 		nroNinosEnVuelta++;
 	}else{
-		log->log("El boleto Es invalido");
+		log->log("El boleto "+msj->serializar()+"  Es invalido");
 		fifoEsc.escribir(new MensajeInt(CALESITA_NO_PASAR));
 	}
 	delete msj;
