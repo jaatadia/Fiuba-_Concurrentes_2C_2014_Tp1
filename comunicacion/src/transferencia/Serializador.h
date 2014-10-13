@@ -18,7 +18,6 @@
 #include <list>
 
 
-//TODO REVISAR CUANTO ES EL MAXIMO DEL SISOP PARA ENVIAR.
 static const size_t MAX_BUFFER = 524288;
 
 /**
