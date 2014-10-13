@@ -188,6 +188,8 @@ int main(int argc, char* argv[]) {
 		unlink(LOCK_ASIENTOS.c_str());
 		unlink(LOCK_CAJA.c_str());
 
+		std::cout<<"Programa terminado correctamente"<<std::endl;
+
 	} catch (ProcesoException & e) {
 		std::cout<<"La simulación no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
 		list<int>::iterator it;

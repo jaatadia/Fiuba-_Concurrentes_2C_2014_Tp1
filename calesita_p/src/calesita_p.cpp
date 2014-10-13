@@ -57,7 +57,6 @@ int main(int argc,char* argv[]) {
 				log.log("Esperando que los niños salgan");
 				ent.reset();
 				log.log("Todos los niños salieron");
-				std::cout<<"Programa terminado correctamente"<<std::endl;
 		}
 	}catch(Exception &e){
 		log.log(e.what());
