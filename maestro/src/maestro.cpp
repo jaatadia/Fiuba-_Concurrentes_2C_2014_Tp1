@@ -18,6 +18,9 @@
 #include "src/logger/Logger.h"
 #include "src/proceso/Parametros.h"
 
+#include "src/memoriaCompartida/MemoriaCompartidaException.h"
+#include "src/memoriaCompartida/Asientos.h"
+
 using namespace std;
 
 
@@ -40,15 +43,17 @@ void bloquearSenialFallo(){
 int main(int argc, char* argv[]) {
 	//TODO SI FALLA ALGUNO HAY Q MATAR EL RESTO DE LOS PROCESOS.
 
+
 	int duracionVuelta = 10;
 	int precioBoleto = 1;
-	int cantidadAsientos = 3;
+	int cantidadAsientos = 5;
 	list<int> pids;
 	if(argc >= 4){
 		duracionVuelta=atoi(argv[1]);
 		precioBoleto=atoi(argv[2]);
 		cantidadAsientos=atoi(argv[3]);
 	}
+
 
 	try{
 		GracefullQuitter * quitter = Proceso::getErrorFlag();
@@ -63,12 +68,26 @@ int main(int argc, char* argv[]) {
 		Logger log("MAESTRO");
 		log.log("Iniciado proceso del LOGGER con PID <0>",1, logger.getPid());
 		pids.push_back(logger.getPid());
+
+
+		//---INICIALIZO LA MEMORIA COMPARTIDA DE LOS ASIENTOS DE LA CALESITA---
+		try{
+		Asientos calesita_asientos(cantidadAsientos);
+		} catch (MemoriaCompartidaException &e) { //Si no se pudo crear, mato al logger y vuelvo
+			log.log("Error al crear los asientos de la calesita."+e.what());
+			kill(QUIT_SIGNAL,logger.getPid());
+			return -1;
+		}
+
+
 		//---------------INICIALIZANDO GENERADOR DE NINIOS--------------------
 		Parametros paramsGen;
 		paramsGen.push(calcular_random(MIN_NINIOS,MAX_NINIOS));
 		paramsGen.push(cantidadAsientos);
 		Proceso generador(EJECUTABLE_GENERADOR,paramsGen,&log);
 		log.log("Iniciado proceso del GENERADOR con PID <0>",1, generador.getPid());
+
+
 		pids.push_back(generador.getPid());
 
 		//---------------INICIALIZANDO CAJERO--------------------
@@ -81,12 +100,12 @@ int main(int argc, char* argv[]) {
 
 		//---------------INICIALIZANDO CALESITA--------------------
 		Parametros paramsCalesita;
+
 		paramsCalesita.push(cantidadAsientos);
 		paramsCalesita.push(duracionVuelta);
 		Proceso calesita(EJECUTABLE_CALESITA,paramsCalesita,&log);
 		log.log("Iniciado proceso del CALESITA con PID <0>",1, calesita.getPid());
 		pids.push_back(calesita.getPid());
-
 
 		//---------------INICIALIZANDO ADMINISTRADOR--------------------
 		Proceso admin(EJECUTABLE_ADMINISTRADOR,&log);
@@ -114,14 +133,14 @@ int main(int argc, char* argv[]) {
 		kill(logger.getPid(),QUIT_SIGNAL);
 		waitpid(logger.getPid(),NULL,0);
 		delete quitter;
-
+		
 		unlink(LOCK_ENTRADA.c_str());
 		unlink(LOCK_SALIDA.c_str());
 		unlink(LOCK_ASIENTOS.c_str());
 		unlink(LOCK_CAJA.c_str());
 
 	} catch (ProcesoException & e) {
-		std::cout<<"La simulacion no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
+		std::cout<<"La simulación no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
 		list<int>::iterator it;
 		for(it = pids.begin(); it != pids.end(); ++it){
 			kill(QUIT_SIGNAL,*it);

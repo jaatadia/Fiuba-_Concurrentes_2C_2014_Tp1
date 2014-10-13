@@ -18,7 +18,7 @@ static const string DEFAULT_LOG_FILE="./calesita.log";
 
 
 //PATHS; Definir la carpeta donde esta el ejecutable. Notar que las FOLDER_ no tienen espacios ni antes ni dsps del =, dejarlas asi.
-static const string MAIN_FOLDER="/home/jonathan/git/Fiuba-_Concurrentes_2C_2014_Tp1";
+static const string MAIN_FOLDER="/home/jonathan/git/Fiuba-_Concurrentes_2C_2014_Tp1"; //TODO y esto?
 static const string DEBUG="/Debug";
 static const string FOLDER_CAJERO="/cajero_p";
 static const string FOLDER_CALESITA="/calesita_p";
@@ -73,8 +73,10 @@ static const string PATH_ARCH_SEM_ASIENTOS=PATH_FIFO_CALESITA_HACIA_CALESITA;
 static const string PATH_ARCH_SEM_CALE=PATH_FIFO_CALESITA_HACIA_NINOS;
 
 //memoria compartida
-static const string MEMCOMP_ARCH=EJECUTABLE_CAJERO; //TODO qué archivo usar? y que letra?
-static const char MEMCOMP_LETRA='a';
+static const string MEMCOMP_CAJA_ARCH=EJECUTABLE_CAJERO; //TODO qué archivo usar? y que letra?
+static const char MEMCOMP_CAJA_LETRA='a';
+static const string MEMCOMP_ASIENTOS_ARCH=EJECUTABLE_GENERADOR;
+static const char MEMCOMP_ASIENTOS_LETRA='b';
 
 //caja (lock)
 static const string LOCK_CAJA="/tmp/lock_caja.tmp";
