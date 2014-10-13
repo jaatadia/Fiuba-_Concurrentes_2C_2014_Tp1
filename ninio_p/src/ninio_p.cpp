@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
 	logger.log("(nro:<0>) Voy a correr hacia la boleteria",1,id_ninio);
 
 	//---------------------Boleteria--------------------
-/*	try {
+	try {
 		Boleteria b;
 		int dineroDisponible = 10;
 
@@ -118,7 +118,7 @@ int main(int argc, char* argv[]) {
 
 
 	logger.log("(nro:<0>) Corriendo hacia la calesita",1,id_ninio);
-*/
+
 
 
 	/* ------------------- calesita ----------------------------*/

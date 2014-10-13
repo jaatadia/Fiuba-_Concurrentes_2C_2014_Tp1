@@ -15,7 +15,6 @@ ViaDoble::ViaDoble(const string nombre, bool duenio): duenio(duenio), abierta(fa
 ViaDoble::~ViaDoble() {
 	cerrar();
 	if (duenio) {
-		std::cout<<"Se eliminan cosas que no se deben"<<std::endl;
 		this->in.eliminar();
 		this->out.eliminar();
 	}

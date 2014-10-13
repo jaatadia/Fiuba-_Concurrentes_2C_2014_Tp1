@@ -33,6 +33,35 @@ int calcular_random(int min,int max){
 void bloquearSenialFallo(){
 
 }
+
+bool getParam(int argc,char* argv[],const char* match){
+	bool found = false;
+	for (int i=1;i<argc;i++){
+		if(strcmp(argv[i],match)==0){
+			found=true;
+			break;
+		}
+	}
+	return found;
+}
+
+
+
+int getParamInt(int argc,char* argv[],const char* match,bool& exit){
+	int result=0;
+
+	bool found = false;
+	for (int i=1;i<argc-1;i++){
+		if(strcmp(argv[i],match)==0){
+			found=true;
+			result = atoi(argv[i+1]);
+			break;
+		}
+	}
+	exit=found;
+	return result;
+}
+
 /*PARAMETROS:
  * 0 el nombre del programa
  * 1 duracion de la vuelta
@@ -43,16 +72,32 @@ void bloquearSenialFallo(){
 int main(int argc, char* argv[]) {
 	//TODO SI FALLA ALGUNO HAY Q MATAR EL RESTO DE LOS PROCESOS.
 
-
-	int duracionVuelta = 10;
-	int precioBoleto = 1;
-	int cantidadAsientos = 5;
-	list<int> pids;
-	if(argc >= 4){
-		duracionVuelta=atoi(argv[1]);
-		precioBoleto=atoi(argv[2]);
-		cantidadAsientos=atoi(argv[3]);
+	bool found = getParam(argc,argv,"-h");
+	if(found){
+		std::cout<<"Trabajo practico de introduccion a los sistemas distribuidos 2ºC 2014" <<std::endl;
+		std::cout<<"Integrantes: Alvarez Etcheverry Florencia, Atadia Javier, Tierno Jonathan" <<std::endl;
+		std::cout<<"Parametros: "<<std::endl;
+		std::cout<<"	-h :mostrar esta ayuda"<<std::endl;
+		std::cout<<"	-d : generar log de debug"<<std::endl;
+		std::cout<<"	-v numero : duracion de la vuelta (Obligatorio)"<<std::endl;
+		std::cout<<"	-p numero : precio del boleto (Obligatorio)"<<std::endl;
+		std::cout<<"	-a numero : cantidad de asientos (Obligatorio)"<<std::endl;
+		return 0;
 	}
+	found=false;
+
+	int duracionVuelta = getParamInt(argc,argv,"-v",found);
+	if (!found){std::cout<<"El parametro: -v es obligatorio. ver ayuda -h para detalles"<<std::endl;return -1;}
+
+	int precioBoleto = getParamInt(argc,argv,"-p",found);
+	if (!found){std::cout<<"El parametro: -p es obligatorio. ver ayuda -h para detalles"<<std::endl;return -1;}
+
+	int cantidadAsientos = getParamInt(argc,argv,"-a",found);
+	if (!found){std::cout<<"El parametro: -a es obligatorio. ver ayuda -h para detalles"<<std::endl;return -1;}
+
+	bool debug = getParam(argc,argv,"-d");
+
+	list<int> pids;
 
 
 	try{
@@ -60,7 +105,7 @@ int main(int argc, char* argv[]) {
 
 		//---------------INICIALIZANDO LOGGER--------------------
 		Parametros paramsLogger;
-		if(argc != 5){
+		if(debug){
 			paramsLogger.push("-d");
 			paramsLogger.push(DEFAULT_LOG_FILE);
 		}
@@ -91,11 +136,11 @@ int main(int argc, char* argv[]) {
 		pids.push_back(generador.getPid());
 
 		//---------------INICIALIZANDO CAJERO--------------------
-		//Parametros paramsCajero;
-		//paramsCajero.push(precioBoleto);
-		//Proceso cajero(EJECUTABLE_CAJERO,paramsCajero,&log);
-		//log.log("Iniciado proceso del CAJERO con PID <0>",1, cajero.getPid());
-		//pids.push_back(cajero.getPid());
+		Parametros paramsCajero;
+		paramsCajero.push(precioBoleto);
+		Proceso cajero(EJECUTABLE_CAJERO,paramsCajero,&log);
+		log.log("Iniciado proceso del CAJERO con PID <0>",1, cajero.getPid());
+		pids.push_back(cajero.getPid());
 
 
 		//---------------INICIALIZANDO CALESITA--------------------
@@ -117,9 +162,9 @@ int main(int argc, char* argv[]) {
 		waitpid(generador.getPid(),NULL,0);
 		log.log("Termino el generador");
 
-		//kill(cajero.getPid(),QUIT_SIGNAL);
-		//log.log("Esperando que el cajero termine");
-		//waitpid(cajero.getPid(),NULL,0);
+		kill(cajero.getPid(),QUIT_SIGNAL);
+		log.log("Esperando que el cajero termine");
+		waitpid(cajero.getPid(),NULL,0);
 
 		kill(calesita.getPid(),QUIT_SIGNAL);
 		log.log("Esperando que la calesita termine");

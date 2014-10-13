@@ -14,6 +14,7 @@ Entrada::Entrada(int numero, int vuelta, Logger* log, GracefullQuitter* quitter)
 	fifoTimeout.abrir();
 	semAsientosOcupados.inicializar();
 	semSoltarNinos.inicializar();
+	log->log("ninios maximos por vuelta <0>",1,nroNinosPorVuelta);
 }
 
 Mensaje* Entrada::getBoleto(){
@@ -109,6 +110,7 @@ void Entrada::esperarSienten(){
 }
 
 void Entrada::comenzarVuelta(){
+	log->log("Calesita: Comenzando vuelta de <0>",1,vuelta);
 	sleep(vuelta);
 }
 

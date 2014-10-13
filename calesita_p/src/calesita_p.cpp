@@ -63,7 +63,6 @@ int main(int argc,char* argv[]) {
 					while(ent.proxNino()==1);
 					log.log("Calesita: Esperando que los niños terminen de sentarse");
 					ent.esperarSienten();
-					log.log("Calesita: Comenzando la vuelta");
 					ent.comenzarVuelta();
 					log.log("Calesita: Termino la vuelta");
 					ent.liberar();
