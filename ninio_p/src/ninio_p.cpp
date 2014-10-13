@@ -22,8 +22,6 @@
 
 using namespace std;
 
-
-
 int calcularRandom () {
 	srand ( time(NULL) );
 	int resultado = rand() % MAX_NINIO_RND;
@@ -74,7 +72,6 @@ string deteminarCodigo() {
 	return codigo;
 }
 
-
 int elegirAsiento(int cant_asientos){
 	return calcularRandom() % cant_asientos;
 }
@@ -88,45 +85,38 @@ int main(int argc, char* argv[]) {
 	int cantAsientos = atoi(argv[2]);
 	int boleto = -1;
 	Logger logger(deteminarCodigo());
-
 	logger.log("(nro:<0>) Voy a correr hacia la boleteria",1,id_ninio);
 
 	//---------------------Boleteria--------------------
 	try {
 		Boleteria b;
 		int dineroDisponible = 10;
-
 		logger.log("(nro:<0>) Intenta comprar boleto con $<1>", 2, id_ninio, dineroDisponible);
 		boleto = b.comprar(dineroDisponible);
-
 		logger.log("(nro:<0>) Compró boleto Nro: <1>", 2, id_ninio, boleto);
 	} catch (DineroInsuficienteException & e) {
 		//LOGGER dar un mensaje que no se pudo comprar el boleto por falta de dinero y salir.
 		logger.log(
-
 				"(nro:<0>) No pude comprar el boleto. Necesitaba $<1> pero tenía $<2>. Me faltan $<3>",
 				4, id_ninio, e.getNecesario(), e.getDisponible(),
 				e.getNecesario() - e.getDisponible());
 	} catch (LockException & e) {
-		logger.log("Fallo del ninio nro:<0>"+e.what(),1,id_ninio);
+		logger.log(e.what());
 	} catch (Exception & e) {
-		logger.log("Fallo del ninio nro:<0>"+e.what(),1,id_ninio);
+		logger.log("Fallo del ninio nro:<0>",1,id_ninio);
+		logger.log(e.what());
 		//TODO SALIR.
 	}catch(...){
 		logger.log("Fallo del ninio nro:<0>",1,id_ninio);
 	}
 
-
 	logger.log("(nro:<0>) Corriendo hacia la calesita",1,id_ninio);
 
 
-
 	/* ------------------- calesita ----------------------------*/
-	
 	try{
 	Calesita cale(id_ninio,&logger,cantAsientos);
 
-		
 	logger.log("(nro:<0>) Esperando en la entrada",1,id_ninio);
 	if(cale.entrar("1030")==CALESITA_NO_PASAR){ //TODO (!) cambiar ese nro RE MAGICO
 		logger.log("(nro:<0>) No pude entrar :",1,id_ninio);

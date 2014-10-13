@@ -46,7 +46,6 @@ static const int NRO_BOLETO_INVALIDO=0;
 
 
 //MENSAJES
-static const string SEPARADOR_MENSAJES="@";
 static const string MENSAJE_VACIO= "v";
 static const string MENSAJE_LOG= "l";
 static const string MENSAJE_STRING= "s";

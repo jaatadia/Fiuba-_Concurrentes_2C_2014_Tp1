@@ -161,7 +161,7 @@ int main(int argc, char* argv[]) {
 
 		waitpid(generador.getPid(),NULL,0);
 		log.log("Termino el generador");
-
+		
 		kill(cajero.getPid(),QUIT_SIGNAL);
 		log.log("Esperando que el cajero termine");
 		waitpid(cajero.getPid(),NULL,0);

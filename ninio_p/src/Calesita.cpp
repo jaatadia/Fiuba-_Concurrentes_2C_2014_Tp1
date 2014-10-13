@@ -39,7 +39,6 @@ int Calesita::entrar(std::string boleto){
 }
 
 int Calesita::sentarse(int asiento){
-
 	asientos.tomarLock(); //buscar el asiento
 
 	log->log("(nro:<0>) Buscando Asiento",1,id_ninio);
