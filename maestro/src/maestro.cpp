@@ -62,13 +62,6 @@ int getParamInt(int argc,char* argv[],const char* match,bool& exit){
 	return result;
 }
 
-/*PARAMETROS:
- * 0 el nombre del programa
- * 1 duracion de la vuelta
- * 2 precio del boleto
- * 3 cantidad de lugares de la calestia
- * 4 si hay 4 entonces no debugg TODO ES MAS PROLIJO QUE RECIBA ALGO CONCRETO.
- */
 int main(int argc, char* argv[]) {
 
 	bool found = getParam(argc,argv,"-h");

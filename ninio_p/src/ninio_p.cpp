@@ -22,7 +22,6 @@
 using namespace std;
 
 int calcularRandom () {
-	srand ( time(NULL) );
 	int resultado = rand() % MAX_NINIO_RND;
 	return resultado+1;
 }
@@ -79,7 +78,7 @@ int elegirAsiento(int cant_asientos){
 /* recibe en argv[1] el nro de ninio y en argv[2] la cantidad de asientos de la calesita*/
 
 int main(int argc, char* argv[]) {
-
+	srand ( time(NULL) );
 	std::string id=argv[1];
 	int id_ninio=atoi(argv[1]);
 
