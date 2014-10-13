@@ -12,11 +12,13 @@
 #include <string.h>
 #include "exception/ComunicacionException.h"
 #include "../InterrumpidoException.h"
+#include "../Exception.h"
 #include "MensajeLog.h"
 #include "MensajeString.h"
 #include "MensajeCompraBoleto.h"
 #include "MensajeInt.h"
 #include <iostream>
+
 
 Serializador::Serializador() {
 	this->mensajes.insert(pair<string, Mensaje*>(MENSAJE_VACIO, new Mensaje()));
@@ -73,6 +75,62 @@ Mensaje* Serializador::recibir(int fd) {
 				throw ComunicacionException("Se recibio un mensaje con clave invalida ",myMensaje);
 			}
 		}
+	}
+	mje = misMensajes.front();
+	misMensajes.pop_front();
+	return mje;
+}
+
+Mensaje* Serializador::recibir_timeout(int fd,int secs) {
+	Mensaje * mje = NULL;
+	if (misMensajes.empty()){
+
+
+
+		fd_set readfds;
+		FD_ZERO(&readfds);
+		FD_SET(fd,&readfds);
+		struct timeval timeout;
+		timeout.tv_sec=secs;
+		timeout.tv_usec=0;
+
+
+
+		int result = select(fd+1,&readfds,NULL,NULL,&timeout);
+		if (result==0){
+			return NULL;
+		}else if(result ==-1){
+			if(errno == EINTR){
+				throw InterrumpidoException("No se realizo lectura del fd","Interrumpido por señal");
+			}
+			throw Exception("No se realizo lectura del fd",string(strerror(errno)));
+		}
+
+		char buffer[MAX_BUFFER];
+		ssize_t recibidos = 0;
+		recibidos = read(fd,static_cast<void*>(buffer), MAX_BUFFER);
+		if (recibidos == ERR_CODE) {
+			throw ComunicacionException("No se pudo recibir el mensaje",string(strerror(errno)));
+		}else if(recibidos == 0){
+			throw Exception("No se pudo recibir el mensaje","Mensaje vacio");
+		}
+		std::string mensaje = buffer;
+		mensaje.resize(recibidos);
+		while(mensaje.length()>0){
+			string myMensaje = mensaje.substr(0,mensaje.find(SEPARADOR_MENSAJES));
+			mensaje=mensaje.substr(mensaje.find(SEPARADOR_MENSAJES)+1);
+
+			//siempre lo primero es el codigo.
+			string claveMensaje=myMensaje.substr(0,1);
+			std::map<string, Mensaje*>::iterator msjCreator = this->mensajes.find(claveMensaje);
+			if (msjCreator != mensajes.end()) {
+				mje = msjCreator->second->deserializar(myMensaje.substr(1));
+				misMensajes.push_back(mje);
+			} else {
+				throw ComunicacionException("Se recibio un mensaje con clave invalida ",myMensaje);
+			}
+		}
+
 	}
 	mje = misMensajes.front();
 	misMensajes.pop_front();

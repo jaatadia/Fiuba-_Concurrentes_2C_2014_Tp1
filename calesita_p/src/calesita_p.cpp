@@ -18,61 +18,51 @@
 #include "src/logger/Logger.h"
 
 #include "Entrada.h"
-#include "Interrupter.h"
 #include "src/Exception.h"
+#include "src/ColaController.h"
 
 
 int main(int argc,char* argv[]) {
-	pid_t child_process = fork();
-	if (child_process == 0){
-		//proceso que interrumpe la lectura bloqueante
-
-		GracefullQuitter quit;
-		SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL,&quit);
-		Logger log("CALESITA_HELPER");
-		try{
-			Interrupter inter;
-			while(quit.alive()){
-					inter.reenviar();
-			}
-		}catch(Exception &e){
-			log.log(e.what());
-		}
-		SignalHandler::destruir();
-
-	}else{
-		//proceso que tramita la calesita
-		int nroNinos = 3;//niños por vuelta
-		int vuelta = 10;//duracion de la vuelta
-		if(argc==3){
-			nroNinos = atoi(argv[1]);
-			vuelta = atoi(argv[2]);
-		}
-
-		GracefullQuitter quit;
-		SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL,&quit);
-
-		Logger log("CALESITA");
-		try{
-			Entrada ent(nroNinos,vuelta,&log,&quit);
-
-			log.log("Empezando primera vez");
-			while(quit.alive()){
-					log.log("Esperando ninos");
-					while(ent.proxNino()==1);
-					log.log("Esperando que los niños terminen de sentarse");
-					ent.esperarSienten();
-					ent.comenzarVuelta();
-					log.log("Termino la vuelta");
-					ent.liberar();
-					log.log("Esperando que los niños salgan");
-					ent.reset();
-					log.log("Todos los niños salieron");
-			}
-		}catch(Exception &e){
-			log.log(e.what());
-		}
-		kill(child_process,QUIT_SIGNAL);
-		SignalHandler::destruir();
+	//proceso que tramita la calesita
+	int nroNinos = 3;//niños por vuelta
+	int vuelta = 10;//duracion de la vuelta
+	if(argc==3){
+		nroNinos = atoi(argv[1]);
+		vuelta = atoi(argv[2]);
 	}
+
+	GracefullQuitter quit;
+	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL,&quit);
+
+	Logger log("CALESITA");
+	try{
+		Entrada ent(nroNinos,vuelta,&log,&quit);
+		ColaController cola(CALESITA);
+		log.log("Empezando primera vez");
+		while(quit.alive()){
+				log.log("Esperando ninos");
+				while(quit.alive()  && ( ( (!ent.estaLlena()) && cola.next()) || ent.estaVacia() )){
+					ent.proximo();
+				}
+				if(!quit.alive()){
+					log.log("Terminando calesita");
+					SignalHandler::destruir();
+					return 0;
+				}
+				log.log("Esperando que los niños terminen de sentarse");
+				ent.esperarSienten();
+				ent.comenzarVuelta();
+				log.log("Termino la vuelta");
+				ent.liberar();
+				log.log("Esperando que los niños salgan");
+				ent.reset();
+				log.log("Todos los niños salieron");
+		}
+	}catch(Exception &e){
+		log.log(e.what());
+	}
+	log.log("Terminando calesita");
+	SignalHandler::destruir();
+	return 0;
 }
+

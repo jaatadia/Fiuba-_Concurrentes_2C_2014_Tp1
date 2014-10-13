@@ -64,7 +64,6 @@ static const string PATH_FIFO_CALESITA_TIMEOUT="/tmp/fifo_calesita_timeout";
 static const string LOCK_ENTRADA="/tmp/lock_entrada.tmp";
 static const string LOCK_SALIDA="/tmp/lock_salida.tmp";
 static const string LOCK_ASIENTOS="/tmp/lock_asientos.tmp";
-static const int CALESITA_TIMEOUT=5;
 static const int CALESITA_PASAR=0;
 static const int CALESITA_NO_PASAR=1;
 
@@ -89,5 +88,9 @@ static const int MAX_NINIO_RND=333;
 static const int MIN_NINIOS=10;
 static const int MAX_NINIOS=100;
 
-
+//cola
+static const int TIMEOUT=5;
+static const string PATH_COLA="/tmp/";
+static const string BOLETERIA="BOLETERIA";
+static const string CALESITA="CALESITA";
 #endif /* CONSTANTES_H_ */

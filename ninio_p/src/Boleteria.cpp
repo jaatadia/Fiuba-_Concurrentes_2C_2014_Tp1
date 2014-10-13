@@ -18,6 +18,7 @@ Boleteria::~Boleteria() {
 
 int Boleteria::comprar(int dineroDisponible) {
 	//me aseguro de obtener el lock para acceder al cajero.
+
 	this->lock.tomarLock();
 	com.enviar(new MensajeCompraBoleto(dineroDisponible));
 	MensajeCompraBoleto* mje = (MensajeCompraBoleto*)com.recibir();

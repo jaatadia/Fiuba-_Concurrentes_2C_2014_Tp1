@@ -21,6 +21,7 @@ public:
 	 * Para errores ver Serializador.h
 	 */
 	Mensaje * leer();
+	Mensaje* leer_timeout(int secs);
 };
 
 #endif /* FIFOLECTURA_H_ */

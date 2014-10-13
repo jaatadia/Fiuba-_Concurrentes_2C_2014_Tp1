@@ -10,11 +10,13 @@
 
 #include "Mensaje.h"
 #include <map>
+#include <sys/time.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <unistd.h>
 #include <list>
+
 
 //TODO REVISAR CUANTO ES EL MAXIMO DEL SISOP PARA ENVIAR.
 static const size_t MAX_BUFFER = 524288;
@@ -42,6 +44,7 @@ public:
 	 * -Por cualquier otro error lanza ComunicacionException.
 	 */
 	Mensaje * recibir(int fd);
+	Mensaje * recibir_timeout(int fd,int secs);
 };
 
 #endif /* SERIALIZADOR_H_ */

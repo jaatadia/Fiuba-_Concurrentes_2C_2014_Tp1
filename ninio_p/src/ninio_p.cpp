@@ -16,6 +16,8 @@
 #include "src/constantes.h"
 #include "src/Exception.h"
 #include "Calesita.h"
+#include "src/Cola.h"
+#include "src/constantes.h"
 
 using namespace std;
 
@@ -78,7 +80,9 @@ int elegirAsiento(int cant_asientos){
 
 int main(int argc, char* argv[]) {
 
+	std::string id=argv[1];
 	int id_ninio=atoi(argv[1]);
+
 	int cantAsientos = atoi(argv[2]);
 	int boleto = -1;
 	Logger logger(deteminarCodigo());
@@ -87,6 +91,8 @@ int main(int argc, char* argv[]) {
 	//---------------------Boleteria--------------------
 	try {
 		Boleteria b;
+		Cola colaBoleteria(BOLETERIA,id);
+		colaBoleteria.esperar();
 		int dineroDisponible = 10;
 		logger.log("(nro:<0>) Intenta comprar boleto con $<1>", 2, id_ninio, dineroDisponible);
 		boleto = b.comprar(dineroDisponible);
@@ -110,26 +116,28 @@ int main(int argc, char* argv[]) {
 	logger.log("(nro:<0>) Corriendo hacia la calesita",1,id_ninio);
 
 
-	stringstream ss;
-	ss << boleto;
+	stringstream ss2;
+	ss2 << boleto;
 	/* ------------------- calesita ----------------------------*/
 	try{
-	Calesita cale(id_ninio,&logger,cantAsientos);
+		Calesita cale(id_ninio,&logger,cantAsientos);
+		Cola colaCalesita(CALESITA,id);
+		colaCalesita.esperar();
 
-	logger.log("(nro:<0>) Esperando en la entrada",1,id_ninio);
-	if(cale.entrar(ss.str())==CALESITA_NO_PASAR){
-		logger.log("(nro:<0>) No pude entrar :",1,id_ninio);
-		return -1;
-	}
-	logger.log("(nro:<0>) Entré a la calesita",1,id_ninio);
-	int asiento_elegido = elegirAsiento(cantAsientos);
-	logger.log("(nro:<0>) Quiero el asiento <1>",2,id_ninio,asiento_elegido);
-	cale.sentarse(asiento_elegido);
-	logger.log("(nro:<0>) Ya me senté",1,id_ninio);
-	cale.esperar();
-	logger.log("(nro:<0>) Terminó la vuelta",1,id_ninio);
-	cale.salir();
-	logger.log("(nro:<0>) Salí",1,id_ninio);
+		logger.log("(nro:<0>) Esperando en la entrada",1,id_ninio);
+		if(cale.entrar(ss2.str())==CALESITA_NO_PASAR){
+			logger.log("(nro:<0>) No pude entrar :",1,id_ninio);
+			return -1;
+		}
+		logger.log("(nro:<0>) Entré a la calesita",1,id_ninio);
+		int asiento_elegido = elegirAsiento(cantAsientos);
+		logger.log("(nro:<0>) Quiero el asiento <1>",2,id_ninio,asiento_elegido);
+		cale.sentarse(asiento_elegido);
+		logger.log("(nro:<0>) Ya me senté",1,id_ninio);
+		cale.esperar();
+		logger.log("(nro:<0>) Terminó la vuelta",1,id_ninio);
+		cale.salir();
+		logger.log("(nro:<0>) Salí",1,id_ninio);
 	} catch (Exception &e) {
 		cout<<"se rompio"<<endl;
 		logger.log("Fallo del ninio id:<0>"+e.what(),1,id_ninio);

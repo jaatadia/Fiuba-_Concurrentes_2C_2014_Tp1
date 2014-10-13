@@ -19,6 +19,7 @@
 #include "src/memoriaCompartida/MemoriaCompartidaException.h"
 #include "src/logger/Logger.h"
 #include "src/constantes.h"
+#include "src/ColaController.h"
 using namespace std;
 #include <stdlib.h>
 
@@ -38,11 +39,19 @@ int main(int argc, char* argv[]) {
 
 		logger.log("Iniciando venta");
 		Expendio e(precioBoleto);
+		ColaController cola(BOLETERIA);
 		Caja caja;
 		int i = 1;
 		while (grace.alive()) {
 			try {
 				logger.log("Esperando Niño");
+				while(cola.next()==false){
+					if(!grace.alive()){
+						SignalHandler::destruir();
+						logger.log("Terminando proceso de cajero");
+						return 0;
+					}
+				}
 				int plataNinio = e.recibirNinio();
 
 				logger.log("Llega el niño nro <0>", 1,i);

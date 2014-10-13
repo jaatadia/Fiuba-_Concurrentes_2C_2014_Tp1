@@ -26,3 +26,8 @@ Mensaje * FifoLectura::leer() {
 	Mensaje* mje = this->serializador.recibir(this->fd);
 	return mje;
 }
+
+Mensaje * FifoLectura::leer_timeout(int secs) {
+	Mensaje* mje = this->serializador.recibir_timeout(this->fd,secs);
+	return mje;
+}

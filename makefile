@@ -19,7 +19,7 @@ NINIO_EXE = ninio_p
 
 #parametros para la compilacion del proceso calesita
 PATH_CALESITA = ./calesita_p/src
-OBJETOS_CALESITA = Entrada.o Interrupter.o
+OBJETOS_CALESITA = Entrada.o
 CALESITA_SOURCE = calesita_p.cpp
 CALESITA_EXE = calesita_p
 
