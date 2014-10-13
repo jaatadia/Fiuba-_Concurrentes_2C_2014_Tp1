@@ -10,6 +10,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <list>
+#include <unistd.h>
 
 #include "src/constantes.h"
 #include "src/proceso/Proceso.h"
@@ -113,6 +114,11 @@ int main(int argc, char* argv[]) {
 		kill(logger.getPid(),QUIT_SIGNAL);
 		waitpid(logger.getPid(),NULL,0);
 		delete quitter;
+
+		unlink(LOCK_ENTRADA.c_str());
+		unlink(LOCK_SALIDA.c_str());
+		unlink(LOCK_ASIENTOS.c_str());
+		unlink(LOCK_CAJA.c_str());
 
 	} catch (ProcesoException & e) {
 		std::cout<<"La simulacion no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;

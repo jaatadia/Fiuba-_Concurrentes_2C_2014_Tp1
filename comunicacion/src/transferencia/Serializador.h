@@ -14,6 +14,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <list>
 
 //TODO REVISAR CUANTO ES EL MAXIMO DEL SISOP PARA ENVIAR.
 static const size_t MAX_BUFFER = 524288;
@@ -25,6 +26,7 @@ static const size_t MAX_BUFFER = 524288;
 class Serializador {
 private:
 	map<string, Mensaje*> mensajes;
+	list<Mensaje*> misMensajes;
 public:
 	Serializador();
 	~Serializador();
