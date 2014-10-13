@@ -2,7 +2,7 @@
 // Name        : calesita_p.cpp
 // Author      : jtierno
 // Version     :
-// Description : TODO
+// Description :
 //============================================================================
 
 
@@ -23,7 +23,6 @@
 
 
 int main(int argc,char* argv[]) {
-	//TODO NO TIENE MANEJO DE ERRORES.
 	pid_t child_process = fork();
 	if (child_process == 0){
 		//proceso que interrumpe la lectura bloqueante
@@ -57,18 +56,18 @@ int main(int argc,char* argv[]) {
 		try{
 			Entrada ent(nroNinos,vuelta,&log,&quit);
 
-			log.log("Calesita: Empezando primera vez");
+			log.log("Empezando primera vez");
 			while(quit.alive()){
-					log.log("Calesita: Esperando ninos");
+					log.log("Esperando ninos");
 					while(ent.proxNino()==1);
-					log.log("Calesita: Esperando que los niños terminen de sentarse");
+					log.log("Esperando que los niños terminen de sentarse");
 					ent.esperarSienten();
 					ent.comenzarVuelta();
-					log.log("Calesita: Termino la vuelta");
+					log.log("Termino la vuelta");
 					ent.liberar();
-					log.log("Calesita: Esperando que los niños salgan");
+					log.log("Esperando que los niños salgan");
 					ent.reset();
-					log.log("Calesita: Todos los niños salieron");
+					log.log("Todos los niños salieron");
 			}
 		}catch(Exception &e){
 			log.log(e.what());

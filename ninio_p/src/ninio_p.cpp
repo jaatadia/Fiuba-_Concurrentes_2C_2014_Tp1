@@ -5,9 +5,6 @@
 // Description : Proceso ninio que quiere pasear por la calesita.
 //============================================================================
 
-//TODO ninio_p retorna -1 en caso de error por excepcion,
-//el q lo llama deberia cerrar las cosas para q no queden
-
 #include <string>
 #include <stdlib.h>
 #include <time.h>
@@ -100,12 +97,12 @@ int main(int argc, char* argv[]) {
 				"(nro:<0>) No pude comprar el boleto. Necesitaba $<1> pero tenía $<2>. Me faltan $<3>",
 				4, id_ninio, e.getNecesario(), e.getDisponible(),
 				e.getNecesario() - e.getDisponible());
+		return -1;
 	} catch (LockException & e) {
 		logger.log(e.what());
 	} catch (Exception & e) {
-		logger.log("Fallo del ninio nro:<0>",1,id_ninio);
-		logger.log(e.what());
-		//TODO SALIR.
+		logger.log("Fallo del ninio nro:<0>"+e.what(),1,id_ninio);
+		return -1;
 	}catch(...){
 		logger.log("Fallo del ninio nro:<0>",1,id_ninio);
 	}
@@ -113,12 +110,14 @@ int main(int argc, char* argv[]) {
 	logger.log("(nro:<0>) Corriendo hacia la calesita",1,id_ninio);
 
 
+	stringstream ss;
+	ss << boleto;
 	/* ------------------- calesita ----------------------------*/
 	try{
 	Calesita cale(id_ninio,&logger,cantAsientos);
 
 	logger.log("(nro:<0>) Esperando en la entrada",1,id_ninio);
-	if(cale.entrar("1030")==CALESITA_NO_PASAR){ //TODO (!) cambiar ese nro RE MAGICO
+	if(cale.entrar(ss.str())==CALESITA_NO_PASAR){
 		logger.log("(nro:<0>) No pude entrar :",1,id_ninio);
 		return -1;
 	}

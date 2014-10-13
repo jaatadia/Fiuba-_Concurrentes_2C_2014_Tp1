@@ -8,6 +8,7 @@
 #include "Logger.h"
 #include "../constantes.h"
 #include "../transferencia/MensajeLog.h"
+#include "../transferencia/Mensaje.h"
 #include <sys/unistd.h>
 #include <unistd.h>
 #include <sstream>
@@ -33,6 +34,10 @@ void Logger::log(std::string mensaje) {
 	//		<< mensaje << std::endl;
 	MensajeLog * mje = new MensajeLog(this->pid, id, temp, mensaje);
 	fifo.escribir(mje);
+}
+
+void Logger::end(){
+	fifo.escribir(new Mensaje());
 }
 
 std::string Logger::getTime() {

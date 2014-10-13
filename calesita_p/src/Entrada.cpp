@@ -110,7 +110,7 @@ void Entrada::esperarSienten(){
 }
 
 void Entrada::comenzarVuelta(){
-	log->log("Calesita: Comenzando vuelta de <0>",1,vuelta);
+	log->log("Comenzando vuelta de <0> segundos con <1> ninios",2,vuelta,nroNinosEnVuelta);
 	sleep(vuelta);
 }
 

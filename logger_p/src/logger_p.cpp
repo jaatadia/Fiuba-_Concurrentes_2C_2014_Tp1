@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
 		if (argc != 3){
 			log.mute();
 		}
-		while (grace.alive()) { //mientras el log se encuentre activo
+		while (grace.alive()&&log.alive()) { //mientras el log se encuentre activo
 			log.listen(); //le digo que escuche mensajes y los escriba
 		}
 	} catch (Exception & e) {

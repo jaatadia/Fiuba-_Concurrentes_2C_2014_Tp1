@@ -12,7 +12,7 @@
 #include "src/Exception.h"
 LoggerListener::LoggerListener(std::string fileName) :
 		fifo(PATH_FIFOLOG, this->ser), fifoEsc(PATH_FIFOLOG, ser), file(), cont(
-				0), muted(0) {
+				0), muted(0), live(true) {
 	file.open(fileName.c_str(), std::ios::app | std::ios::out);
 	fifo.abrir();
 	fifoEsc.abrir();
@@ -26,19 +26,24 @@ LoggerListener::~LoggerListener() {
 
 }
 
+bool LoggerListener::alive(){
+	return live;
+}
+
 void LoggerListener::listen() {
 		Mensaje* mje = fifo.leer();
 		if (mje == NULL) {
 			return;
 		}
-		MensajeLog * mjeLog = (MensajeLog*) mje;
-		if (!muted) {
+
+		if(mje->getTipo()==MENSAJE_VACIO){
+			live=false;
+		}else if (!muted) {
+			MensajeLog * mjeLog = (MensajeLog*) mje;
 			file << mjeLog->getHora() << " " << mjeLog->getPid()<< " " << mjeLog->getId() << ": "
 					<< mjeLog->getMensaje() << std::endl;
 		}
-		//std::cout << mjeLog->getHora() << " " << mjeLog->getPid()<< " " << mjeLog->getId() << ": "
-		//		<< mjeLog->getMensaje() << std::endl;
-		delete mjeLog;
+		delete mje;
 }
 
 void LoggerListener::mute() {

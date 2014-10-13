@@ -34,7 +34,6 @@ int main(int argc, char * argv []) {
 
 	Logger log("GENERADOR");
 	log.log("Iniciado: se crearan <0> ninios",1,cantNinios);
-	//TODO NO SE ESTAN GUARDANDO REFERENCIAS A LOS NINIOS. HAY QUE PENSAR MEJOR ESTO.
 	GracefullQuitter grace;
 	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, &grace);
 	for(int i = 0; i < cantNinios && grace.alive(); i++){
@@ -44,7 +43,7 @@ int main(int argc, char * argv []) {
 		//creo un ninio cada tiempo random.
 		sleep((rand()% tiempoMax) + 1);
 		Proceso ninio(EJECUTABLE_NINIO,params, &log);
-		log.log("Se crea ninio con pid <0>", 1, ninio.getPid());
+		log.log("Se crea ninio con pid <0> y numero de ninio <1>", 2, ninio.getPid(),i);
 	}
 
 	for(int i = 0; i < cantNinios; i++){

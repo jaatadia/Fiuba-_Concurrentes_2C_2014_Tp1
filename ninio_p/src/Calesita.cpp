@@ -58,6 +58,7 @@ int Calesita::sentarse(int asiento){
 	} else {
 		//esta libre el q quiero, lo elijo
 		asiento_final = asiento;
+		log->log("(nro:<0>) El que quería está libre :)",1,id_ninio);
 	}
 	calesita_asientos.sentarme(asiento_final);
 

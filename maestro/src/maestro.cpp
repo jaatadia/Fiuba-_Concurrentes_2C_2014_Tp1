@@ -70,7 +70,6 @@ int getParamInt(int argc,char* argv[],const char* match,bool& exit){
  * 4 si hay 4 entonces no debugg TODO ES MAS PROLIJO QUE RECIBA ALGO CONCRETO.
  */
 int main(int argc, char* argv[]) {
-	//TODO SI FALLA ALGUNO HAY Q MATAR EL RESTO DE LOS PROCESOS.
 
 	bool found = getParam(argc,argv,"-h");
 	if(found){
@@ -82,6 +81,7 @@ int main(int argc, char* argv[]) {
 		std::cout<<"	-v numero : duracion de la vuelta (Obligatorio)"<<std::endl;
 		std::cout<<"	-p numero : precio del boleto (Obligatorio)"<<std::endl;
 		std::cout<<"	-a numero : cantidad de asientos (Obligatorio)"<<std::endl;
+		std::cout<<"	-n numero : cantidad de ninios"<<std::endl;
 		return 0;
 	}
 	found=false;
@@ -96,6 +96,10 @@ int main(int argc, char* argv[]) {
 	if (!found){std::cout<<"El parametro: -a es obligatorio. ver ayuda -h para detalles"<<std::endl;return -1;}
 
 	bool debug = getParam(argc,argv,"-d");
+
+	int ninios = getParamInt(argc,argv,"-n",found);
+	if (!found){ninios=calcular_random(MIN_NINIOS,MAX_NINIOS);}
+
 
 	list<int> pids;
 
@@ -127,7 +131,7 @@ int main(int argc, char* argv[]) {
 
 		//---------------INICIALIZANDO GENERADOR DE NINIOS--------------------
 		Parametros paramsGen;
-		paramsGen.push(calcular_random(MIN_NINIOS,MAX_NINIOS));
+		paramsGen.push(ninios);
 		paramsGen.push(cantidadAsientos);
 		Proceso generador(EJECUTABLE_GENERADOR,paramsGen,&log);
 		log.log("Iniciado proceso del GENERADOR con PID <0>",1, generador.getPid());
@@ -174,8 +178,8 @@ int main(int argc, char* argv[]) {
 		log.log("Esperando que el administrador termine");
 		waitpid(admin.getPid(),NULL,0);
 
-		log.log("Matando al logger");
-		kill(logger.getPid(),QUIT_SIGNAL);
+		log.log("Matando al logger y terminando programa");
+		log.end();
 		waitpid(logger.getPid(),NULL,0);
 		delete quitter;
 		

@@ -25,6 +25,7 @@ public:
 	void listen();
 	void mute();
 	void resume();
+	bool alive();
 	virtual ~LoggerListener();
 
 private:
@@ -34,6 +35,7 @@ private:
 	std::fstream file;
 	int cont;
 	int muted;
+	bool live;
 
 };
 

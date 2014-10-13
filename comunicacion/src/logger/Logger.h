@@ -24,6 +24,7 @@ public:
 	 *
 	 */
 	void log(std::string mensaje, int countParams, ...);
+	void end();
 	virtual ~Logger();
 
 private:
