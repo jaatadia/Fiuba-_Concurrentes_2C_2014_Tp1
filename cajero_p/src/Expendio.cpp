@@ -13,32 +13,16 @@
 using namespace std;
 
 
-Expendio::Expendio(int precio):precio(precio) {
-
-	this->com =new ViaDoble(PATH_FIFOVENTA,true);
-
-	fifoEsc = NULL;
+Expendio::Expendio(int precio):precio(precio), com(PATH_FIFOVENTA,true) {
 }
 
 Expendio::~Expendio() {
-	if(fifoEsc != NULL){
-		fifoEsc->cerrar();
-		delete fifoEsc;
-	}
-	delete this->com;
-
 }
 
 int Expendio::recibirNinio() {
 	//Si todavia no tengo la fifo que mantenga viva la conexion, la creo y la abro..
 
-	com->abrir();
-	if(fifoEsc == NULL){
-		Serializador * ser = this->com->getSerializador();
-		fifoEsc = new FifoEscritura(this->com->getNombreEntrada(), *ser );
-		fifoEsc->abrir();
-	}
-	Mensaje* mje = (Mensaje*)com->recibir();
+	Mensaje* mje = com.recibir();
 	MensajeCompraBoleto* mjeb = (MensajeCompraBoleto *) mje;
 	int importe = mjeb->getImporte();
 	delete mje;
@@ -48,15 +32,13 @@ int Expendio::recibirNinio() {
 void Expendio::darBoleto(int nroTicket) {
 	MensajeCompraBoleto* mensaje = new MensajeCompraBoleto(this->precio);
 	mensaje->setNroBoleto(nroTicket);
-	com->enviar(mensaje);
-	com->cerrar();
+	com.enviar(mensaje);
 }
 
 void Expendio::rechazarPagoInsuficiente() {
 	//setea el importe que sale el ticket y un nro de ticket invalido
 	MensajeCompraBoleto* mensaje = new MensajeCompraBoleto(this->precio);
 	mensaje->setNroBoleto(NRO_BOLETO_INVALIDO);
-	com->enviar(mensaje);
-	com->cerrar();
+	com.enviar(mensaje);
 
 }

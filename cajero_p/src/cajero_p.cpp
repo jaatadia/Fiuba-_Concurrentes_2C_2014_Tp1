@@ -25,8 +25,8 @@ using namespace std;
 //recibe como parametro 1 precio del boleto
 int main(int argc, char* argv[]) {
 	int nroBoleto = NRO_BOLETO_INVALIDO + 1;
-	int precioBoleto = atoi(argv[1]);
-	if(argc>2){
+	int precioBoleto = 1;
+	if(argc==2){
 		precioBoleto = atoi(argv[1]);
 	}
 	//Inicializo el quitter.

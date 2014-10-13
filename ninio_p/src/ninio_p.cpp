@@ -106,6 +106,8 @@ int main(int argc, char* argv[]) {
 		logger.log("Fallo del ninio nro:<0>",1,id_ninio);
 		logger.log(e.what());
 		//TODO SALIR.
+	}catch(...){
+		logger.log("Fallo del ninio nro:<0>",1,id_ninio);
 	}
 
 	logger.log("(nro:<0>) Corriendo hacia la calesita",1,id_ninio);
