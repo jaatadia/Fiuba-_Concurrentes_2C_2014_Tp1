@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 
 	//Inicializo el quitter.
 	GracefullQuitter grace;
-	SignalHandler::getInstance()->registrarHandler(SIGUSR1, &grace); //le paso como handler de la señal sigusr1
+	SignalHandler::getInstance()->registrarHandler(QUIT_SIGNAL, &grace); //le paso como handler de la señal sigusr1
 
 	try {
 		Logger logger("ADMINISTRADOR");
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 			logger.log(e.what());
 			logger.log("Finaliza el Administrador por error.");
 			return -1;
-	}
+		}
 	} catch (Exception &e) {
 		cout<<"ADMINISTRADOR: Error al iniciar el Logger, finaliza el Administrador."<<endl;
 		return -1;

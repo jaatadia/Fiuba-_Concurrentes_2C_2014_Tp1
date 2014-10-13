@@ -48,9 +48,9 @@ int main(int argc, char* argv[]) {
 		precioBoleto=atoi(argv[2]);
 		cantidadAsientos=atoi(argv[3]);
 	}
-	GracefullQuitter * quitter = Proceso::getErrorFlag();
 
-	try {
+	try{
+		GracefullQuitter * quitter = Proceso::getErrorFlag();
 
 		//---------------INICIALIZANDO LOGGER--------------------
 		Parametros paramsLogger;
@@ -71,11 +71,12 @@ int main(int argc, char* argv[]) {
 		pids.push_back(generador.getPid());
 
 		//---------------INICIALIZANDO CAJERO--------------------
-		Parametros paramsCajero;
-		paramsCajero.push(precioBoleto);
-		Proceso cajero(EJECUTABLE_CAJERO,paramsCajero,&log);
-		log.log("Iniciado proceso del CAJERO con PID <0>",1, cajero.getPid());
-		pids.push_back(cajero.getPid());
+		//Parametros paramsCajero;
+		//paramsCajero.push(precioBoleto);
+		//Proceso cajero(EJECUTABLE_CAJERO,paramsCajero,&log);
+		//log.log("Iniciado proceso del CAJERO con PID <0>",1, cajero.getPid());
+		//pids.push_back(cajero.getPid());
+
 
 		//---------------INICIALIZANDO CALESITA--------------------
 		Parametros paramsCalesita;
@@ -84,39 +85,46 @@ int main(int argc, char* argv[]) {
 		Proceso calesita(EJECUTABLE_CALESITA,paramsCalesita,&log);
 		log.log("Iniciado proceso del CALESITA con PID <0>",1, calesita.getPid());
 		pids.push_back(calesita.getPid());
+
+
 		//---------------INICIALIZANDO ADMINISTRADOR--------------------
 		Proceso admin(EJECUTABLE_ADMINISTRADOR,&log);
 		log.log("Iniciado proceso del ADMINISTRADOR con PID <0>",1, admin.getPid());
 		pids.push_back(admin.getPid());
 
-		if(!quitter->alive()){
-			cout<<"Error inicializando los procesos, se finaliza la simulacion" << endl;
-			kill(QUIT_SIGNAL,generador.getPid());
-		}
+
+
 		waitpid(generador.getPid(),NULL,0);
 		log.log("Termino el generador");
-		kill(QUIT_SIGNAL,cajero.getPid());
-		log.log("Esperando que el cajero termine");
-		waitpid(cajero.getPid(),NULL,0);
-		kill(QUIT_SIGNAL,calesita.getPid());
+
+		//kill(cajero.getPid(),QUIT_SIGNAL);
+		//log.log("Esperando que el cajero termine");
+		//waitpid(cajero.getPid(),NULL,0);
+
+		kill(calesita.getPid(),QUIT_SIGNAL);
 		log.log("Esperando que la calesita termine");
 		waitpid(calesita.getPid(),NULL,0);
-		kill(QUIT_SIGNAL,admin.getPid());
-		log.log("Esperando que el cajero termine");
+
+		kill(admin.getPid(),QUIT_SIGNAL);
+		log.log("Esperando que el administrador termine");
 		waitpid(admin.getPid(),NULL,0);
 
 		log.log("Matando al logger");
-		kill(QUIT_SIGNAL,logger.getPid());
+		kill(logger.getPid(),QUIT_SIGNAL);
 		waitpid(logger.getPid(),NULL,0);
+		delete quitter;
 
 	} catch (ProcesoException & e) {
 		std::cout<<"La simulacion no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
 		list<int>::iterator it;
 		for(it = pids.begin(); it != pids.end(); ++it){
 			kill(QUIT_SIGNAL,*it);
+
 		}
+	}catch (Exception & e) {
+		std::cout<<"La simulacion no pudo comenzar. No se pudideron correr todos los procesos: "<<e.what()<<endl;
 	}catch(...){
 		std::cout<<"Error desconocido"<<endl;
 	}
-	delete quitter;
+
 }
