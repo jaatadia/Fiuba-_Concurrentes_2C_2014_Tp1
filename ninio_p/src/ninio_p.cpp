@@ -86,7 +86,7 @@ int main(int argc, char* argv[]) {
 	logger.log("(id:<0>) Voy a correr hacia la boleteria",1,id_ninio);
 
 	//---------------------Boleteria--------------------
-	try {
+/*	try {
 		Boleteria b;
 		int dineroDisponible = 10;
 		logger.log("(id:<0>) Intenta comprar boleto con $<1>", 2, id_ninio, dineroDisponible);
@@ -108,23 +108,27 @@ int main(int argc, char* argv[]) {
 
 
 	logger.log("(id:<0>) Corriendo hacia la calesita",1,id_ninio);
-
+*/
 	/* ------------------- calesita ----------------------------*/
-	Calesita cale(id_ninio,&logger);
+	try{
+		Calesita cale(id_ninio,&logger);
 
-	logger.log("(id:<0>) Esperando en la entrada",1,id_ninio); //TODO flor - poner id de ninios
-	if(cale.entrar("1030")==CALESITA_NO_PASAR){ //TODO (!) cambiar ese nro RE MAGICO
-		logger.log("(id:<0>) No pude entrar :",1,id_ninio);
-		return -1;
+		logger.log("(id:<0>) Esperando en la entrada",1,id_ninio); //TODO flor - poner id de ninios
+		if(cale.entrar("1030")==CALESITA_NO_PASAR){ //TODO (!) cambiar ese nro RE MAGICO
+			logger.log("(id:<0>) No pude entrar :",1,id_ninio);
+			return -1;
+		}
+		logger.log("(id:<0>) Entré a la calesita",1,id_ninio);
+		cale.sentarse(10); //TODO flor - elige random un nro de asiento preferido
+		logger.log("(id:<0>) Me senté",1,id_ninio);
+		cale.esperar();
+		logger.log("(id:<0>) Terminó la vuelta",1,id_ninio);
+		cale.salir();
+		logger.log("(id:<0>) Salí",1,id_ninio);
+	}catch(Exception & e){
+		cout<<"se rompio"<<endl;
+		logger.log("Fallo del ninio id:<0>"+e.what(),1,id_ninio);
 	}
-	logger.log("(id:<0>) Entré a la calesita",1,id_ninio);
-	cale.sentarse(10); //TODO flor - elige random un nro de asiento preferido
-	logger.log("(id:<0>) Me senté",1,id_ninio);
-	cale.esperar();
-	logger.log("(id:<0>) Terminó la vuelta",1,id_ninio);
-	cale.salir();
-	logger.log("(id:<0>) Salí",1,id_ninio);
-
 return 0;
 }
 
