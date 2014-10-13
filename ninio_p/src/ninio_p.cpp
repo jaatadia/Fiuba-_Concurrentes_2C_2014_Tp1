@@ -124,8 +124,9 @@ int main(int argc, char* argv[]) {
 	}
 	logger.log("(nro:<0>) Entré a la calesita",1,id_ninio);
 	int asiento_elegido = elegirAsiento(cantAsientos);
+	logger.log("(nro:<0>) Quiero el asiento <1>",2,id_ninio,asiento_elegido);
 	cale.sentarse(asiento_elegido);
-	logger.log("(nro:<0>) Me senté",1,id_ninio);
+	logger.log("(nro:<0>) Ya me senté",1,id_ninio);
 	cale.esperar();
 	logger.log("(nro:<0>) Terminó la vuelta",1,id_ninio);
 	cale.salir();

@@ -41,16 +41,19 @@ int Calesita::entrar(std::string boleto){
 int Calesita::sentarse(int asiento){
 	asientos.tomarLock(); //buscar el asiento
 
-	log->log("(nro:<0>) Buscando Asiento",1,id_ninio);
+	log->log("(nro:<0>) Buscando mi asiento",1,id_ninio);
 
 	if ( calesita_asientos.estaOcupado(asiento) == 1 ){
+		log->log("(nro:<0>) El que quería está ocupado :(",1,id_ninio);
 		int i=0;
-		while ( i < this->calesita_asientos.getCantidadAsientos() ){
+		int found=0;
+		while ( i < this->calesita_asientos.getCantidadAsientos() && found==0 ){
 			if (calesita_asientos.estaOcupado(i) == 0) {
+				found = 1;
 				asiento_final = i;
-			} else {
-				i++;
+				log->log("(nro:<0>) Entonces me siento en el <1>",2,id_ninio,asiento_final);
 			}
+			i++;
 		}
 	} else {
 		//esta libre el q quiero, lo elijo
