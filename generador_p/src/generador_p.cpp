@@ -16,6 +16,7 @@
 #include "src/constantes.h"
 #include "src/proceso/Proceso.h"
 #include "src/seniales/SignalHandler.h"
+#include "src/seniales/GracefullQuitter.h"
 using namespace std;
 
 /**
