@@ -45,6 +45,7 @@ void Serializador::enviar(int fd, Mensaje * mje) {
 	 if (result == ERR_CODE) {
 	 	throw ComunicacionException("No se pudo enviar el mensaje",	string(strerror(errno)));
 	 }
+	 delete(mje);
 
 }
 
