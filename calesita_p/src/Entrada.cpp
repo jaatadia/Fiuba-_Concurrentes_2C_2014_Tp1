@@ -8,12 +8,20 @@
 #include "Entrada.h"
 
 Entrada::Entrada(int numero, int vuelta, Logger* log, GracefullQuitter* quitter) : error(0), vuelta(vuelta), ninos(0), nroNinosPorVuelta(numero),nroNinosEnVuelta(0), ser(),fifoLec(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoLecEsc(PATH_FIFO_CALESITA_HACIA_CALESITA,ser),fifoEsc(PATH_FIFO_CALESITA_HACIA_NINOS,ser),log(log),semAsientosOcupados(PATH_ARCH_SEM_ASIENTOS.c_str(),0),semSoltarNinos(PATH_ARCH_SEM_CALE.c_str(),0),quitter(quitter){
-	fifoLec.abrir();
-	fifoLecEsc.abrir();
-	fifoEsc.abrir();
-	semAsientosOcupados.inicializar();
-	semSoltarNinos.inicializar();
-	log->log("ninios maximos por vuelta <0>",1,nroNinosPorVuelta);
+	try{
+		fifoLec.abrir();
+		fifoLecEsc.abrir();
+		fifoEsc.abrir();
+		semAsientosOcupados.inicializar();
+		semSoltarNinos.inicializar();
+		log->log("ninios maximos por vuelta <0>",1,nroNinosPorVuelta);
+	}catch(...){
+		semAsientosOcupados.eliminar();
+		semSoltarNinos.eliminar();
+		fifoEsc.eliminar();
+		fifoLec.eliminar();
+		throw;
+	}
 }
 
 Mensaje* Entrada::getBoleto(){

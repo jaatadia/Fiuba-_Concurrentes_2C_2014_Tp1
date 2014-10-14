@@ -52,6 +52,16 @@ int getParamInt(int argc,char* argv[],const char* match,bool& exit){
 	bool found = false;
 	for (int i=1;i<argc-1;i++){
 		if(strcmp(argv[i],match)==0){
+			bool valid = true;
+			for (unsigned int j=0;j<strlen(argv[i+1]);j++){
+				if (!isdigit(argv[i+1][j])){
+					valid=false;
+					break;
+				}
+			}
+			if(!valid){
+				continue;
+			}
 			found=true;
 			result = atoi(argv[i+1]);
 			break;
@@ -74,23 +84,24 @@ int main(int argc, char* argv[]) {
 		std::cout<<"	-p numero : precio del boleto (Obligatorio)"<<std::endl;
 		std::cout<<"	-a numero : cantidad de asientos (Obligatorio)"<<std::endl;
 		std::cout<<"	-n numero : cantidad de ninios"<<std::endl;
+		std::cout<<"Todos los numeros deben ser mayores que 0, si se ingresan numeros opcionales invalidos se elgiran por el programa"<<std::endl;
 		return 0;
 	}
 	found=false;
 
 	int duracionVuelta = getParamInt(argc,argv,"-v",found);
-	if (!found){std::cout<<"El parametro: -v es obligatorio. ver ayuda -h para detalles"<<std::endl;return -1;}
+	if (!found || duracionVuelta==0){std::cout<<"El parametro: -v es obligatorio. ver ayuda -h para detalles"<<std::endl;return -1;}
 
 	int precioBoleto = getParamInt(argc,argv,"-p",found);
 	if (!found){std::cout<<"El parametro: -p es obligatorio. ver ayuda -h para detalles"<<std::endl;return -1;}
 
 	int cantidadAsientos = getParamInt(argc,argv,"-a",found);
-	if (!found){std::cout<<"El parametro: -a es obligatorio. ver ayuda -h para detalles"<<std::endl;return -1;}
+	if (!found || cantidadAsientos==0){std::cout<<"El parametro: -a es obligatorio. ver ayuda -h para detalles"<<std::endl;return -1;}
 
 	bool debug = getParam(argc,argv,"-d");
 
 	int ninios = getParamInt(argc,argv,"-n",found);
-	if (!found){ninios=calcular_random(MIN_NINIOS,MAX_NINIOS);}
+	if ((!found) || ninios==0){ninios=calcular_random(MIN_NINIOS,MAX_NINIOS);}
 
 
 	list<int> pids;

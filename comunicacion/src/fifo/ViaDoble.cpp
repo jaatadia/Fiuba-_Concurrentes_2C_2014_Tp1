@@ -9,7 +9,13 @@
 #include <iostream>
 
 ViaDoble::ViaDoble(const string nombre, bool duenio): duenio(duenio), abierta(false), serializador(),out(nombre + "-" + (duenio ? OUT_POSTFIX : IN_POSTFIX),serializador),in(nombre + "-" + (duenio ? IN_POSTFIX : OUT_POSTFIX),serializador),inEsc(nombre + "-" + (duenio ? IN_POSTFIX : OUT_POSTFIX),serializador){
-	this->abrir();
+	try{
+		this->abrir();
+	}catch(...){
+		in.eliminar();
+		out.eliminar();
+		throw;
+	}
 }
 
 ViaDoble::~ViaDoble() {

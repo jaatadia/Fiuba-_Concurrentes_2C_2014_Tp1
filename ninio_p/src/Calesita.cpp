@@ -61,7 +61,7 @@ int Calesita::sentarse(int asiento){
 		log->log("(nro:<0>) El que quería está libre :)",1,id_ninio);
 	}
 	calesita_asientos.sentarme(asiento_final);
-
+	log->log("(nro:<0>) Ya me senté",1,id_ninio);
 	asientos.liberarLock();
 	semAsientos.signal();//informar que me sente
 	return asiento;
@@ -78,6 +78,7 @@ void Calesita::salir(){
 	asientos.liberarLock();
 	salida.tomarLock();//encolarme en la salida
 	salida.liberarLock();
+	log->log("(nro:<0>) Salí",1,id_ninio);
 	semAsientos.signal();//informar que sali
 
 }
