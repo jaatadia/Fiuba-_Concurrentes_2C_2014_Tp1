@@ -35,7 +35,7 @@ void Parametros::push(const string& valor) {
 Parametros::~Parametros() {
 	params.pop_back();
 	for (std::vector<char*>::iterator it = params.begin() ; it != params.end(); ++it){
-		delete *it;
+		delete [] *it;
 	}
 }
 
