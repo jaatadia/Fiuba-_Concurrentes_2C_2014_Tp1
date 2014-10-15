@@ -80,11 +80,12 @@ int main(int argc, char* argv[]) {
 		std::cout<<"Parametros: "<<std::endl;
 		std::cout<<"	-h :mostrar esta ayuda"<<std::endl;
 		std::cout<<"	-d : generar log de debug"<<std::endl;
-		std::cout<<"	-v numero : duracion de la vuelta (Obligatorio)"<<std::endl;
-		std::cout<<"	-p numero : precio del boleto (Obligatorio)"<<std::endl;
-		std::cout<<"	-a numero : cantidad de asientos (Obligatorio)"<<std::endl;
-		std::cout<<"	-n numero : cantidad de ninios"<<std::endl;
-		std::cout<<"Todos los numeros deben ser mayores que 0, si se ingresan numeros opcionales invalidos se elgiran por el programa"<<std::endl;
+		std::cout<<"	-v numero : duracion de la vuelta (Obligatorio >0)"<<std::endl;
+		std::cout<<"	-p numero : precio del boleto (Obligatorio >= 0)"<<std::endl;
+		std::cout<<"	-a numero : cantidad de asientos (Obligatorio > 0)"<<std::endl;
+		std::cout<<"	-n numero : cantidad de ninios (Opcional > 0)"<<std::endl;
+		std::cout<<"	-m numero : cantidad de plata que poseen los ninios (Opcional >= 0)"<<std::endl;
+		std::cout<<"Si se ingresan numeros opcionales invalidos se elgiran por el programa"<<std::endl;
 		return 0;
 	}
 	found=false;
@@ -103,6 +104,8 @@ int main(int argc, char* argv[]) {
 	int ninios = getParamInt(argc,argv,"-n",found);
 	if ((!found) || ninios==0){ninios=calcular_random(MIN_NINIOS,MAX_NINIOS);}
 
+	int plataNinios=getParamInt(argc,argv,"-m",found);
+	if ((!found)){plataNinios=10;}
 
 	list<int> pids;
 
@@ -135,6 +138,7 @@ int main(int argc, char* argv[]) {
 		Parametros paramsGen;
 		paramsGen.push(ninios);
 		paramsGen.push(cantidadAsientos);
+		paramsGen.push(plataNinios);
 		Proceso generador(EJECUTABLE_GENERADOR,paramsGen,&log);
 		log.log("Iniciado proceso del GENERADOR con PID <0>",1, generador.getPid());
 

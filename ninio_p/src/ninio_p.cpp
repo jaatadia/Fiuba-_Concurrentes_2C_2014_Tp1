@@ -75,15 +75,17 @@ int elegirAsiento(int cant_asientos){
 }
 
 /**************************************************************************************/
-/* recibe en argv[1] el nro de ninio y en argv[2] la cantidad de asientos de la calesita*/
+/* recibe en argv[1] el nro de ninio y en argv[2] la cantidad de asientos de la calesita en argv[3] la plata disponible*/
 
 int main(int argc, char* argv[]) {
 	srand ( time(NULL) );
 	std::string id=argv[1];
 	int id_ninio=atoi(argv[1]);
-
 	int cantAsientos = atoi(argv[2]);
+	int dineroDisponible = atoi(argv[3]);
 	int boleto = -1;
+
+
 	Logger logger(deteminarCodigo());
 	logger.log("(nro:<0>) Voy a correr hacia la boleteria",1,id_ninio);
 
@@ -92,7 +94,6 @@ int main(int argc, char* argv[]) {
 		Boleteria b;
 		Cola colaBoleteria(BOLETERIA,id);
 		colaBoleteria.esperar();
-		int dineroDisponible = 10;
 		logger.log("(nro:<0>) Intenta comprar boleto con $<1>", 2, id_ninio, dineroDisponible);
 		boleto = b.comprar(dineroDisponible);
 		logger.log("(nro:<0>) Compró boleto Nro: <1>", 2, id_ninio, boleto);

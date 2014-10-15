@@ -28,10 +28,12 @@ int main(int argc, char * argv []) {
 	int tiempoMax = 5;
 	int cantNinios =10;
 	int asientos = 2;
+	int plataNinios = 100;
 
-	if(argc == 3){
+	if(argc == 4){
 		cantNinios = atoi(argv[1]);
 		asientos = atoi (argv[2]);
+		plataNinios = atoi (argv[3]);
 	}
 
 	Logger log("GENERADOR");
@@ -42,6 +44,7 @@ int main(int argc, char * argv []) {
 		Parametros params;
 		params.push(i);
 		params.push(asientos);
+		params.push(plataNinios);
 		//creo un ninio cada tiempo random.
 		sleep((rand()% tiempoMax) + 1);
 		Proceso ninio(EJECUTABLE_NINIO,params, &log);
