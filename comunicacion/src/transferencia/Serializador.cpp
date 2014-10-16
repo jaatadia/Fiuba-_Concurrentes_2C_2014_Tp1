@@ -52,6 +52,7 @@ void Serializador::enviar(int fd, Mensaje * mje) {
 Mensaje* Serializador::recibir(int fd) {
 	Mensaje * mje = NULL;
 	if (misMensajes.empty()){
+		//leo del archivo
 		char buffer[MAX_BUFFER];
 		ssize_t recibidos = 0;
 		recibidos = read(fd,static_cast<void*>(buffer), MAX_BUFFER);
@@ -62,7 +63,9 @@ Mensaje* Serializador::recibir(int fd) {
 		}
 		std::string mensaje = buffer;
 		mensaje.resize(recibidos);
+
 		while(mensaje.length()>0){
+			//separo el primer mensaje recibido
 			string myMensaje = mensaje.substr(0,mensaje.find(SEPARADOR_MENSAJES));
 			mensaje=mensaje.substr(mensaje.find(SEPARADOR_MENSAJES)+1);
 
@@ -70,6 +73,7 @@ Mensaje* Serializador::recibir(int fd) {
 			string claveMensaje=myMensaje.substr(0,1);
 			std::map<string, Mensaje*>::iterator msjCreator = this->mensajes.find(claveMensaje);
 			if (msjCreator != mensajes.end()) {
+				//creo el mensaje y lo guardo en la lista
 				mje = msjCreator->second->deserializar(myMensaje.substr(1));
 				misMensajes.push_back(mje);
 			} else {
@@ -77,6 +81,7 @@ Mensaje* Serializador::recibir(int fd) {
 			}
 		}
 	}
+	//obtengo y devuelvo el primer mensaje de la lista
 	mje = misMensajes.front();
 	misMensajes.pop_front();
 	return mje;
@@ -87,7 +92,7 @@ Mensaje* Serializador::recibir_timeout(int fd,int secs) {
 	if (misMensajes.empty()){
 
 
-
+		//me fijo si hay para leer del archivo, si no lo hay me bloqueo hasta que lo haya con un maximo de secs
 		fd_set readfds;
 		FD_ZERO(&readfds);
 		FD_SET(fd,&readfds);
@@ -107,6 +112,7 @@ Mensaje* Serializador::recibir_timeout(int fd,int secs) {
 			throw Exception("No se realizo lectura del fd",string(strerror(errno)));
 		}
 
+		//leo del archivo
 		char buffer[MAX_BUFFER];
 		ssize_t recibidos = 0;
 		recibidos = read(fd,static_cast<void*>(buffer), MAX_BUFFER);
@@ -118,6 +124,7 @@ Mensaje* Serializador::recibir_timeout(int fd,int secs) {
 		std::string mensaje = buffer;
 		mensaje.resize(recibidos);
 		while(mensaje.length()>0){
+			//obtengo el primer mensaje
 			string myMensaje = mensaje.substr(0,mensaje.find(SEPARADOR_MENSAJES));
 			mensaje=mensaje.substr(mensaje.find(SEPARADOR_MENSAJES)+1);
 
@@ -125,6 +132,7 @@ Mensaje* Serializador::recibir_timeout(int fd,int secs) {
 			string claveMensaje=myMensaje.substr(0,1);
 			std::map<string, Mensaje*>::iterator msjCreator = this->mensajes.find(claveMensaje);
 			if (msjCreator != mensajes.end()) {
+				//lo pongo en la lista
 				mje = msjCreator->second->deserializar(myMensaje.substr(1));
 				misMensajes.push_back(mje);
 			} else {
@@ -133,6 +141,7 @@ Mensaje* Serializador::recibir_timeout(int fd,int secs) {
 		}
 
 	}
+	//saco el primer mensaje y lo devuelvo
 	mje = misMensajes.front();
 	misMensajes.pop_front();
 	return mje;

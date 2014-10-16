@@ -33,6 +33,7 @@ void bloquearSenialFallo(){
 
 }
 
+//devuelve si match existe en los argv
 bool getParam(int argc,char* argv[],const char* match){
 	bool found = false;
 	for (int i=1;i<argc;i++){
@@ -45,7 +46,7 @@ bool getParam(int argc,char* argv[],const char* match){
 }
 
 
-
+//en exit si match existe en los argv y devuelve el parametro acompañante de match
 int getParamInt(int argc,char* argv[],const char* match,bool& exit){
 	int result=0;
 
@@ -168,10 +169,13 @@ int main(int argc, char* argv[]) {
 		pids.push_back(admin.getPid());
 
 
+		//esperando que los ninios terminen
 
 		waitpid(generador.getPid(),NULL,0);
 		log.log("Termino el generador");
 		
+		//una vez que los niños terminan cerramos todos los procesos
+
 		kill(cajero.getPid(),QUIT_SIGNAL);
 		log.log("Esperando que el cajero termine");
 		waitpid(cajero.getPid(),NULL,0);
@@ -188,6 +192,7 @@ int main(int argc, char* argv[]) {
 		log.end();
 		waitpid(logger.getPid(),NULL,0);
 		
+		//eliminamos los archivos temporales que se generaron de los locks
 		unlink(LOCK_ENTRADA.c_str());
 		unlink(LOCK_SALIDA.c_str());
 		unlink(LOCK_ASIENTOS.c_str());

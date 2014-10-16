@@ -26,7 +26,7 @@ private:
 
 public:
 	Cola(std::string name, std::string id);
-	void esperar();
+	void esperar();//una vez que se llama este metodo no devuelve el control hasta que sea su turno
 	virtual ~Cola();
 };
 

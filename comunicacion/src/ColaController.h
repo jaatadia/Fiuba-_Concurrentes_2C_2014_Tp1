@@ -23,7 +23,7 @@ private:
 
 public:
 	ColaController(std::string name);
-	bool next();
+	bool next();//le dice al proximo que pase, devuelve true en caso de que haya habido algien para dejar pasar y false si no llego nadie durante un TIMEOUT
 	virtual ~ColaController();
 };
 
